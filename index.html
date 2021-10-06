@@ -1,12 +1,444 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" class="has-background-light">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--Link Bulma-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
+  <!--Link Fontawesone-->
+  <script src="https://kit.fontawesome.com/0ca0e55b9a.js" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/ico" href="FAVICON.ico">
+  <title>AhorrADAs</title>
 </head>
+
 <body>
-    
+  <header>
+    <!--Logo y h1-->
+    <nav class="navbar is-spaced is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a href="#principal" class="navbar-item">
+          <h1 class="title is-2 has-text-white">
+            <span class="icon mr-3 ml-3">
+              <i class="fas fa-wallet" aria-hidden="true"></i>
+            </span>
+            AhorrADAs
+          </h1>
+        </a>
+        <button id="boton-hamburguesa" role="button" class="navbar-burger mt-2" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <!--Menú desplegable mobile-->
+
+      <div class="navbar-menu is-hidden">
+        <!-- Se muestra en mobile -->
+        <div class="navbar-item">
+          <a class="link-balance-mobile navbar-item mr-2" href="">
+            <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>Balance
+          </a>
+          <a class="link-categorias-mobile navbar-item mr-2" href="">
+            <i class="fas fa-tag mr-2" aria-hidden="true"></i>Categorías
+          </a>
+          <a class="link-reportes-mobile navbar-item mr-2" href="">
+            <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i> Reportes
+          </a>
+        </div>
+      </div>
+
+      <!--Links de la barra de navegación-->
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <a class="link-balance navbar-item mr-2" href="">
+            <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>Balance
+          </a>
+          <a class="link-categorias navbar-item mr-2" href="">
+            <i class="fas fa-tag mr-2" aria-hidden="true"></i>Categorías
+          </a>
+          <a class="link-reportes navbar-item mr-2" href="">
+            <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i> Reportes
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--Fin del Header. Comienzo del Main-->
+  <main>
+    <!--Sección principal. Balance-->
+    <a name="principal"></a>
+    <section class="principal section mt-5">
+      <div class="container columns is-desktop is-justify-content-flex-end">
+        <div id="balance" class="column is-3-widescreen">
+          <article class="box">
+            <h2 class="title is-2 mb-6 has-text-weight-bold">Balance</h2>
+            <div class="columns is-mobile">
+              <p class="column is-size-5">Ganancias</p>
+              <p id="ganancias" class="column has-text-success is-size-6 has-text-right">
+                +$0
+              </p>
+            </div>
+            <div class="columns is-mobile">
+              <p class="column is-size-5">Gastos</p>
+              <p id="gastos" class="column has-text-danger is-size-6 has-text-right">
+                +$0
+              </p>
+            </div>
+            <div class="columns is-mobile">
+              <p class="column is-size-4">Total</p>
+              <p id="total" class="column is-size-6 has-text-right has-text-weight-bold">+$0</p>
+            </div>
+          </article>
+
+          <form class="box">
+            <div class="columns is-mobile mb-0">
+              <h3 class="column title is-size-3 has-text-weight-bold">
+                Filtros
+              </h3>
+              <button class="column button is-ghost mt-2 boton-filtros">Ocultar filtros</button>
+            </div>
+
+            <div class="contenedor-filtros">
+              <div class="field">
+                <label for="select-tipo" class="label">Tipo </label>
+                <div class="control">
+                  <div class="select is-normal is-fullwidth">
+                    <select id="select-tipo">
+                      <option value="todos">Todos</option>
+                      <option value="gasto">Gasto</option>
+                      <option value="ganancia">Ganancia</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="select-categoría" class="label">Categoría</label>
+                <div class="control">
+                  <div class="select is-normal is-fullwidth">
+                    <select id="select-categoría">
+                      <option value="todas">Todas</option>
+                      <option value="comida">Comida</option>
+                      <option value="servicios">Servivios</option>
+                      <option value="salidas">Salidas</option>
+                      <option value="educacion">Educación</option>
+                      <option value="transporte">Transporte</option>
+                      <option value="trabajo">Trabajo</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="input-fecha" class="label">Desde</label>
+                <div class="control">
+                  <div class="date is-normal is-fullwidth">
+                    <input type="date" class="input" id="input-fecha" />
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="select-orden" class="label">Ordenar por</label>
+                <div class="control">
+                  <div class="select is-normal is-fullwidth">
+                    <select id="select-orden">
+                      <option value="Mas reciente">Más reciente</option>
+                      <option value="Menos reciente">Menos reciente</option>
+                      <option value="Mayor monto">Mayor monto</option>
+                      <option value="Menor monto">Menor monto</option>
+                      <option class="a/z">A/Z</option>
+                      <option class="z/a">Z/A</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div id="operaciones" class="column is-7-widescreen">
+          <article class="box">
+            <div class="columns is-desktop is-tablet">
+              <div class="column">
+                <h3 class="title is-3 has-text-weight-bold">
+                  Operaciones
+                </h3>
+              </div>
+
+              <div class="column has-text-right-widescreen">
+                <button id="boton-nueva-operacion" class="button is-primary"> + Nueva operación</button>
+              </div>
+            </div>
+
+            <div id="contenedor-sin-operaciones">
+              <div class="card-image columns mt-6">
+                <figure id="imagen-seccion-principal"
+                  class="image column is-6 is-offset-3 is-8-mobile is-offset-2-mobile">
+                  <img src="/img/gastos.svg" alt="Mujer con dinero en la mano" />
+                </figure>
+              </div>
+              <h4 class="title is-3 has-text-centered mt-6">
+                Sin resultados
+              </h4>
+              <p class="has-text-centered mb-6">
+                Cambia los filtros o agrega operaciones
+              </p>
+            </div>
+
+            <!-- Contenedor listado de NUEVAS OPERACIONES-->
+            <div id="contenedor-listado-nuevas-operaciones" class="is-hidden">
+              <div class="columns is-mobile is-hidden-mobile">
+                <div class="column is-3">
+                  <p class="has-text-weight-semibold">Descripción</p>
+                </div>
+                <div class="column is-3">
+                  <p class="has-text-weight-semibold">Categoría</p>
+                </div>
+                <div class="column is-2">
+                  <p class="has-text-weight-semibold">Fecha</p>
+                </div>
+                <div class="column is-2">
+                  <p class="has-text-weight-semibold">Monto</p>
+                </div>
+                <div class="column is-2">
+                  <p class="has-text-weight-semibold">Acciones</p>
+                </div>
+              </div>
+
+              <div id="item-nueva-operacion" class="columns">
+                <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">Comida</p>
+                <div class="column is-3 is-6-mobile">
+                  <p class="tag is-primary is-light">Alimentación</p>
+                </div>
+                <p class="column is-2 is-hidden-mobile">28/9/2021</p>
+                <p class="column is-2 is-6-mobile has-text-danger has-text-weight-bold">-$3000</p>
+                <div class="column is-2 is-6-mobile pt-0">
+                  <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
+                  <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button>
+                </div>
+              </div>
+            </div>
+
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!--Sección Nueva Operación-->
+    <section id="seccion-nueva-operacion" class="section is-hidden">
+      <div class="container columns is-centered ">
+        <div class="box column is-8 is-offset-2">
+          <h2 class="title is-2 has-text-weight-bold">Nueva operación</h2>
+
+          <div class="field">
+            <label for="descripción-nueva-operación" class="label">Descripción</label>
+            <div class="control">
+              <input type="text" id="descripción-nueva-operación" class="input">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="monto-nueva-operacion" class="label">Monto</label>
+            <div class="control">
+              <input type="number" id="monto-nueva-operación" class="input" value="0">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="tipo-nueva-operacion" class="label">Tipo</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select id="tipo-nueva-operacion">
+                  <option value="gasto">Gasto</option>
+                  <option value="ganancia">Ganancia</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="categoria-nueva-operacion" class="label">Categoría</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select id="categoria-nueva-operacion">
+                  <option value=""></option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="fecha-nueva-operacion" class="label">Fecha</label>
+            <div class="control">
+              <input type="date" id="fecha-nueva-operación" class="input">
+            </div>
+          </div>
+
+          <div class="buttons is-right">
+            <button id="boton-cancelar-nuevas-operaciones" class="button is-light">Cancelar</button>
+            <button id="boton-agregar-nuevas-operaciones" class="button is-success">Agregar</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!--Sección categorías-->
+    <section id="seccion-categorias" class="section is-hidden">
+      <div class="container">
+        <form class="box column is-8 is-offset-2">
+          <h2 class="title is-2 has-text-weight-bold">Categorías</h2>
+          <div class="field">
+            <label for="input-agregar-categoria" class="label mt-4">Nombre</label>
+
+            <div class="control columns mt-4 mx-4 is-mobile">
+              <input id="input-agregar-categoria" type="text" class="column input is-normal 
+              " />
+              <button div="boton-agregar" class="
+                  button
+                  is-success
+                  is-narrow ml-3">
+                Agregar
+              </button>
+            </div>
+          </div>
+          <!--Categorias agregadas-->
+          <div class="mt-5 mx-4" id="contenedor-categorias-agregadas">
+            <div class="columns is-mobile" id=categoria-agregada>
+              <div class="column">
+                <p class="tag is-primary is-light">Comida</p>
+              </div>
+              <div class="column is-flex is-justify-content-flex-end ">
+                <button id="boton-editar-categoria" class="button is-ghost is-size-7">Editar</button>
+                <button class="button is-ghost is-size-7">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      </div>
+    </section>
+    <!--Sección editar categorias-->
+    <section class="section is-hidden" id="seccion-editar-categorias">
+      <div class="container">
+        <form class="box column is-8 is-offset-2">
+          <h2 class="title is-2 has-text-weight-bold"> Editar categoría</h2>
+          <div class="field">
+            <label class="label" for="input-editar-categoria">Nombre</label>
+            <div class="control">
+              <input type="text" id="input-editar-categoria" class="input " />
+            </div>
+          </div>
+          <div class="buttons is-right">
+            <button id="boton-cancelar-editar-categoria" class="button is-light">Cancelar</button>
+            <button id="boton-editar-categoria" class="button is-success">Editar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!--Sección reportes-->
+    <section class="reportes section-desktop is-hidden">
+      <div class="container">
+        <div class="box column is-8 is-offset-2 is-12-mobile my-6">
+          <h2 class="title is-2 has-text-weight-bold mt-4 ml-3">Reportes</h2>
+          <!--Reportes sin datos-->
+          <div id="reportes-sin-datos" class="is-hidden">
+            <figure class="image column is-6 is-offset-3 is-7-mobile is-offset-3-mobile">
+              <img src="/img/reportes.svg" />
+            </figure>
+            <h4 class="title is-4 mt-6 has-text-centered">
+              Operaciones insuficientes
+            </h4>
+            <p class="mt-4 mb-6 has-text-centered">
+              Prueba agregando más operaciones
+            </p>
+          </div>
+          <!--Reportes con datos-->
+          <div id="reportes-con-datos" class="">
+            <div id="contenedor-resumen-reportes" class="my-6">
+              <h4 class="title is-4 m">Resumen</h4>
+              <!--Categoría mayor ganancia-->
+              <div class="columns is-mobile">
+                <p class="column is-6 has-text-weight-medium">Categoría con mayor ganancia</p>
+                <div class="column is-3 has-text-right ">
+                  <p class="tag is-primary is-light">Trabajo</p>
+                </div>
+                <p class="column is-3 has-text-weight-bold  has-text-success has-text-right">+$1500</p>
+              </div>
+              <!--Categoría mayor gasto-->
+              <div class="columns is-mobile">
+                <p class="column is-6 has-text-weight-medium">Categoría con mayor gasto</p>
+                <div class="column is-3 has-text-right ">
+                  <p class="tag is-primary is-light">Comida</p>
+                </div>
+                <p class="column is-3 has-text-weight-bold has-text-danger has-text-right">-$5500</p>
+              </div>
+              <!--Categoría mayor balance-->
+              <div class="columns is-mobile">
+                <p class="column is-6 has-text-weight-medium">Categoría con mayor balance</p>
+                <div class="column is-3 has-text-right ">
+                  <p class="tag is-primary is-light">Trabajo</p>
+                </div>
+                <p class="column is-3 has-text-weight-bold has-text-right">$5500</p>
+              </div>
+              <!--Mes con mayor ganancia-->
+              <div class="columns is-mobile">
+                <p class="column is-6 has-text-weight-medium">Mes con mayor ganancia</p>
+                <div class="column is-3 has-text-right ">
+                  <p>2021/09/30</p>
+                </div>
+                <p class="column is-3 has-text-weight-bold has-text-success has-text-right">$6500</p>
+              </div>
+
+              <!--Mes con mayor gasto-->
+              <div class="columns is-mobile">
+                <p class="column is-6 has-text-weight-medium">Mes con mayor gasto</p>
+                <div class="column is-3 has-text-right ">
+                  <p>2021/09/30</p>
+                </div>
+                <p class="column is-3 has-text-weight-bold has-text-danger has-text-right">-$3500</p>
+              </div>
+            </div>
+            <!--Totales por categoría-->
+            <div id="contenedor-totales-categoria" class="my-6">
+              <h4 class="title is-4 m">Totales por categoría</h4>
+              <div class="columns is-mobile">
+                <p class="column is-3 has-text-weight-medium">Categoría</p>
+                <p class="column is-3 has-text-weight-medium has-text-right">Gananacias</p>
+                <p class="column is-3 has-text-weight-medium has-text-right">Gastos</p>
+                <p class="column is-3 has-text-weight-medium has-text-right">Balance</p>
+              </div>
+              <div class="columns is-mobile">
+                <p class="column is-3 ">Trabajo</p>
+                <p class="column is-3 has-text-right has-text-success">+$8500</p>
+                <p class="column is-3 has-text-right has-text-danger">-$1500</p>
+                <p class="column is-3 has-text-right">$65000</p>
+              </div>
+            </div>
+            <!--Totales por mes-->
+            <div id="contenedor-totales-mes" class="my-6">
+              <h4 class="title is-4 m">Totales por categoría</h4>
+              <div class="columns is-mobile">
+                <p class="column is-3 has-text-weight-medium">Mes</p>
+                <p class="column is-3 has-text-weight-medium has-text-right">Gananacias</p>
+                <p class="column is-3 has-text-weight-medium has-text-right">Gastos</p>
+                <p class="column is-3 has-text-weight-medium has-text-right">Balance</p>
+              </div>
+              <div class="columns is-mobile">
+                <p class="column is-3 ">9/2021</p>
+                <p class="column is-3 has-text-right has-text-success">+$8500</p>
+                <p class="column is-3 has-text-right has-text-danger">-$1500</p>
+                <p class="column is-3 has-text-right">$65000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="index.js"></script>
 </body>
+
 </html>
