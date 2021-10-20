@@ -4,16 +4,15 @@ const linkBalance = document.querySelector(".link-balance");
 const linkCategorias = document.querySelector(".link-categorias");
 const linkReportes = document.querySelector(".link-reportes");
 
-const seccionPrincipal = document.querySelector(".principal");
+const seccionPrincipal = document.querySelector("#principal");
 const seccionCategorias = document.querySelector("#seccion-categorias");
 const seccionReportes = document.querySelector(".reportes");
 const seccionNuevaOperacion = document.getElementById(
-  "seccion-nueva-operacion"
+  "formulario-nueva-operacion"
 );
 const seccionEditarCategoria = document.querySelector(
   "#seccion-editar-categorias"
 );
-
 
 const botonNuevaOperacion = document.getElementById("boton-nueva-operacion");
 const botonCancelarNuevasOperaciones = document.getElementById(
@@ -35,37 +34,38 @@ const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
 
-
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
-const arraySecciones = [seccionPrincipal, seccionCategorias, seccionReportes, seccionNuevaOperacion, seccionEditarCategoria]
+const arraySecciones = [
+  seccionPrincipal,
+  seccionCategorias,
+  seccionReportes,
+  seccionNuevaOperacion,
+  seccionEditarCategoria,
+];
 
-const mostrarSeccion = (array, seccion) =>{
+const mostrarSeccion = (array, seccion) => {
   for (let i = 0; i < array.length; i++) {
-    if(array[i] != seccion){
-      array[i].classList.add("is-hidden")
-     
+    if (array[i] != seccion) {
+      array[i].classList.add("is-hidden");
+    } else if (array[i] === seccion) {
+      array[i].classList.remove("is-hidden");
     }
-    if(seccion === seccion){
-      seccion.classList.remove("is-hidden")
-    }
-    
   }
-}
+};
 
-linkReportes.onclick = (event) =>{
+linkReportes.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionReportes)
-}
+  mostrarSeccion(arraySecciones, seccionReportes);
+};
 
-linkCategorias.onclick = (event) =>{
+linkCategorias.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionCategorias)
-}
-linkBalance.onclick = (event) =>{
+  mostrarSeccion(arraySecciones, seccionCategorias);
+};
+linkBalance.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionPrincipal)
-}
-
+  mostrarSeccion(arraySecciones, seccionPrincipal);
+};
 
 /*//////////////////// Menú desplegable mobile ////////////////////////*/
 
@@ -84,22 +84,22 @@ botonHamburguesa.onclick = () => {
 
 linkBalanceMobile.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionPrincipal)
+  mostrarSeccion(arraySecciones, seccionPrincipal);
 };
 
 linkCategoriasMobile.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionCategorias)
+  mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
 linkReportesMobile.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionReportes)
+  mostrarSeccion(arraySecciones, seccionReportes);
 };
 /*//////////////////// Ocultar filtros sección principal ////////////////////////*/
 
-const contenedorFiltros = document.querySelector(".contenedor-filtros");
-const botonFiltros = document.querySelector(".boton-filtros");
+const contenedorFiltros = document.querySelector("#contenedor-filtros");
+const botonFiltros = document.querySelector("#boton-filtros");
 
 botonFiltros.onclick = (event) => {
   event.preventDefault();
@@ -113,34 +113,31 @@ botonFiltros.onclick = (event) => {
 
 /////////////////////*Funcionalidad boton nueva operación *//////////////////////////
 
-
-
 botonNuevaOperacion.onclick = () => {
-  mostrarSeccion(arraySecciones, seccionNuevaOperacion)
+  mostrarSeccion(arraySecciones, seccionNuevaOperacion);
 };
-
 
 ////* Boton cancelar seccion Nuevas operaciones *////
 botonCancelarNuevasOperaciones.onclick = () => {
-  mostrarSeccion(arraySecciones, seccionPrincipal)
+  mostrarSeccion(arraySecciones, seccionPrincipal);
 };
 
 ////* Boton agregar seccion Nuevas operaciones *////
 
 botonAgregarNuevaOperacion.onclick = () => {
-  mostrarSeccion(arraySecciones, seccionPrincipal)
+  mostrarSeccion(arraySecciones, seccionPrincipal);
 };
 
 ////* Boton editar categorias *////
 
 botonEditarCategoria.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionEditarCategoria)
+  mostrarSeccion(arraySecciones, seccionEditarCategoria);
 };
 
 botonCancelarEditarCategoria.onclick = (event) => {
   event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionCategorias)
+  mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
 ///////////////////* Resportes *///////////////////////
