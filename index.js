@@ -3,7 +3,6 @@
 const linkBalance = document.querySelector(".link-balance");
 const linkCategorias = document.querySelector(".link-categorias");
 const linkReportes = document.querySelector(".link-reportes");
-
 const seccionPrincipal = document.querySelector(".principal");
 const seccionCategorias = document.querySelector("#seccion-categorias");
 const seccionReportes = document.querySelector(".reportes");
@@ -69,17 +68,16 @@ linkBalance.onclick = (event) =>{
 
 /*//////////////////// Menú desplegable mobile ////////////////////////*/
 
-const menuDesplegableMobile = document.querySelector(".navbar-menu");
+const menuDesplegableMobile = document.querySelector("#menu-desplegable-mobile");
 const botonHamburguesa = document.getElementById("boton-hamburguesa");
-const claseBotonHamburguesa = document.querySelector(".navbar-burger");
 const linkBalanceMobile = document.querySelector(".link-balance-mobile");
 const linkCategoriasMobile = document.querySelector(".link-categorias-mobile");
 const linkReportesMobile = document.querySelector(".link-reportes-mobile");
 
 botonHamburguesa.onclick = () => {
+  botonHamburguesa.classList.toggle("is-active");
   menuDesplegableMobile.classList.toggle("is-active");
-  claseBotonHamburguesa.classList.toggle("is-active");
-  menuDesplegableMobile.classList.toggle("is-hidden");
+  menuDesplegableMobile.classList.toggle("is-hidden")
 };
 
 linkBalanceMobile.onclick = (event) => {

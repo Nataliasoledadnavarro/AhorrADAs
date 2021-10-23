@@ -34,7 +34,7 @@
       </div>
       <!--Menú desplegable mobile-->
 
-      <div class="navbar-menu is-hidden">
+      <div id="menu-desplegable-mobile" class="navbar-menu is-hidden">
         <!-- Se muestra en mobile -->
         <div class="navbar-item">
           <a class="link-balance-mobile navbar-item mr-2" href="">
@@ -171,7 +171,7 @@
               </div>
             </div>
 
-            <div id="contenedor-sin-operaciones">
+            <div id="contenedor-sin-operaciones" class="is-hidden">
               <div class="card-image columns mt-6">
                 <figure id="imagen-seccion-principal"
                   class="image column is-6 is-offset-3 is-8-mobile is-offset-2-mobile">
@@ -187,8 +187,8 @@
             </div>
 
             <!-- Contenedor listado de NUEVAS OPERACIONES-->
-            <div id="contenedor-listado-nuevas-operaciones" class="is-hidden">
-              <div class="columns is-mobile is-hidden-mobile">
+            <div id="contenedor-listado-nuevas-operaciones">
+              <div class="columns  is-hidden-mobile">
                 <div class="column is-3">
                   <p class="has-text-weight-semibold">Descripción</p>
                 </div>
@@ -206,16 +206,16 @@
                 </div>
               </div>
 
-              <div id="item-nueva-operacion" class="columns">
+              <div id="item-nueva-operacion" class="columns is-mobile">
                 <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">Comida</p>
-                <div class="column is-3 is-6-mobile">
+                <div class="column is-3">
                   <p class="tag is-primary is-light">Alimentación</p>
                 </div>
                 <p class="column is-2 is-hidden-mobile">28/9/2021</p>
-                <p class="column is-2 is-6-mobile has-text-danger has-text-weight-bold">-$3000</p>
-                <div class="column is-2 is-6-mobile pt-0">
-                  <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
-                  <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button>
+                <p class="column is-2 has-text-danger has-text-weight-bold">-$3000</p>
+                <div class="column is-2">
+                  <button id="boton-editar-item-operaciones" class="button is-ghost is-small">Editar</button>
+                  <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small">Eliminar</button>
                 </div>
               </div>
             </div>
