@@ -1,4 +1,4 @@
-/*//////////////////// Elementos ////////////////////////*/
+/*//////////////////// Elementos ////////////////////////*/////
 
 const linkBalance = document.querySelector(".link-balance");
 const linkCategorias = document.querySelector(".link-categorias");
