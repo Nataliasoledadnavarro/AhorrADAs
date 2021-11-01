@@ -125,3 +125,5 @@ botonCancelarEditarCategoria.onclick = (event) => {
 };
 
 ///////////////////* Resportes *///////////////////////
+
+// AGREGAR NUEVA OP HTML//
