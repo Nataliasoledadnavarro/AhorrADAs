@@ -125,3 +125,5 @@ botonCancelarEditarCategoria.onclick = (event) => {
 };
 
 ///////////////////* Resportes *///////////////////////
+
+/*Filtros-Tipo y Categorias */
