@@ -125,3 +125,63 @@ botonCancelarEditarCategoria.onclick = (event) => {
 };
 
 ///////////////////* Resportes *///////////////////////
+
+//////////////////////*Balance*//////////////////////////
+
+const numeroGanancia = document.querySelector("#numero-ganancias")
+const numeroGastos = document.querySelector("#numero-gastos")
+const numeroTotal = document.querySelector("#numero-total")
+
+const objeto1 = [
+  {
+    descripcion: "sueldo",
+    categoria: "trabajo",
+    fecha: "02/11/2021",
+    monto: 50000,
+    tipo: "ganancia"
+  },
+  {
+    descripcion: "comida",
+    categoria: "comida",
+    fecha: "02/11/2021",
+    monto: 1000,
+    tipo: "gasto"
+  }
+]
+
+const gastos = objeto1.filter((elemento)=> {
+  return elemento.tipo === "gasto"
+})
+
+const sumaGastos = gastos.reduce((acc, elemento) => {
+   return acc = acc + elemento.monto
+}, 0)
+
+numeroGastos.innerHTML = `-$ ${sumaGastos}`
+
+const ganacia = objeto1.filter((elemento)=> {
+  return elemento.tipo === "ganancia"
+})
+
+const sumaGanancias = ganacia.reduce((acc, elemento) => {
+  return acc = acc + elemento.monto
+}, 0)
+
+numeroGanancia.innerHTML = `+$ ${sumaGanancias}`
+
+const total = sumaGanancias - sumaGastos  
+numeroTotal.innerHTML = `${total}`
+
+//////////////////revisar/////////////////////
+
+const postivoNegativo = () => {
+  if (total < 0 ){
+    numeroTotal.classList.add = "has-text-danger"
+  }
+  else{
+    numeroTotal.classList.add = "has-text-success"
+    numeroTotal.classList.remove = "has-text-danger"
+  }
+
+}
+postivoNegativo(total)
