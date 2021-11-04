@@ -35,8 +35,14 @@ const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
 
+
+const contenedorNuevasOperaciones= document.getElementById ("contenedor-listado-nuevas-operaciones")
+
+
+
 const selectTipo = document.getElementById('select-tipo');
 const selectCategoria = document.getElementById("select-categoria");
+
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
 const arraySecciones = [
   seccionPrincipal,
@@ -72,7 +78,9 @@ linkBalance.onclick = (event) => {
 
 /*//////////////////// Menú desplegable mobile ////////////////////////*/
 
-const menuDesplegableMobile = document.querySelector("#menu-desplegable-mobile");
+const menuDesplegableMobile = document.querySelector(
+  "#menu-desplegable-mobile"
+);
 const botonHamburguesa = document.getElementById("boton-hamburguesa");
 const linkBalanceMobile = document.querySelector(".link-balance-mobile");
 const linkCategoriasMobile = document.querySelector(".link-categorias-mobile");
@@ -128,58 +136,109 @@ botonCancelarEditarCategoria.onclick = (event) => {
 };
 
 
-//// Filtros-Tipo y Categorias //////
+//INFORMACION//
 const operaciones = [
   {
-    descripcion: 'Cena con amigos',
-    categoria: 'salidas',
-    fecha: '25/09/2021',
+    descripcion: "Cena con amigos",
+    categoria: "salidas",
+    fecha: "25/09/2021",
     monto: 2500,
-    tipo: 'gasto',
+    tipo: "gasto",
   },
   {
-    descripcion: 'sueldo',
-    categoria: 'sueldo',
-    fecha: '01/09/2021',
+    descripcion: "sueldo",
+    categoria: "sueldo",
+    fecha: "01/09/2021",
     monto: 50000,
-    tipo: 'ganancia',
+    tipo: "ganancia",
   },
   {
-    descripcion: 'pagar monotributo',
-    categoria: 'sueldo',
-    fecha: '01/09/2021',
+    descripcion: "pagar monotributo",
+    categoria: "sueldo",
+    fecha: "01/09/2021",
     monto: 40000,
-    tipo: 'gasto',
+    tipo: "gasto",
   },
   {
-    descripcion: 'Aguinaldo',
-    categoria: 'sueldo',
-    fecha: '15/09/2021',
+    descripcion: "Aguinaldo",
+    categoria: "sueldo",
+    fecha: "15/09/2021",
     monto: 25000,
-    tipo: 'ganancia',
+    tipo: "ganancia",
   },
   {
-    descripcion: 'Comida para gatos',
-    categoria: 'mascotas',
-    fecha: '25/09/2021',
+    descripcion: "Comida para gatos",
+    categoria: "mascotas",
+    fecha: "25/09/2021",
     monto: 3000,
-    tipo: 'gasto',
+    tipo: "gasto",
   },
   {
-    descripcion: 'alquiler',
-    categoria: 'alquiler',
-    fecha: '25/09/2021',
+    descripcion: "alquiler",
+    categoria: "alquiler",
+    fecha: "25/09/2021",
     monto: 25000,
-    tipo: 'gasto',
+    tipo: "gasto",
   },
   {
-    descripcion: 'Expensas',
-    categoria: 'alquiler',
-    fecha: '01/09/2021',
+    descripcion: "Expensas",
+    categoria: "alquiler",
+    fecha: "01/09/2021",
     monto: 5000,
-    tipo: 'gasto',
+    tipo: "gasto",
   },
 ];
+
+
+// AGREGAR NUEVA OP HTML//
+
+//FUNCION AUXILIAR PARA CAMBIAR EL COLOR DE LAS OPERACIONES EN HTML//
+
+const colorDeMonto = (objeto)=>{
+  if (objeto.tipo === "gasto"){
+    return "has-text-danger"
+  }
+  else {return "has-text-success"
+  }
+}
+
+//FUNCION MOSTRAR HTML//
+const mostrarOperacionesEnHTML = (array) => {
+  let acc = "";
+  array.map((operacion) => {
+    acc =
+      acc +
+      `<div id="item-nueva-operacion" class="columns is-mobile">
+    <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${
+      operacion.descripcion
+    }</p>
+    <div class="column is-3 is-6-mobile">
+      <p id="categoria-item-operacion" class="tag is-primary is-light">${
+        operacion.categoria
+      }</p>
+    </div>
+    <p id="fecha-item-operacion" class="column is-2 is-hidden-mobile">${
+      operacion.fecha
+    }</p>
+    <p id="monto-item-operacion" class="column is-2 is-3-mobile  has-text-weight-bold ${colorDeMonto(
+      operacion
+    )}">$${operacion.monto}
+    </p>
+    <div class="column is-2 is-3-mobile pt-0">
+      <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
+      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</butt
+on>
+    </div>
+  </div>`;
+  });
+  contenedorNuevasOperaciones.innerHTML = acc;
+};
+mostrarOperacionesEnHTML(operaciones)
+
+
+
+
+
 
 /////Filtros Seccion Categorias//////
 
@@ -218,3 +277,4 @@ selectCategoria.onchange = () => {
   const arrayFiltradoFinal = aplicarFiltros();
   mostrarOperacionesEnHTML(arrayFiltradoFinal);
 };
+
