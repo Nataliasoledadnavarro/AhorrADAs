@@ -35,11 +35,7 @@ const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
 
-
 const contenedorNuevasOperaciones= document.getElementById ("contenedor-listado-nuevas-operaciones")
-
-
-
 const selectTipo = document.getElementById('select-tipo');
 const selectCategoria = document.getElementById("select-categoria");
 
@@ -135,7 +131,6 @@ botonCancelarEditarCategoria.onclick = (event) => {
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
-
 //INFORMACION//
 const operaciones = [
   {
@@ -195,7 +190,6 @@ const numeroGanancia = document.querySelector("#numero-ganancias")
 const numeroGastos = document.querySelector("#numero-gastos")
 const numeroTotal = document.querySelector("#numero-total")
 
-
 const gastos = operaciones.filter((elemento)=> {
   return elemento.tipo === "gasto"
 })
@@ -233,16 +227,7 @@ const total = (sumaGanancias,sumaGastos )=>{
 }  
 numeroTotal.textContent = total(sumaGanancias,sumaGastos)
 
-
-
-
-
-
-
-
-// AGREGAR NUEVA OP HTML//
-
-//FUNCION AUXILIAR PARA CAMBIAR EL COLOR DE LAS OPERACIONES EN HTML//
+//MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
 
 const colorDeMonto = (objeto)=>{
   if (objeto.tipo === "gasto"){
@@ -252,7 +237,6 @@ const colorDeMonto = (objeto)=>{
   }
 }
 
-//FUNCION MOSTRAR HTML//
 const mostrarOperacionesEnHTML = (array) => {
   let acc = "";
   array.map((operacion) => {
@@ -276,10 +260,9 @@ const mostrarOperacionesEnHTML = (array) => {
     </p>
     <div class="column is-2 is-3-mobile pt-0">
       <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
-      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</butt
-on>
+      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button>
     </div>
-  </div>`;
+    </div>`;
   });
   contenedorNuevasOperaciones.innerHTML = acc;
 };
