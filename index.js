@@ -196,7 +196,7 @@ const postivoNegativo = () => {
 
 }
 postivoNegativo(total)
-=======
+
 
 //INFORMACION//
 const operaciones = [
