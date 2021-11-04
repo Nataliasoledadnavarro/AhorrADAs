@@ -7,6 +7,7 @@ const linkReportes = document.querySelector(".link-reportes");
 const seccionPrincipal = document.querySelector("#principal");
 const seccionCategorias = document.querySelector("#seccion-categorias");
 const seccionReportes = document.querySelector(".reportes");
+
 const seccionNuevaOperacion = document.getElementById(
   "formulario-nueva-operacion"
 );
@@ -34,6 +35,8 @@ const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
 
+const selectTipo = document.getElementById('select-tipo');
+const selectCategoria = document.getElementById("select-categoria");
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
 const arraySecciones = [
   seccionPrincipal,
@@ -124,4 +127,94 @@ botonCancelarEditarCategoria.onclick = (event) => {
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
-///////////////////* Resportes *///////////////////////
+
+//// Filtros-Tipo y Categorias //////
+const operaciones = [
+  {
+    descripcion: 'Cena con amigos',
+    categoria: 'salidas',
+    fecha: '25/09/2021',
+    monto: 2500,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'sueldo',
+    categoria: 'sueldo',
+    fecha: '01/09/2021',
+    monto: 50000,
+    tipo: 'ganancia',
+  },
+  {
+    descripcion: 'pagar monotributo',
+    categoria: 'sueldo',
+    fecha: '01/09/2021',
+    monto: 40000,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'Aguinaldo',
+    categoria: 'sueldo',
+    fecha: '15/09/2021',
+    monto: 25000,
+    tipo: 'ganancia',
+  },
+  {
+    descripcion: 'Comida para gatos',
+    categoria: 'mascotas',
+    fecha: '25/09/2021',
+    monto: 3000,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'alquiler',
+    categoria: 'alquiler',
+    fecha: '25/09/2021',
+    monto: 25000,
+    tipo: 'gasto',
+  },
+  {
+    descripcion: 'Expensas',
+    categoria: 'alquiler',
+    fecha: '01/09/2021',
+    monto: 5000,
+    tipo: 'gasto',
+  },
+];
+
+/////Filtros Seccion Categorias//////
+
+const aplicarFiltros = () => {
+  const tipo = selectTipo.value;
+
+  const filtradoPorTipo = operaciones.filter((operacion) => {
+    if (tipo === 'todos') {
+      return operacion;
+    }
+    return operacion.tipo === tipo;
+  });
+
+  const categoria = selectCategoria.value;
+
+  const filtradoFinal = filtradoPorTipo.filter((operacion) => {
+    if (categoria === 'todos') {
+      return operacion;
+    }
+    return operacion.categoria === categoria;
+  });
+
+  return filtradoFinal;
+};
+
+//////  Filtro por Tipo  //////
+
+selectTipo.onchange = () => {
+  const arrayFiltroTipo = aplicarFiltros();
+  mostrarOperacionesEnHTML(arrayFiltroTipo);
+};
+
+/////  Filtrado por Categoria  /////
+
+selectCategoria.onchange = () => {
+  const arrayFiltradoFinal = aplicarFiltros();
+  mostrarOperacionesEnHTML(arrayFiltradoFinal);
+};
