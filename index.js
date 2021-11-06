@@ -1,4 +1,4 @@
-/*//////////////////// Elementos ////////////////////////*/////
+/*//////////////////// Elementos ////////////////////////*/ ////
 
 const linkBalance = document.querySelector(".link-balance");
 const linkCategorias = document.querySelector(".link-categorias");
@@ -35,9 +35,17 @@ const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
 
-const contenedorNuevasOperaciones= document.getElementById ("contenedor-listado-nuevas-operaciones")
-const selectTipo = document.getElementById('select-tipo');
+const contenedorNuevasOperaciones = document.getElementById(
+  "contenedor-listado-nuevas-operaciones"
+);
+const selectTipo = document.getElementById("select-tipo");
 const selectCategoria = document.getElementById("select-categoria");
+const inputAgregarCategoria = document.getElementById(
+  "input-agregar-categoria"
+);
+const botonAgregarCategoria = document.getElementById(
+  "boton-agregar-categoria"
+);
 
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
 const arraySecciones = [
@@ -186,56 +194,53 @@ const operaciones = [
 
 //////////////////////*Balance*//////////////////////////
 
-const numeroGanancia = document.querySelector("#numero-ganancias")
-const numeroGastos = document.querySelector("#numero-gastos")
-const numeroTotal = document.querySelector("#numero-total")
+const numeroGanancia = document.querySelector("#numero-ganancias");
+const numeroGastos = document.querySelector("#numero-gastos");
+const numeroTotal = document.querySelector("#numero-total");
 
-const gastos = operaciones.filter((elemento)=> {
-  return elemento.tipo === "gasto"
-})
+const gastos = operaciones.filter((elemento) => {
+  return elemento.tipo === "gasto";
+});
 
 const sumaGastos = gastos.reduce((acc, elemento) => {
-   return acc = acc + elemento.monto
-}, 0)
+  return (acc = acc + elemento.monto);
+}, 0);
 
-numeroGastos.innerHTML = `-$ ${sumaGastos}`
+numeroGastos.innerHTML = `-$ ${sumaGastos}`;
 
-const ganacia = operaciones.filter((elemento)=> {
-  return elemento.tipo === "ganancia"
-})
+const ganacia = operaciones.filter((elemento) => {
+  return elemento.tipo === "ganancia";
+});
 
 const sumaGanancias = ganacia.reduce((acc, elemento) => {
-  return acc = acc + elemento.monto
-}, 0)
+  return (acc = acc + elemento.monto);
+}, 0);
 
-numeroGanancia.innerHTML = `+$ ${sumaGanancias}`
+numeroGanancia.innerHTML = `+$ ${sumaGanancias}`;
 
-
-const total = (sumaGanancias,sumaGastos )=>{
- let resultado = sumaGanancias - sumaGastos 
-  if(resultado > 0){
-    numeroTotal.classList.add("has-text-success")
-    return `+$ ${resultado}` 
+const total = (sumaGanancias, sumaGastos) => {
+  let resultado = sumaGanancias - sumaGastos;
+  if (resultado > 0) {
+    numeroTotal.classList.add("has-text-success");
+    return `+$ ${resultado}`;
+  } else {
+    let resultadoString = String(resultado);
+    let stringCortado = resultadoString.slice(1);
+    numeroTotal.classList.add("has-text-danger");
+    return `-$ ${Number(stringCortado)}`;
   }
-  else{
-    let resultadoString = String(resultado)
-    let stringCortado =resultadoString.slice(1)
-    numeroTotal.classList.add("has-text-danger")
-    return `-$ ${Number(stringCortado)}`
-  }
- 
-}  
-numeroTotal.textContent = total(sumaGanancias,sumaGastos)
+};
+numeroTotal.textContent = total(sumaGanancias, sumaGastos);
 
 //MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
 
-const colorDeMonto = (objeto)=>{
-  if (objeto.tipo === "gasto"){
-    return "has-text-danger"
+const colorDeMonto = (objeto) => {
+  if (objeto.tipo === "gasto") {
+    return "has-text-danger";
+  } else {
+    return "has-text-success";
   }
-  else {return "has-text-success"
-  }
-}
+};
 
 const mostrarOperacionesEnHTML = (array) => {
   let acc = "";
@@ -266,7 +271,7 @@ const mostrarOperacionesEnHTML = (array) => {
   });
   contenedorNuevasOperaciones.innerHTML = acc;
 };
-mostrarOperacionesEnHTML(operaciones)
+mostrarOperacionesEnHTML(operaciones);
 
 /////Filtros Seccion Categorias//////
 
@@ -274,7 +279,7 @@ const aplicarFiltros = () => {
   const tipo = selectTipo.value;
 
   const filtradoPorTipo = operaciones.filter((operacion) => {
-    if (tipo === 'todos') {
+    if (tipo === "todos") {
       return operacion;
     }
     return operacion.tipo === tipo;
@@ -283,7 +288,7 @@ const aplicarFiltros = () => {
   const categoria = selectCategoria.value;
 
   const filtradoFinal = filtradoPorTipo.filter((operacion) => {
-    if (categoria === 'todos') {
+    if (categoria === "todos") {
       return operacion;
     }
     return operacion.categoria === categoria;
@@ -304,4 +309,90 @@ selectTipo.onchange = () => {
 selectCategoria.onchange = () => {
   const arrayFiltradoFinal = aplicarFiltros();
   mostrarOperacionesEnHTML(arrayFiltradoFinal);
+};
+
+// Agregar categoria
+
+// Crear un array de categorias en Js.
+//Cargarlo con las categorias que quiero que aparezcan predeterminadas al inciar la pagina.
+//Crear una funcion (agregarCategoriaHTML) que: Agregue una <option> al select por cada elemento del array. Incluyendo un ID con el index de cada elemento.
+//Pasarlo a JSON
+//Guardarlo en el LS bajo la clave Categorias.
+
+// Crear una funcion (agregarCategoriaLS) que tome el valor el input de la seccion agregar categoria.
+// Capitalizar lo que tomamos del input.
+// Traer el array de categorias desde LS.
+//Chequear que la categoria que quieren agregar no este incluida en el array guardado en LS.(si ya existe mostrar un alert)
+// Si no esta incluida: Que agregue un elemento al array categorias.
+// Convertirlo a JSON
+//Guardar el JSON en LS bajo la clave Categorias.
+
+// Ejecutar la función que agrega opciones al select. (AgregarCategoriaHTML) Pasandole como parametro el objeto que traemos desde LS.
+
+const categorias = [
+  "Todos",
+  "Trabajo",
+  "Comida",
+  "Educación",
+  "Transporte",
+  "Servicios",
+  "Salidas",
+];
+
+// Funciones auxiliares
+const guardarEnLocalStorage = (array, clave) => {
+  const nuevoObjeto = { categorias: array };
+  const objetoJSON = JSON.stringify(nuevoObjeto);
+  localStorage.setItem(clave, objetoJSON);
+};
+
+const traerDesdeLS = (clave) => {
+  const datosLocalStorage = localStorage.getItem(clave);
+  const objetoLS = JSON.parse(datosLocalStorage);
+  if (objetoLS === null) {
+    return null;
+  } else {
+    return objetoLS.categorias;
+  }
+};
+
+const capitalizar = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+//// Funciones
+const agregarCategoriaHTML = (categorias) => {
+  const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
+    return (
+      acc +
+      `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+    );
+  }, "");
+
+  selectCategoria.innerHTML = categoriasEnHTML;
+
+  guardarEnLocalStorage(categorias, "categorias");
+};
+
+if (traerDesdeLS("categorias") === null) {
+  agregarCategoriaHTML(categorias);
+} else {
+  agregarCategoriaHTML(traerDesdeLS("categorias"));
+}
+
+botonAgregarCategoria.onclick = (event) => {
+  event.preventDefault();
+  const categoriaCapitalizada = capitalizar(inputAgregarCategoria.value);
+
+  const arrayDesdeLS = traerDesdeLS("categorias");
+
+  if (arrayDesdeLS.includes(categoriaCapitalizada)) {
+    alert("Categoria ya existente!");
+  } else {
+    categorias.push(categoriaCapitalizada);
+    guardarEnLocalStorage(categorias, "categorias");
+    const categoriasActualizadas = traerDesdeLS("categorias");
+    agregarCategoriaHTML(categoriasActualizadas);
+    inputAgregarCategoria.value = "";
+  }
 };
