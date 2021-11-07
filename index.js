@@ -143,49 +143,63 @@ botonCancelarEditarCategoria.onclick = (event) => {
 const operaciones = [
   {
     descripcion: "Cena con amigos",
-    categoria: "salidas",
+    categoria: "Salidas",
     fecha: "25/09/2021",
     monto: 2500,
     tipo: "gasto",
   },
   {
-    descripcion: "sueldo",
-    categoria: "sueldo",
+    descripcion: "Sueldo",
+    categoria: "Trabajo",
     fecha: "01/09/2021",
     monto: 500000,
     tipo: "ganancia",
   },
   {
-    descripcion: "pagar monotributo",
-    categoria: "sueldo",
+    descripcion: "Pagar monotributo",
+    categoria: "Trabajo",
     fecha: "01/09/2021",
     monto: 40000,
     tipo: "gasto",
   },
   {
     descripcion: "Aguinaldo",
-    categoria: "sueldo",
+    categoria: "Trabajo",
     fecha: "15/09/2021",
     monto: 25000,
     tipo: "ganancia",
   },
   {
     descripcion: "Comida para gatos",
-    categoria: "mascotas",
+    categoria: "Comida",
     fecha: "25/09/2021",
     monto: 3000,
     tipo: "gasto",
   },
   {
-    descripcion: "alquiler",
-    categoria: "alquiler",
+    descripcion: "Alquiler",
+    categoria: "Alquiler",
     fecha: "25/09/2021",
     monto: 25000,
     tipo: "gasto",
   },
   {
     descripcion: "Expensas",
-    categoria: "alquiler",
+    categoria: "Servicios",
+    fecha: "01/09/2021",
+    monto: 5000,
+    tipo: "gasto",
+  },
+  {
+    descripcion: "Transporte",
+    categoria: "Transporte",
+    fecha: "01/09/2021",
+    monto: 500,
+    tipo: "gasto",
+  },
+  {
+    descripcion: "Ada",
+    categoria: "Educación",
     fecha: "01/09/2021",
     monto: 5000,
     tipo: "gasto",
@@ -313,22 +327,6 @@ selectCategoria.onchange = () => {
 
 // Agregar categoria
 
-// Crear un array de categorias en Js.
-//Cargarlo con las categorias que quiero que aparezcan predeterminadas al inciar la pagina.
-//Crear una funcion (agregarCategoriaHTML) que: Agregue una <option> al select por cada elemento del array. Incluyendo un ID con el index de cada elemento.
-//Pasarlo a JSON
-//Guardarlo en el LS bajo la clave Categorias.
-
-// Crear una funcion (agregarCategoriaLS) que tome el valor el input de la seccion agregar categoria.
-// Capitalizar lo que tomamos del input.
-// Traer el array de categorias desde LS.
-//Chequear que la categoria que quieren agregar no este incluida en el array guardado en LS.(si ya existe mostrar un alert)
-// Si no esta incluida: Que agregue un elemento al array categorias.
-// Convertirlo a JSON
-//Guardar el JSON en LS bajo la clave Categorias.
-
-// Ejecutar la función que agrega opciones al select. (AgregarCategoriaHTML) Pasandole como parametro el objeto que traemos desde LS.
-
 const categorias = [
   "Todos",
   "Trabajo",
@@ -337,6 +335,7 @@ const categorias = [
   "Transporte",
   "Servicios",
   "Salidas",
+  "Alquiler",
 ];
 
 // Funciones auxiliares
