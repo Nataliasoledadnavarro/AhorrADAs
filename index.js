@@ -395,3 +395,7 @@ botonAgregarCategoria.onclick = (event) => {
     inputAgregarCategoria.value = "";
   }
 };
+
+// funcion filtro fecha desde
+
+
