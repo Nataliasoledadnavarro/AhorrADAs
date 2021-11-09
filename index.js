@@ -206,6 +206,17 @@ const operaciones = [
   },
 ];
 
+const categorias = [
+  "Todos",
+  "Trabajo",
+  "Comida",
+  "Educación",
+  "Transporte",
+  "Servicios",
+  "Salidas",
+  "Alquiler",
+];
+
 //////////////////////*Balance*//////////////////////////
 
 const numeroGanancia = document.querySelector("#numero-ganancias");
@@ -293,7 +304,7 @@ const aplicarFiltros = () => {
   const tipo = selectTipo.value;
 
   const filtradoPorTipo = operaciones.filter((operacion) => {
-    if (tipo === "todos") {
+    if (tipo === "Todos") {
       return operacion;
     }
     return operacion.tipo === tipo;
@@ -302,7 +313,7 @@ const aplicarFiltros = () => {
   const categoria = selectCategoria.value;
 
   const filtradoFinal = filtradoPorTipo.filter((operacion) => {
-    if (categoria === "todos") {
+    if (categoria === "Todos") {
       return operacion;
     }
     return operacion.categoria === categoria;
@@ -327,16 +338,6 @@ selectCategoria.onchange = () => {
 
 // Agregar categoria
 
-const categorias = [
-  "Todos",
-  "Trabajo",
-  "Comida",
-  "Educación",
-  "Transporte",
-  "Servicios",
-  "Salidas",
-  "Alquiler",
-];
 
 // Funciones auxiliares
 const guardarEnLocalStorage = (array, clave) => {
