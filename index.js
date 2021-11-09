@@ -145,28 +145,28 @@ const operaciones = [
   {
     descripcion: "Cena con amigos",
     categoria: "Salidas",
-    fecha: "2021-09-01",
+    fecha: "2021-11-17",
     monto: 2500,
     tipo: "gasto",
   },
   {
     descripcion: "Sueldo",
     categoria: "Trabajo",
-    fecha: "2021-09-01",
+    fecha: "2021-10-14",
     monto: 500000,
     tipo: "ganancia",
   },
   {
     descripcion: "Pagar monotributo",
     categoria: "Trabajo",
-    fecha: "2021-09-01",
+    fecha: "2021-08-18",
     monto: 40000,
     tipo: "gasto",
   },
   {
     descripcion: "Aguinaldo",
     categoria: "Trabajo",
-    fecha: "2021-09-01",
+    fecha: "2021-09-15",
     monto: 25000,
     tipo: "ganancia",
   },
@@ -400,13 +400,6 @@ botonAgregarCategoria.onclick = (event) => {
 // funcion filtro fecha desde
 const inputFecha = document.querySelector("#input-fecha");
 
-//ordenar los objetos por la propiedad fecha (sort)
-//recorrer el array , encontrar la fecha seleecionada usuario (map? o filter?)
-//mostrar el rango de fechas que seleciono el usuario en html ordenadas (slice)
-
-//paso string fecha a formato fecha
-
-
 const ordenarFechas = (array)=>{
   const fechasOrdenadas = array.sort((a,b) =>{
     return new Date(b.fecha) - new Date(a.fecha)
@@ -421,10 +414,29 @@ const ordenarFechas = (array)=>{
 
 mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
 
+const nuevasFechasOrdenadas= ordenarFechas(operaciones)
+
+//hacer un filter en el array ordenado, comparar adentro 
+//mostarr en html el nuevo array filtrado
+
+const fechasSeccionadas = []
+const fechanueva = nuevasFechasOrdenadas.filter(()=>{
+  if(inputFecha.value){
+    fechasSeccionadas.push()
+  }
+  return fechasSeccionadas
+})
+
+console.log(nuevasFechasOrdenadas)
+console.log(fechanueva)
+
 inputFecha.onchange = () =>{
 
-  console.log(inputFecha.value)
+    console.log(inputFecha.value)
+
 }
+
+
 
 
 
