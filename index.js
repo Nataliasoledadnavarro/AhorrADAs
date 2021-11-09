@@ -47,6 +47,7 @@ const botonAgregarCategoria = document.getElementById(
   "boton-agregar-categoria"
 );
 
+
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
 const arraySecciones = [
   seccionPrincipal,
@@ -144,63 +145,63 @@ const operaciones = [
   {
     descripcion: "Cena con amigos",
     categoria: "Salidas",
-    fecha: "25/09/2021",
+    fecha: "2021-09-01",
     monto: 2500,
     tipo: "gasto",
   },
   {
     descripcion: "Sueldo",
     categoria: "Trabajo",
-    fecha: "01/09/2021",
+    fecha: "2021-09-01",
     monto: 500000,
     tipo: "ganancia",
   },
   {
     descripcion: "Pagar monotributo",
     categoria: "Trabajo",
-    fecha: "01/09/2021",
+    fecha: "2021-09-01",
     monto: 40000,
     tipo: "gasto",
   },
   {
     descripcion: "Aguinaldo",
     categoria: "Trabajo",
-    fecha: "15/09/2021",
+    fecha: "2021-09-01",
     monto: 25000,
     tipo: "ganancia",
   },
   {
     descripcion: "Comida para gatos",
     categoria: "Comida",
-    fecha: "25/09/2021",
+    fecha: "2021-09-25",
     monto: 3000,
     tipo: "gasto",
   },
   {
     descripcion: "Alquiler",
     categoria: "Alquiler",
-    fecha: "25/09/2021",
+    fecha: "2021-09-25",
     monto: 25000,
     tipo: "gasto",
   },
   {
     descripcion: "Expensas",
     categoria: "Servicios",
-    fecha: "01/09/2021",
+    fecha: "2021-09-01",
     monto: 5000,
     tipo: "gasto",
   },
   {
     descripcion: "Transporte",
     categoria: "Transporte",
-    fecha: "01/09/2021",
+    fecha: "2021-10-01",
     monto: 500,
     tipo: "gasto",
   },
   {
     descripcion: "Ada",
     categoria: "Educación",
-    fecha: "01/09/2021",
+    fecha: "2021-02-01",
     monto: 5000,
     tipo: "gasto",
   },
@@ -397,5 +398,37 @@ botonAgregarCategoria.onclick = (event) => {
 };
 
 // funcion filtro fecha desde
+const inputFecha = document.querySelector("#input-fecha");
+
+//ordenar los objetos por la propiedad fecha (sort)
+//recorrer el array , encontrar la fecha seleecionada usuario (map? o filter?)
+//mostrar el rango de fechas que seleciono el usuario en html ordenadas (slice)
+
+//paso string fecha a formato fecha
+
+
+const ordenarFechas = (array)=>{
+  const fechasOrdenadas = array.sort((a,b) =>{
+    return new Date(b.fecha) - new Date(a.fecha)
+  })
+
+ const fechaFinal = fechasOrdenadas.map((operacion)=>{
+   new Date(operacion.fecha).toLocaleDateString()
+   return operacion 
+  })
+  return fechaFinal
+}
+
+mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
+
+inputFecha.onchange = () =>{
+
+  console.log(inputFecha.value)
+}
+
+
+
+
+
 
 
