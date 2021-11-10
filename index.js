@@ -412,32 +412,29 @@ const ordenarFechas = (array)=>{
   return fechaFinal
 }
 
-mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
+//mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
 
 const nuevasFechasOrdenadas = ordenarFechas(operaciones)
-//console.log(nuevasFechasOrdenadas)
-//hacer un filter en el array ordenado, comparar adentro 
-//mostarr en html el nuevo array filtrado
 
-const fechasSeccionadas = []
 const fechasNuevas = (operaciones)=>{
+  const fechasSeccionadas = []
   for (let i = 0; i < operaciones.length; i++) {
-    if (new Date(inputFecha.value).toLocaleDateString() >= new Date(operaciones[i].fecha).toLocaleDateString()){
-      console.log(new Date(inputFecha.value).toLocaleDateString())
-      console.log(new Date(operaciones[i].fecha).toLocaleDateString())
+    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)){
       fechasSeccionadas.push(operaciones[i])
     }
     
   }
+  return fechasSeccionadas
 }
 
-
+//cuando se selecciona una fecha se ejecuta la funcion y muestar en html
 inputFecha.onchange = () =>{
-  fechasNuevas(operaciones)
 
-  console.log(fechasSeccionadas)
+ const filtradoDeFechas = fechasNuevas(operaciones)
+  mostrarOperacionesEnHTML(filtradoDeFechas)
+
+  console.log(filtradoDeFechas)
   console.log(inputFecha.value)
-  
 
 }
 
