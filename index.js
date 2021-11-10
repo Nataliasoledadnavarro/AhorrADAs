@@ -397,7 +397,7 @@ botonAgregarCategoria.onclick = (event) => {
   }
 };
 
-// funcion filtro fecha desde
+// funcion ordenar fechas
 const inputFecha = document.querySelector("#input-fecha");
 
 const ordenarFechas = (array)=>{
@@ -410,33 +410,30 @@ const ordenarFechas = (array)=>{
    return operacion 
   })
   return fechaFinal
-}
+};
 
 mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
 
-//const nuevasFechasOrdenadas = ordenarFechas(operaciones)
-
+//funcion filtro fechas
 const fechasNuevas = (operaciones)=>{
   const fechasSeccionadas = []
   for (let i = 0; i < operaciones.length; i++) {
     if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)){
       fechasSeccionadas.push(operaciones[i])
-    }
-    
+    }  
   }
   return fechasSeccionadas
-}
+};
 
 //cuando se selecciona una fecha se ejecuta la funcion y muestar en html
 inputFecha.onchange = () =>{
-
  const filtradoDeFechas = fechasNuevas(operaciones)
   mostrarOperacionesEnHTML(filtradoDeFechas)
 
   console.log(filtradoDeFechas)
   console.log(inputFecha.value)
 
-}
+};
 
 
 
