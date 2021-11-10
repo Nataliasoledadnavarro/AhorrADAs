@@ -48,6 +48,7 @@ const botonAgregarCategoria = document.getElementById(
 );
 
 const contenedorCategoriaAgregada = document.getElementById("contenedor-categorias-agregadas")
+
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
 const arraySecciones = [
   seccionPrincipal,
@@ -145,63 +146,63 @@ const operaciones = [
   {
     descripcion: "Cena con amigos",
     categoria: "Salidas",
-    fecha: "25/09/2021",
+    fecha: "2021-11-17",
     monto: 2500,
     tipo: "gasto",
   },
   {
     descripcion: "Sueldo",
     categoria: "Trabajo",
-    fecha: "01/09/2021",
+    fecha: "2021-10-14",
     monto: 500000,
     tipo: "ganancia",
   },
   {
     descripcion: "Pagar monotributo",
     categoria: "Trabajo",
-    fecha: "01/09/2021",
+    fecha: "2021-08-18",
     monto: 40000,
     tipo: "gasto",
   },
   {
     descripcion: "Aguinaldo",
     categoria: "Trabajo",
-    fecha: "15/09/2021",
+    fecha: "2021-09-15",
     monto: 25000,
     tipo: "ganancia",
   },
   {
     descripcion: "Comida para gatos",
     categoria: "Comida",
-    fecha: "25/09/2021",
+    fecha: "2021-09-25",
     monto: 3000,
     tipo: "gasto",
   },
   {
     descripcion: "Alquiler",
     categoria: "Alquiler",
-    fecha: "25/09/2021",
+    fecha: "2021-09-25",
     monto: 25000,
     tipo: "gasto",
   },
   {
     descripcion: "Expensas",
     categoria: "Servicios",
-    fecha: "01/09/2021",
+    fecha: "2021-09-01",
     monto: 5000,
     tipo: "gasto",
   },
   {
     descripcion: "Transporte",
     categoria: "Transporte",
-    fecha: "01/09/2021",
+    fecha: "2021-10-01",
     monto: 500,
     tipo: "gasto",
   },
   {
     descripcion: "Ada",
     categoria: "Educación",
-    fecha: "01/09/2021",
+    fecha: "2021-02-01",
     monto: 5000,
     tipo: "gasto",
   },
@@ -413,6 +414,44 @@ botonAgregarCategoria.onclick = (event) => {
     mostrarCategorias(traerCategoriasDesdeLS("categorias"))
     inputAgregarCategoria.value = "";
   }
+};
+
+// funcion ordenar fechas
+const inputFecha = document.querySelector("#input-fecha");
+
+const ordenarFechas = (array)=>{
+  const fechasOrdenadas = array.sort((a,b) =>{
+    return new Date(b.fecha) - new Date(a.fecha)
+  })
+
+ const fechaFinal = fechasOrdenadas.map((operacion)=>{
+   new Date(operacion.fecha).toLocaleDateString()
+   return operacion 
+  })
+  return fechaFinal
+};
+
+mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
+
+//funcion filtro fechas
+const fechasNuevas = (operaciones)=>{
+  const fechasSeccionadas = []
+  for (let i = 0; i < operaciones.length; i++) {
+    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)){
+      fechasSeccionadas.push(operaciones[i])
+    }  
+  }
+  return fechasSeccionadas
+};
+
+//cuando se selecciona una fecha se ejecuta la funcion y muestar en html
+inputFecha.onchange = () =>{
+ const filtradoDeFechas = fechasNuevas(operaciones)
+  mostrarOperacionesEnHTML(filtradoDeFechas)
+
+  console.log(filtradoDeFechas)
+  console.log(inputFecha.value)
+
 };
 
 
