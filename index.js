@@ -47,6 +47,7 @@ const botonAgregarCategoria = document.getElementById(
   "boton-agregar-categoria"
 );
 
+const contenedorCategoriaAgregada = document.getElementById("contenedor-categorias-agregadas")
 
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
 const arraySecciones = [
@@ -207,6 +208,17 @@ const operaciones = [
   },
 ];
 
+const categorias = [
+  "Todos",
+  "Trabajo",
+  "Comida",
+  "Educación",
+  "Transporte",
+  "Servicios",
+  "Salidas",
+  "Alquiler",
+];
+
 //////////////////////*Balance*//////////////////////////
 
 const numeroGanancia = document.querySelector("#numero-ganancias");
@@ -294,7 +306,7 @@ const aplicarFiltros = () => {
   const tipo = selectTipo.value;
 
   const filtradoPorTipo = operaciones.filter((operacion) => {
-    if (tipo === "todos") {
+    if (tipo === "Todos") {
       return operacion;
     }
     return operacion.tipo === tipo;
@@ -303,7 +315,7 @@ const aplicarFiltros = () => {
   const categoria = selectCategoria.value;
 
   const filtradoFinal = filtradoPorTipo.filter((operacion) => {
-    if (categoria === "todos") {
+    if (categoria === "Todos") {
       return operacion;
     }
     return operacion.categoria === categoria;
@@ -328,16 +340,6 @@ selectCategoria.onchange = () => {
 
 // Agregar categoria
 
-const categorias = [
-  "Todos",
-  "Trabajo",
-  "Comida",
-  "Educación",
-  "Transporte",
-  "Servicios",
-  "Salidas",
-  "Alquiler",
-];
 
 // Funciones auxiliares
 const guardarEnLocalStorage = (array, clave) => {
@@ -346,7 +348,7 @@ const guardarEnLocalStorage = (array, clave) => {
   localStorage.setItem(clave, objetoJSON);
 };
 
-const traerDesdeLS = (clave) => {
+const traerCategoriasDesdeLS = (clave) => {
   const datosLocalStorage = localStorage.getItem(clave);
   const objetoLS = JSON.parse(datosLocalStorage);
   if (objetoLS === null) {
@@ -374,25 +376,42 @@ const agregarCategoriaHTML = (categorias) => {
   guardarEnLocalStorage(categorias, "categorias");
 };
 
-if (traerDesdeLS("categorias") === null) {
+if (traerCategoriasDesdeLS("categorias") === null) {
   agregarCategoriaHTML(categorias);
 } else {
-  agregarCategoriaHTML(traerDesdeLS("categorias"));
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"));
 }
 
+//Mostrar listado de categorias
+const mostrarCategorias = (array) => {
+  const itemAgregadoEnCategorias = array.reduce((acc, elemento, index) => {
+    return acc + `<div class="columns is-mobile" id=categoria-agregada>
+    <div class="column">
+    <p class="tag is-primary is-light">${elemento}</p>
+  </div>
+  <div class="column is-flex is-justify-content-flex-end ">
+    <button id="boton-editar-categoria-${index}"class="button is-ghost is-size-7">Editar</button>
+    <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7">Eliminar</button>
+  </div> 
+  </div>`
+  }, "")
+  contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias
+}
+mostrarCategorias(traerCategoriasDesdeLS("categorias"))
+
+// Boton agregar categoria
 botonAgregarCategoria.onclick = (event) => {
   event.preventDefault();
   const categoriaCapitalizada = capitalizar(inputAgregarCategoria.value);
-
-  const arrayDesdeLS = traerDesdeLS("categorias");
-
+  const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
+  
   if (arrayDesdeLS.includes(categoriaCapitalizada)) {
     alert("Categoria ya existente!");
   } else {
     categorias.push(categoriaCapitalizada);
     guardarEnLocalStorage(categorias, "categorias");
-    const categoriasActualizadas = traerDesdeLS("categorias");
-    agregarCategoriaHTML(categoriasActualizadas);
+    agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"));   
+    mostrarCategorias(traerCategoriasDesdeLS("categorias"))
     inputAgregarCategoria.value = "";
   }
 };
@@ -434,12 +453,6 @@ inputFecha.onchange = () =>{
   console.log(inputFecha.value)
 
 };
-
-
-
-
-
-
 
 
 
