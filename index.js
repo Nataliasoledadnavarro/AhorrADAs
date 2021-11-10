@@ -412,9 +412,9 @@ const ordenarFechas = (array)=>{
   return fechaFinal
 }
 
-//mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
+mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
 
-const nuevasFechasOrdenadas = ordenarFechas(operaciones)
+//const nuevasFechasOrdenadas = ordenarFechas(operaciones)
 
 const fechasNuevas = (operaciones)=>{
   const fechasSeccionadas = []
