@@ -1,12 +1,18 @@
 /*//////////////////// Elementos ////////////////////////*/ ////
-
+// MAQUETADO
 const linkBalance = document.querySelector(".link-balance");
 const linkCategorias = document.querySelector(".link-categorias");
 const linkReportes = document.querySelector(".link-reportes");
-
 const seccionPrincipal = document.querySelector("#principal");
 const seccionCategorias = document.querySelector("#seccion-categorias");
 const seccionReportes = document.querySelector(".reportes");
+const menuDesplegableMobile = document.querySelector(
+  "#menu-desplegable-mobile"
+);
+const botonHamburguesa = document.getElementById("boton-hamburguesa");
+const linkBalanceMobile = document.querySelector(".link-balance-mobile");
+const linkCategoriasMobile = document.querySelector(".link-categorias-mobile");
+const linkReportesMobile = document.querySelector(".link-reportes-mobile");
 
 const seccionNuevaOperacion = document.getElementById(
   "formulario-nueva-operacion"
@@ -14,7 +20,33 @@ const seccionNuevaOperacion = document.getElementById(
 const seccionEditarCategoria = document.querySelector(
   "#seccion-editar-categorias"
 );
+const contenedorFiltros = document.querySelector("#contenedor-filtros");
+const botonFiltros = document.querySelector("#boton-filtros");
 
+//CATEGORIAS
+const selectTipo = document.getElementById("select-tipo");
+const selectCategoria = document.getElementById("select-categoria");
+const inputAgregarCategoria = document.getElementById(
+  "input-agregar-categoria"
+);
+const botonAgregarCategoria = document.getElementById(
+  "boton-agregar-categoria"
+);
+const contenedorCategoriaAgregada = document.getElementById("contenedor-categorias-agregadas")
+const botonEditarCategoria = document.querySelector("#boton-editar-categoria");
+const botonCancelarEditarCategoria = document.querySelector(
+  "#boton-cancelar-editar-categoria"
+);
+//OPERACIONES
+const seccionSinOperaciones = document.getElementById(
+  "contenedor-sin-operaciones"
+);
+const seccionConOperaciones = document.getElementById(
+  "contenedor-titulos-nuevas-operaciones"
+);
+const contenedorNuevasOperaciones = document.getElementById(
+  "contenedor-listado-nuevas-operaciones"
+);
 const botonNuevaOperacion = document.getElementById("boton-nueva-operacion");
 const botonCancelarNuevasOperaciones = document.getElementById(
   "boton-cancelar-nuevas-operaciones"
@@ -28,26 +60,23 @@ const contenedorListadoNuevasOperaciones = document.getElementById(
 const contenedorSinOperaciones = document.getElementById(
   "contenedor-sin-operaciones"
 );
+const itemNuevaOperacion = document.getElementById("item-nueva-operacion");
 
-const botonEditarCategoria = document.querySelector("#boton-editar-categoria");
-
-const botonCancelarEditarCategoria = document.querySelector(
-  "#boton-cancelar-editar-categoria"
+const inputDescripcionNuevaOperacion = document.getElementById(
+  "descripción-nueva-operación"
 );
-
-const contenedorNuevasOperaciones = document.getElementById(
-  "contenedor-listado-nuevas-operaciones"
+const inputMontoNuevaOperacion = document.getElementById(
+  "monto-nueva-operación"
 );
-const selectTipo = document.getElementById("select-tipo");
-const selectCategoria = document.getElementById("select-categoria");
-const inputAgregarCategoria = document.getElementById(
-  "input-agregar-categoria"
+const selectTipoNuevaOperacion = document.getElementById(
+  "tipo-nueva-operacion"
 );
-const botonAgregarCategoria = document.getElementById(
-  "boton-agregar-categoria"
+const selectCategoriaNuevaOperacion = document.getElementById(
+  "categoria-nueva-operacion"
 );
-
-const contenedorCategoriaAgregada = document.getElementById("contenedor-categorias-agregadas")
+const inputFechaNuevaOperacion = document.getElementById(
+  "fecha-nueva-operación"
+);
 
 /////////////////////////////////// Función auxiliar ////////////////////////////////////////
 const arraySecciones = [
@@ -68,6 +97,7 @@ const mostrarSeccion = (array, seccion) => {
   }
 };
 
+////// Links del NAV ///
 linkReportes.onclick = (event) => {
   event.preventDefault();
   mostrarSeccion(arraySecciones, seccionReportes);
@@ -84,13 +114,6 @@ linkBalance.onclick = (event) => {
 
 /*//////////////////// Menú desplegable mobile ////////////////////////*/
 
-const menuDesplegableMobile = document.querySelector(
-  "#menu-desplegable-mobile"
-);
-const botonHamburguesa = document.getElementById("boton-hamburguesa");
-const linkBalanceMobile = document.querySelector(".link-balance-mobile");
-const linkCategoriasMobile = document.querySelector(".link-categorias-mobile");
-const linkReportesMobile = document.querySelector(".link-reportes-mobile");
 
 botonHamburguesa.onclick = () => {
   botonHamburguesa.classList.toggle("is-active");
@@ -98,9 +121,6 @@ botonHamburguesa.onclick = () => {
 };
 
 /*//////////////////// Ocultar filtros sección principal ////////////////////////*/
-
-const contenedorFiltros = document.querySelector("#contenedor-filtros");
-const botonFiltros = document.querySelector("#boton-filtros");
 
 botonFiltros.onclick = (event) => {
   event.preventDefault();
@@ -141,73 +161,7 @@ botonCancelarEditarCategoria.onclick = (event) => {
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
-//INFORMACION//
-const operaciones = [
-  {
-    descripcion: "Cena con amigos",
-    categoria: "Salidas",
-    fecha: "2021-11-17",
-    monto: 2500,
-    tipo: "gasto",
-  },
-  {
-    descripcion: "Sueldo",
-    categoria: "Trabajo",
-    fecha: "2021-10-14",
-    monto: 500000,
-    tipo: "ganancia",
-  },
-  {
-    descripcion: "Pagar monotributo",
-    categoria: "Trabajo",
-    fecha: "2021-08-18",
-    monto: 40000,
-    tipo: "gasto",
-  },
-  {
-    descripcion: "Aguinaldo",
-    categoria: "Trabajo",
-    fecha: "2021-09-15",
-    monto: 25000,
-    tipo: "ganancia",
-  },
-  {
-    descripcion: "Comida para gatos",
-    categoria: "Comida",
-    fecha: "2021-09-25",
-    monto: 3000,
-    tipo: "gasto",
-  },
-  {
-    descripcion: "Alquiler",
-    categoria: "Alquiler",
-    fecha: "2021-09-25",
-    monto: 25000,
-    tipo: "gasto",
-  },
-  {
-    descripcion: "Expensas",
-    categoria: "Servicios",
-    fecha: "2021-09-01",
-    monto: 5000,
-    tipo: "gasto",
-  },
-  {
-    descripcion: "Transporte",
-    categoria: "Transporte",
-    fecha: "2021-10-01",
-    monto: 500,
-    tipo: "gasto",
-  },
-  {
-    descripcion: "Ada",
-    categoria: "Educación",
-    fecha: "2021-02-01",
-    monto: 5000,
-    tipo: "gasto",
-  },
-];
-
+//INFORMACION CATEGORIAS//
 const categorias = [
   "Todos",
   "Trabajo",
@@ -219,45 +173,110 @@ const categorias = [
   "Alquiler",
 ];
 
-//////////////////////*Balance*//////////////////////////
+// Funciones auxiliares
+const guardarCategoriasLocalStorage = (array, clave) => {
+  const nuevoObjeto = { categorias: array };
+  const objetoJSON = JSON.stringify(nuevoObjeto);
+  localStorage.setItem(clave, objetoJSON);
+};
 
-const numeroGanancia = document.querySelector("#numero-ganancias");
-const numeroGastos = document.querySelector("#numero-gastos");
-const numeroTotal = document.querySelector("#numero-total");
-
-const gastos = operaciones.filter((elemento) => {
-  return elemento.tipo === "gasto";
-});
-
-const sumaGastos = gastos.reduce((acc, elemento) => {
-  return (acc = acc + elemento.monto);
-}, 0);
-
-numeroGastos.innerHTML = `-$ ${sumaGastos}`;
-
-const ganacia = operaciones.filter((elemento) => {
-  return elemento.tipo === "ganancia";
-});
-
-const sumaGanancias = ganacia.reduce((acc, elemento) => {
-  return (acc = acc + elemento.monto);
-}, 0);
-
-numeroGanancia.innerHTML = `+$ ${sumaGanancias}`;
-
-const total = (sumaGanancias, sumaGastos) => {
-  let resultado = sumaGanancias - sumaGastos;
-  if (resultado > 0) {
-    numeroTotal.classList.add("has-text-success");
-    return `+$ ${resultado}`;
+const traerCategoriasDesdeLS = (clave) => {
+  const datosLocalStorage = localStorage.getItem(clave);
+  const objetoLS = JSON.parse(datosLocalStorage);
+  if (objetoLS === null) {
+    return null;
   } else {
-    let resultadoString = String(resultado);
-    let stringCortado = resultadoString.slice(1);
-    numeroTotal.classList.add("has-text-danger");
-    return `-$ ${Number(stringCortado)}`;
+    return objetoLS.categorias;
   }
 };
-numeroTotal.textContent = total(sumaGanancias, sumaGastos);
+
+const capitalizar = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+//AGREGAR ITEM CATEGORIA Y MOSTRARLO EN HTML
+const agregarItemCategoria = (array) => {
+  const itemAgregadoEnCategorias = array.reduce((acc, elemento, index) => {
+    return acc + `<div class="columns is-mobile" id=categoria-agregada>
+    <div class="column">
+    <p class="tag is-primary is-light">${elemento}</p>
+  </div>
+  <div class="column is-flex is-justify-content-flex-end ">
+    <button id="boton-editar-categoria-${index}"class="button is-ghost is-size-7">Editar</button>
+    <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7">Eliminar</button>
+  </div> 
+  </div>`
+  }, "")
+  contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias
+}
+
+// AGREGAR CATEGORIA EN EL SELECT
+const agregarCategoriaHTML = (categorias, select) => {
+  const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
+    return (
+      acc +
+      `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+    );
+  }, "");
+
+  select.innerHTML = categoriasEnHTML;
+
+  guardarCategoriasLocalStorage(categorias, "categorias");
+};
+
+
+if (traerCategoriasDesdeLS("categorias") === null) {
+  agregarCategoriaHTML(categorias, selectCategoria);
+  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
+  agregarItemCategoria(categorias);
+} else {
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+}
+
+// Boton agregar categoria
+botonAgregarCategoria.onclick = (event) => {
+  event.preventDefault();
+  const categoriaCapitalizada = capitalizar(inputAgregarCategoria.value);
+  const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
+  
+  if (arrayDesdeLS.includes(categoriaCapitalizada)) {
+    alert("Categoria ya existente!");
+  } else {
+    categorias.push(categoriaCapitalizada);
+    guardarCategoriasLocalStorage(categorias, "categorias");
+    agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+    agregarCategoriaHTML(
+      traerCategoriasDesdeLS("categorias"),
+      selectCategoriaNuevaOperacion
+    );
+    agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+    inputAgregarCategoria.value = "";
+  }
+};
+
+///////////////////* Funcion crear item de nueva operación *///////////////////////
+const guardarOperacionesLocalStorage = (array, clave) => {
+  const arrayJSON = JSON.stringify(array);
+  localStorage.setItem(clave, arrayJSON);
+};
+
+const traerOperacionesDesdeLS = (clave) => {
+  const datosLocalStorage = localStorage.getItem(clave);
+  const operacionesDesdeLS = JSON.parse(datosLocalStorage);
+  if (operacionesDesdeLS === null) {
+    return null;
+  } else {
+    return operacionesDesdeLS;
+  }
+};
+
+//// Información ////
+let operaciones = traerOperacionesDesdeLS("operaciones")
 
 //MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
 
@@ -270,10 +289,9 @@ const colorDeMonto = (objeto) => {
 };
 
 const mostrarOperacionesEnHTML = (array) => {
-  let acc = "";
-  array.map((operacion) => {
-    acc =
-      acc +
+
+  const itemsOperaciones = array.reduce((acc,operacion) => {
+    return  acc +
       `<div id="item-nueva-operacion" class="columns is-mobile">
     <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${
       operacion.descripcion
@@ -292,13 +310,73 @@ const mostrarOperacionesEnHTML = (array) => {
     </p>
     <div class="column is-2 is-3-mobile pt-0">
       <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
-      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button>
+      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button> 
     </div>
-    </div>`;
-  });
-  contenedorNuevasOperaciones.innerHTML = acc;
+    </div>`//agregar aca el identificador unico para los botones!
+  },"");
+  contenedorNuevasOperaciones.innerHTML = itemsOperaciones
+}
+
+
+// agregar operacion///
+botonAgregarNuevaOperacion.onclick = (event) => {
+  event.preventDefault();
+  let operacion = {
+    descripcion: inputDescripcionNuevaOperacion.value,
+    categoria: selectCategoriaNuevaOperacion.value,
+    fecha: inputFechaNuevaOperacion.value,
+    monto: inputMontoNuevaOperacion.value,
+    tipo: selectTipoNuevaOperacion.value,
+  };
+  operaciones.push(operacion);
+  guardarOperacionesLocalStorage(operaciones, "operaciones");
+  mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"));
+  mostrarSeccion(arraySecciones, seccionPrincipal);
+  seccionSinOperaciones.classList.add("is-hidden");
+  seccionConOperaciones.classList.remove("is-hidden");
+  mostrarBalance(sumaGasto(), operacionesGanancia());
 };
-mostrarOperacionesEnHTML(operaciones);
+
+//////////////////////*Balance*//////////////////////////
+
+const numeroGananciaBalance = document.querySelector("#numero-ganancias");
+const numeroGastosBalance = document.querySelector("#numero-gastos");
+const numeroTotalBalance = document.querySelector("#numero-total");
+
+const operacionesGastos = operaciones.filter((elemento) => {
+  return elemento.tipo === "gasto";
+});
+
+const sumaGastos = gastos.reduce((acc, elemento) => {
+  return acc = acc + Number(elemento.monto)
+}, 0);
+
+numeroGastosBalance.innerHTML = `-$ ${sumaGastos}`;
+
+const operacionesGanancias = operaciones.filter((elemento) => {
+  return elemento.tipo === "ganancia";
+});
+
+const sumaGanancias = ganacia.reduce((acc, elemento) => {
+  return (acc = acc + elemento.monto);
+}, 0);
+
+numeroGananciaBalance.innerHTML = `+$ ${sumaGanancias}`;
+
+const total = (sumaGanancias, sumaGastos) => {
+  let resultado = sumaGanancias - sumaGastos;
+  if (resultado > 0) {
+    numeroTotal.classList.add("has-text-success");
+    return `+$ ${resultado}`;
+  } else {
+    let resultadoString = String(resultado);
+    let stringCortado = resultadoString.slice(1);
+    numeroTotal.classList.add("has-text-danger");
+    return `-$ ${Number(stringCortado)}`;
+  }
+};
+numeroTotalBalance.textContent = total(sumaGanancias, sumaGastos);
+
 
 /////Filtros Seccion Categorias//////
 
@@ -336,84 +414,6 @@ selectTipo.onchange = () => {
 selectCategoria.onchange = () => {
   const arrayFiltradoFinal = aplicarFiltros();
   mostrarOperacionesEnHTML(arrayFiltradoFinal);
-};
-
-// Agregar categoria
-
-
-// Funciones auxiliares
-const guardarEnLocalStorage = (array, clave) => {
-  const nuevoObjeto = { categorias: array };
-  const objetoJSON = JSON.stringify(nuevoObjeto);
-  localStorage.setItem(clave, objetoJSON);
-};
-
-const traerCategoriasDesdeLS = (clave) => {
-  const datosLocalStorage = localStorage.getItem(clave);
-  const objetoLS = JSON.parse(datosLocalStorage);
-  if (objetoLS === null) {
-    return null;
-  } else {
-    return objetoLS.categorias;
-  }
-};
-
-const capitalizar = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
-
-//// Funciones
-const agregarCategoriaHTML = (categorias) => {
-  const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
-    return (
-      acc +
-      `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
-    );
-  }, "");
-
-  selectCategoria.innerHTML = categoriasEnHTML;
-
-  guardarEnLocalStorage(categorias, "categorias");
-};
-
-if (traerCategoriasDesdeLS("categorias") === null) {
-  agregarCategoriaHTML(categorias);
-} else {
-  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"));
-}
-
-//Mostrar listado de categorias
-const mostrarCategorias = (array) => {
-  const itemAgregadoEnCategorias = array.reduce((acc, elemento, index) => {
-    return acc + `<div class="columns is-mobile" id=categoria-agregada>
-    <div class="column">
-    <p class="tag is-primary is-light">${elemento}</p>
-  </div>
-  <div class="column is-flex is-justify-content-flex-end ">
-    <button id="boton-editar-categoria-${index}"class="button is-ghost is-size-7">Editar</button>
-    <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7">Eliminar</button>
-  </div> 
-  </div>`
-  }, "")
-  contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias
-}
-mostrarCategorias(traerCategoriasDesdeLS("categorias"))
-
-// Boton agregar categoria
-botonAgregarCategoria.onclick = (event) => {
-  event.preventDefault();
-  const categoriaCapitalizada = capitalizar(inputAgregarCategoria.value);
-  const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
-  
-  if (arrayDesdeLS.includes(categoriaCapitalizada)) {
-    alert("Categoria ya existente!");
-  } else {
-    categorias.push(categoriaCapitalizada);
-    guardarEnLocalStorage(categorias, "categorias");
-    agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"));   
-    mostrarCategorias(traerCategoriasDesdeLS("categorias"))
-    inputAgregarCategoria.value = "";
-  }
 };
 
 // funcion ordenar fechas
