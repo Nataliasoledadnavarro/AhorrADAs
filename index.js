@@ -32,11 +32,14 @@ const inputAgregarCategoria = document.getElementById(
 const botonAgregarCategoria = document.getElementById(
   "boton-agregar-categoria"
 );
-const contenedorCategoriaAgregada = document.getElementById("contenedor-categorias-agregadas")
+const contenedorCategoriaAgregada = document.getElementById(
+  "contenedor-categorias-agregadas"
+);
 const botonEditarCategoria = document.querySelector("#boton-editar-categoria");
 const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
+
 //OPERACIONES
 const seccionSinOperaciones = document.getElementById(
   "contenedor-sin-operaciones"
@@ -78,7 +81,7 @@ const inputFechaNuevaOperacion = document.getElementById(
   "fecha-nueva-operación"
 );
 
-/////////////////////////////////// Función auxiliar ////////////////////////////////////////
+/////////////////////////////////// FUNCION AUXILIAR MAQUETADO ////////////////////////////////////////
 const arraySecciones = [
   seccionPrincipal,
   seccionCategorias,
@@ -113,7 +116,6 @@ linkBalance.onclick = (event) => {
 };
 
 /*//////////////////// Menú desplegable mobile ////////////////////////*/
-
 
 botonHamburguesa.onclick = () => {
   botonHamburguesa.classList.toggle("is-active");
@@ -197,7 +199,9 @@ const capitalizar = (str) => {
 //AGREGAR ITEM CATEGORIA Y MOSTRARLO EN HTML
 const agregarItemCategoria = (array) => {
   const itemAgregadoEnCategorias = array.reduce((acc, elemento, index) => {
-    return acc + `<div class="columns is-mobile" id=categoria-agregada>
+    return (
+      acc +
+      `<div class="columns is-mobile" id=categoria-agregada>
     <div class="column">
     <p class="tag is-primary is-light">${elemento}</p>
   </div>
@@ -206,9 +210,10 @@ const agregarItemCategoria = (array) => {
     <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7">Eliminar</button>
   </div> 
   </div>`
-  }, "")
-  contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias
-}
+    );
+  }, "");
+  contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias;
+};
 
 // AGREGAR CATEGORIA EN EL SELECT
 const agregarCategoriaHTML = (categorias, select) => {
@@ -224,6 +229,7 @@ const agregarCategoriaHTML = (categorias, select) => {
   guardarCategoriasLocalStorage(categorias, "categorias");
 };
 
+/// Comparación que muestra según lo que esté guardado en LS
 
 if (traerCategoriasDesdeLS("categorias") === null) {
   agregarCategoriaHTML(categorias, selectCategoria);
@@ -243,7 +249,7 @@ botonAgregarCategoria.onclick = (event) => {
   event.preventDefault();
   const categoriaCapitalizada = capitalizar(inputAgregarCategoria.value);
   const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
-  
+
   if (arrayDesdeLS.includes(categoriaCapitalizada)) {
     alert("Categoria ya existente!");
   } else {
@@ -276,7 +282,7 @@ const traerOperacionesDesdeLS = (clave) => {
 };
 
 //// Información ////
-let operaciones = traerOperacionesDesdeLS("operaciones")
+let operaciones = traerOperacionesDesdeLS("operaciones");
 
 //MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
 
@@ -288,10 +294,18 @@ const colorDeMonto = (objeto) => {
   }
 };
 
-const mostrarOperacionesEnHTML = (array) => {
+const signoMonto = (objeto) => {
+  if (objeto.tipo === "gasto") {
+    return "-$";
+  } else {
+    return "+$";
+  }
+};
 
-  const itemsOperaciones = array.reduce((acc,operacion) => {
-    return  acc +
+const mostrarOperacionesEnHTML = (array) => {
+  const itemsOperaciones = array.reduce((acc, operacion) => {
+    return (
+      acc +
       `<div id="item-nueva-operacion" class="columns is-mobile">
     <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${
       operacion.descripcion
@@ -301,22 +315,22 @@ const mostrarOperacionesEnHTML = (array) => {
         operacion.categoria
       }</p>
     </div>
-    <p id="fecha-item-operacion" class="column is-2 is-hidden-mobile">${
+    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile">${
       operacion.fecha
     }</p>
-    <p id="monto-item-operacion" class="column is-2 is-3-mobile  has-text-weight-bold ${colorDeMonto(
+    <p id="monto-item-operacion" class="column is-2 is-3-mobile has-text-right has-text-weight-bold ${colorDeMonto(
       operacion
-    )}">$${operacion.monto}
+    )}"> ${signoMonto(operaciones)}${operacion.monto}
     </p>
     <div class="column is-2 is-3-mobile pt-0">
       <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
       <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button> 
     </div>
-    </div>`//agregar aca el identificador unico para los botones!
-  },"");
-  contenedorNuevasOperaciones.innerHTML = itemsOperaciones
-}
-
+    </div>`
+    ); //agregar aca el identificador unico para los botones!
+  }, "");
+  contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
+};
 
 // agregar operacion///
 botonAgregarNuevaOperacion.onclick = (event) => {
@@ -334,7 +348,7 @@ botonAgregarNuevaOperacion.onclick = (event) => {
   mostrarSeccion(arraySecciones, seccionPrincipal);
   seccionSinOperaciones.classList.add("is-hidden");
   seccionConOperaciones.classList.remove("is-hidden");
-  mostrarBalance(sumaGasto(), operacionesGanancia());
+  mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
 };
 
 //////////////////////*Balance*//////////////////////////
@@ -343,53 +357,56 @@ const numeroGananciaBalance = document.querySelector("#numero-ganancias");
 const numeroGastosBalance = document.querySelector("#numero-gastos");
 const numeroTotalBalance = document.querySelector("#numero-total");
 
-const operacionesGastos = operaciones.filter((elemento) => {
-  return elemento.tipo === "gasto";
-});
+const filtrarOperacionesTipo = (array, tipo) => {
+  const operaciones = array.filter((curr) => {
+    return curr.tipo === tipo;
+  });
+  return operaciones;
+};
 
-const sumaGastos = gastos.reduce((acc, elemento) => {
-  return acc = acc + Number(elemento.monto)
-}, 0);
+const mostrarEnBalance = (operaciones) => {
+  const sumaGastos = filtrarOperacionesTipo(operaciones, "gasto").reduce(
+    (acc, elemento) => {
+      return (acc = acc + Number(elemento.monto));
+    },
+    0
+  );
+  numeroGastosBalance.innerHTML = `-$${sumaGastos}`;
 
-numeroGastosBalance.innerHTML = `-$ ${sumaGastos}`;
+  const sumaGanancias = filtrarOperacionesTipo(operaciones, "ganancia").reduce(
+    (acc, elemento) => {
+      return (acc = acc + Number(elemento.monto));
+    },
+    0
+  );
+  numeroGananciaBalance.innerHTML = `+$${sumaGanancias}`;
 
-const operacionesGanancias = operaciones.filter((elemento) => {
-  return elemento.tipo === "ganancia";
-});
-
-const sumaGanancias = ganacia.reduce((acc, elemento) => {
-  return (acc = acc + elemento.monto);
-}, 0);
-
-numeroGananciaBalance.innerHTML = `+$ ${sumaGanancias}`;
-
-const total = (sumaGanancias, sumaGastos) => {
   let resultado = sumaGanancias - sumaGastos;
+
   if (resultado > 0) {
-    numeroTotal.classList.add("has-text-success");
-    return `+$ ${resultado}`;
+    numeroTotalBalance.classList.add("has-text-success");
+    numeroTotalBalance.innetHTML = `+$${resultado}`;
   } else {
     let resultadoString = String(resultado);
     let stringCortado = resultadoString.slice(1);
-    numeroTotal.classList.add("has-text-danger");
-    return `-$ ${Number(stringCortado)}`;
+    numeroTotalBalance.classList.add("has-text-danger");
+    numeroTotalBalance.innerHTML = `-$${Number(stringCortado)}`;
   }
 };
-numeroTotalBalance.textContent = total(sumaGanancias, sumaGastos);
-
 
 /////Filtros Seccion Categorias//////
 
 const aplicarFiltros = () => {
   const tipo = selectTipo.value;
 
-  const filtradoPorTipo = operaciones.filter((operacion) => {
-    if (tipo === "Todos") {
-      return operacion;
+  const filtradoPorTipo = traerOperacionesDesdeLS("operaciones").filter(
+    (operacion) => {
+      if (tipo === "Todos") {
+        return operacion;
+      }
+      return operacion.tipo === tipo;
     }
-    return operacion.tipo === tipo;
-  });
-
+  );
   const categoria = selectCategoria.value;
 
   const filtradoFinal = filtradoPorTipo.filter((operacion) => {
@@ -419,40 +436,47 @@ selectCategoria.onchange = () => {
 // funcion ordenar fechas
 const inputFecha = document.querySelector("#input-fecha");
 
-const ordenarFechas = (array)=>{
-  const fechasOrdenadas = array.sort((a,b) =>{
-    return new Date(b.fecha) - new Date(a.fecha)
-  })
+const ordenarFechas = (array) => {
+  const fechasOrdenadas = array.sort((a, b) => {
+    return new Date(b.fecha) - new Date(a.fecha);
+  });
 
- const fechaFinal = fechasOrdenadas.map((operacion)=>{
-   new Date(operacion.fecha).toLocaleDateString()
-   return operacion 
-  })
-  return fechaFinal
+  const fechaFinal = fechasOrdenadas.map((operacion) => {
+    new Date(operacion.fecha).toLocaleDateString();
+    return operacion;
+  });
+  return fechaFinal;
 };
 
-mostrarOperacionesEnHTML(ordenarFechas(operaciones)) 
-
 //funcion filtro fechas
-const fechasNuevas = (operaciones)=>{
-  const fechasSeccionadas = []
+const fechasNuevas = (operaciones) => {
+  const fechasSeccionadas = [];
   for (let i = 0; i < operaciones.length; i++) {
-    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)){
-      fechasSeccionadas.push(operaciones[i])
-    }  
+    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)) {
+      fechasSeccionadas.push(operaciones[i]);
+    }
   }
-  return fechasSeccionadas
+  return fechasSeccionadas;
 };
 
 //cuando se selecciona una fecha se ejecuta la funcion y muestar en html
-inputFecha.onchange = () =>{
- const filtradoDeFechas = fechasNuevas(operaciones)
-  mostrarOperacionesEnHTML(filtradoDeFechas)
-
-  console.log(filtradoDeFechas)
-  console.log(inputFecha.value)
-
+inputFecha.onchange = () => {
+  const filtradoDeFechas = fechasNuevas(traerOperacionesDesdeLS("operaciones"));
+  mostrarOperacionesEnHTML(ordenarFechas(filtradoDeFechas));
 };
 
+/////// Comparación que muestra según lo que esté guardado en LS
 
-
+if (traerOperacionesDesdeLS("operaciones") === null) {
+  seccionSinOperaciones.classList.remove("is-hidden");
+  seccionConOperaciones.classList.add("is-hidden");
+  operaciones = [];
+  mostrarEnBalance(operaciones);
+} else {
+  seccionSinOperaciones.classList.add("is-hidden");
+  seccionConOperaciones.classList.remove("is-hidden");
+  mostrarOperacionesEnHTML(
+    ordenarFechas(traerOperacionesDesdeLS("operaciones"))
+  );
+  mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
+}
