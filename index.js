@@ -481,23 +481,41 @@ if (traerOperacionesDesdeLS('operaciones') === null) {
   mostrarEnBalance(traerOperacionesDesdeLS('operaciones'));
 }
 
-////ORDENAR DE A-Z Y DE Z-A
-// tomamos el array de objetos "operaciones"
-// pasamos por un map que retorne un array "operacionesOrdenadas" con las descripciones de cada objeto
-//ordenarlo con el sort
-//pasarlo por un nuevo map que compare = si operacion.descripcion === operacionesOrdenadas[index] retornar operacion.
+/// Funciones Ordenar Por 
+const selectOrden = document.getElementById('select-orden');
+selectOrden.onchange = () => {
+  const arrayOrdenadoFinal = ordenarPor();
+  mostrarOperacionesEnHTML(arrayOrdenadoFinal);
+};
 
-const descripcionesOrdenadas = operaciones.map((operacion) => {
-  return operacion.descripcion;
-});
-console.log(descripcionesOrdenadas);
+const ordenarPor = () => {
+  const orden = selectOrden.value;
 
-const arrayOrdenado = descripcionesOrdenadas.sort();
-console.log(arrayOrdenado);
-
-const operacionesOrdenadas = arrayOrdenado.map((operacion, index, array) => {
-  if (operacion === operaciones[index].descripcion) {
-    return operaciones[index];
+  let operaciones = traerOperacionesDesdeLS('operaciones');
+  if (orden === 'A/Z') {
+    operaciones = operaciones.sort((a, b) => {
+      return a.descripcion.localeCompare(b.descripcion);
+    });
+  } else if (orden === 'Z/A') {
+    operaciones = operaciones.sort((a, b) => {
+      return b.descripcion.localeCompare(a.descripcion);
+    });
+  } else if (orden === 'Mayor monto') {
+    operaciones = operaciones.sort((a, b) => {
+      return b.monto - a.monto;
+    });
+  } else if (orden === 'Menor monto') {
+    operaciones = operaciones.sort((a, b) => {
+      return a.monto - b.monto;
+    });
+  } else if (orden === 'Más reciente') {
+    operaciones = operaciones.sort((a, b) => {
+      return new Date(b.fecha) - new Date(a.fecha);
+    });
+  } else if (orden === 'Menos reciente') {
+    operaciones = operaciones.sort((a, b) => {
+      return new Date(a.fecha) - new Date(b.fecha);
+    });
   }
-});
-console.log(operacionesOrdenadas);
+  return operaciones;
+};
