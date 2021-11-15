@@ -26,6 +26,7 @@ const botonFiltros = document.querySelector('#boton-filtros');
 //CATEGORIAS
 const selectTipo = document.getElementById('select-tipo');
 const selectCategoria = document.getElementById('select-categoria');
+const selectOrden = document.getElementById('select-orden');
 const inputAgregarCategoria = document.getElementById(
   'input-agregar-categoria'
 );
@@ -482,7 +483,6 @@ if (traerOperacionesDesdeLS('operaciones') === null) {
 }
 
 /// Funciones Ordenar Por 
-const selectOrden = document.getElementById('select-orden');
 selectOrden.onchange = () => {
   const arrayOrdenadoFinal = ordenarPor();
   mostrarOperacionesEnHTML(arrayOrdenadoFinal);
@@ -490,8 +490,7 @@ selectOrden.onchange = () => {
 
 const ordenarPor = () => {
   const orden = selectOrden.value;
-
-  let operaciones = traerOperacionesDesdeLS('operaciones');
+  let operaciones = aplicarFiltros()
   if (orden === 'A/Z') {
     operaciones = operaciones.sort((a, b) => {
       return a.descripcion.localeCompare(b.descripcion);
@@ -508,7 +507,7 @@ const ordenarPor = () => {
     operaciones = operaciones.sort((a, b) => {
       return a.monto - b.monto;
     });
-  } else if (orden === 'Más reciente') {
+  } else if (orden === 'Mas reciente') {
     operaciones = operaciones.sort((a, b) => {
       return new Date(b.fecha) - new Date(a.fecha);
     });
