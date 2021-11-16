@@ -196,6 +196,7 @@ const capitalizar = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
+
 //AGREGAR ITEM CATEGORIA Y MOSTRARLO EN HTML
 const agregarItemCategoria = (array) => {
   const itemAgregadoEnCategorias = array.reduce((acc, elemento, index) => {
@@ -207,13 +208,15 @@ const agregarItemCategoria = (array) => {
   </div>
   <div class="column is-flex is-justify-content-flex-end ">
     <button id="boton-editar-categoria-${index}"class="button is-ghost is-size-7">Editar</button>
-    <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7">Eliminar</button>
+    <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7 boton-eliminar-categoria">Eliminar</button>
   </div> 
   </div>`
     );
   }, "");
   contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias;
-};
+ };
+
+
 
 // AGREGAR CATEGORIA EN EL SELECT
 const agregarCategoriaHTML = (categorias, select) => {
@@ -229,20 +232,6 @@ const agregarCategoriaHTML = (categorias, select) => {
   guardarCategoriasLocalStorage(categorias, "categorias");
 };
 
-/// Comparación que muestra según lo que esté guardado en LS
-
-if (traerCategoriasDesdeLS("categorias") === null) {
-  agregarCategoriaHTML(categorias, selectCategoria);
-  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
-  agregarItemCategoria(categorias);
-} else {
-  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
-  agregarCategoriaHTML(
-    traerCategoriasDesdeLS("categorias"),
-    selectCategoriaNuevaOperacion
-  );
-  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
-}
 
 // Boton agregar categoria
 botonAgregarCategoria.onclick = (event) => {
@@ -264,6 +253,45 @@ botonAgregarCategoria.onclick = (event) => {
     inputAgregarCategoria.value = "";
   }
 };
+
+  /// Comparación que muestra según lo que esté guardado en LS
+
+if (traerCategoriasDesdeLS("categorias") === null) {
+  agregarCategoriaHTML(categorias, selectCategoria);
+  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
+  agregarItemCategoria(categorias);
+} else {
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+}
+
+/// Boton eliminar categoria
+const ejecutarBotonesEliminarCatagoria = () => {
+  const botonEliminarCategoria = document.querySelectorAll(".boton-eliminar-categoria")
+  console.log(botonEliminarCategoria)
+  for (let i = 0; i < botonEliminarCategoria.length; i++) {
+    botonEliminarCategoria[i].onclick = (event) => {
+      event.preventDefault()
+      idCortado = botonEliminarCategoria[i].id.slice(25)
+      console.log(idCortado)
+      idDelBoton = Number(idCortado)
+      const categoriasNoEliminadas = traerCategoriasDesdeLS("categorias").filter((elemento, index) => {
+        return index !== idDelBoton        
+      })
+      console.log(categoriasNoEliminadas)
+      guardarCategoriasLocalStorage(categoriasNoEliminadas, "categorias");
+      traerCategoriasDesdeLS("categorias")
+      agregarItemCategoria(traerCategoriasDesdeLS("categorias")) 
+      agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria) // select de categorias
+      agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoriaNuevaOperacion) // item de nueva operacion
+    }
+  }
+  }
+  ejecutarBotonesEliminarCatagoria()
 
 ///////////////////* Funcion crear item de nueva operación *///////////////////////
 const guardarOperacionesLocalStorage = (array, clave) => {
@@ -480,3 +508,7 @@ if (traerOperacionesDesdeLS("operaciones") === null) {
   );
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
 }
+
+
+  
+
