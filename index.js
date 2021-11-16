@@ -36,7 +36,12 @@ const botonAgregarCategoria = document.getElementById(
 const contenedorCategoriaAgregada = document.getElementById(
   "contenedor-categorias-agregadas"
 );
-const botonEditarCategoria = document.querySelector("#boton-editar-categoria");
+const seccionEditarCategorias = document.getElementById(
+  "seccion-editar-categorias"
+);
+const botonEditarCategoria = document.querySelector(
+  "#boton-editar-categoria-formulario"
+);
 const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
@@ -88,7 +93,7 @@ const arraySecciones = [
   seccionCategorias,
   seccionReportes,
   seccionNuevaOperacion,
-  seccionEditarCategoria,
+  seccionEditarCategorias,
 ];
 
 const mostrarSeccion = (array, seccion) => {
@@ -154,11 +159,6 @@ botonAgregarNuevaOperacion.onclick = () => {
 
 ////* Boton editar categorias *////
 
-botonEditarCategoria.onclick = (event) => {
-  event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionEditarCategoria);
-};
-
 botonCancelarEditarCategoria.onclick = (event) => {
   event.preventDefault();
   mostrarSeccion(arraySecciones, seccionCategorias);
@@ -207,7 +207,7 @@ const agregarItemCategoria = (array) => {
     <p class="tag is-primary is-light">${elemento}</p>
   </div>
   <div class="column is-flex is-justify-content-flex-end ">
-    <button id="boton-editar-categoria-${index}"class="button is-ghost is-size-7">Editar</button>
+    <button  id="boton-editar-categoria-${index}"class="button is-ghost is-size-7 boton-editar-item-categoria">Editar</button>
     <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7">Eliminar</button>
   </div> 
   </div>`
@@ -518,3 +518,84 @@ const ordenarPor = () => {
   }
   return operaciones;
 };
+
+//////////// Boton editar categoría //////////////
+
+/// agregar un id al boton que edita categorias
+/// agregar clase a la categoria
+/// traer el boton editar a js
+/// traer el formulario que edita a js
+/// traer el boton editar del nuevo formulario
+/// traer el boton cancelar del nuevo formulario
+/// click en el boton editar =
+///traer categoria desde ls.
+///traer todos los botones por las clases
+/// recorrer el array de botones y en el que hagan click:
+/// recortar el id para obtener el index
+/// tomar la categoria que corresponda al index del boton
+/// debe aparecer el formulario para editar y rellenar el value del nuevo input con el la categoria retornada anteriormente.
+
+/// click en el boton editar del nuevo formulario:
+/// recorrer el array de categorias del ls con un filter. que retorne todas las categorias menos la que edito el usuario.
+/// hacer un push al array de categorias del valor del nuevo input
+/// guardar categorias en ls
+///traer categorias del ls
+/// debe modificar los select que muestran categorias (en el formulario de agregar operacion y el de filtrado)
+/// debe salir el formulario y volver a la seccion de categorias
+
+//const inputEditarFormularioCategoria
+
+const inputEditarNombreCategoria = document.getElementById(
+  "input-editar-nombre-categoria"
+);
+//const botonCancelarEditarCategoria = document.getElementById("boton-cancelar-editar-categoria")
+
+const botonEditarCategoriaFormulario = document.getElementById(
+  "boton-editar-categoria-formulario"
+);
+
+const mostrarCategoriaAEditar = () => {
+  const botonesEditarItemCategoria = document.querySelectorAll(
+    ".boton-editar-item-categoria"
+  );
+
+  for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
+    botonesEditarItemCategoria[index].onclick = (event) => {
+      event.preventDefault();
+
+      const id = botonesEditarItemCategoria[index].id.slice(23);
+      const idCategoria = Number(id);
+      mostrarSeccion(arraySecciones, seccionEditarCategoria);
+      let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
+      inputEditarNombreCategoria.value = categoriaAEditar;
+      const nuevoArrayCategorias = traerCategoriasDesdeLS("categorias").filter(
+        (curr) => {
+          return curr !== categoriaAEditar;
+        }
+      );
+      guardarCategoriasLocalStorage(nuevoArrayCategorias, "categorias");
+    };
+  }
+};// ejecuta una sola vez el cambio. Luego refresca la pagina. 
+// Encontrar la forma de retornar el id para vincularlo con el boton editar del formulario. 
+
+console.log(mostrarCategoriaAEditar());
+
+botonEditarCategoriaFormulario.onclick = (event) => {
+  event.preventDefault();
+  const arrayCategoriasLS = traerCategoriasDesdeLS("categorias");
+  arrayCategoriasLS.push(inputEditarNombreCategoria.value);
+  guardarCategoriasLocalStorage(arrayCategoriasLS, "categorias");
+
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+  mostrarSeccion(arraySecciones, seccionCategorias);
+};
+
+//boton cancelar del formulario. 
+//Si el boton editar sigue de esta forma buscar la manera en que podamos acceder al id y volver a guardar la categoria anterior 
+
