@@ -234,6 +234,7 @@
               </div>
             </div>
           </div>
+
           <!--Input categoria-->
           <div class="field">
             <label for="categoria-nueva-operacion" class="label">Categoría</label>
@@ -264,7 +265,7 @@
     <!--Sección categorías-->
     <section id="seccion-categorias" class="section is-hidden">
       <div class="container">
-        <form class="box column is-8 is-offset-2">
+        <form class="box column is-8 is-offset-2" id="form-agregar-categoria">
           <h2 class="title is-2 has-text-weight-bold">Categorías</h2>
           <!--Input agregar categorias-->
           <div class="field">
@@ -296,17 +297,17 @@
     <!--Sección editar categorias-->
     <section class="section is-hidden" id="seccion-editar-categorias">
       <div class="container">
-        <form class="box column is-8 is-offset-2">
+        <form class="box column is-8 is-offset-2" id="form-editar-categoria">
           <h2 class="title is-2 is-size-3-mobile has-text-weight-bold"> Editar categoría</h2>
           <div class="field">
-            <label class="label" for="input-editar-categoria">Nombre</label>
+            <label class="label" for="input-editar-nombre-categoria">Nombre</label>
             <div class="control">
-              <input type="text" id="input-editar-categoria" class="input " />
+              <input type="text" id="input-editar-nombre-categoria" class="input " />
             </div>
           </div>
           <div class="buttons is-right">
             <button id="boton-cancelar-editar-categoria" class="button is-light">Cancelar</button>
-            <button id="boton-editar-categoria" class="button is-success">Editar</button>
+            <button id="boton-editar-categoria-formulario" class="button is-success">Editar</button>
           </div>
         </form>
       </div>
