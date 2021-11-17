@@ -26,6 +26,8 @@ const botonFiltros = document.querySelector("#boton-filtros");
 //CATEGORIAS
 const selectTipo = document.getElementById("select-tipo");
 const selectCategoria = document.getElementById("select-categoria");
+const selectOrden = document.getElementById("select-orden");
+const formAgregarCategoria = document.getElementById("form-agregar-categoria");
 const inputAgregarCategoria = document.getElementById(
   "input-agregar-categoria"
 );
@@ -35,10 +37,28 @@ const botonAgregarCategoria = document.getElementById(
 const contenedorCategoriaAgregada = document.getElementById(
   "contenedor-categorias-agregadas"
 );
-const botonEditarCategoria = document.querySelector("#boton-editar-categoria");
+const seccionEditarCategorias = document.getElementById(
+  "seccion-editar-categorias"
+);
+const botonEditarCategoria = document.querySelector(
+  "#boton-editar-categoria-formulario"
+);
 const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
+const inputEditarNombreCategoria = document.getElementById(
+  "input-editar-nombre-categoria"
+);
+
+const botonEditarCategoriaFormulario = document.getElementById(
+  "boton-editar-categoria-formulario"
+);
+
+let botonesEditarItemCategoria = document.querySelectorAll(
+  ".boton-editar-item-categoria"
+);
+
+const formEditarCategoria = document.getElementById("form-editar-categoria");
 
 //OPERACIONES
 const seccionSinOperaciones = document.getElementById(
@@ -87,7 +107,7 @@ const arraySecciones = [
   seccionCategorias,
   seccionReportes,
   seccionNuevaOperacion,
-  seccionEditarCategoria,
+  seccionEditarCategorias,
 ];
 
 const mostrarSeccion = (array, seccion) => {
@@ -151,18 +171,6 @@ botonAgregarNuevaOperacion.onclick = () => {
   mostrarSeccion(arraySecciones, seccionPrincipal);
 };
 
-////* Boton editar categorias *////
-
-botonEditarCategoria.onclick = (event) => {
-  event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionEditarCategoria);
-};
-
-botonCancelarEditarCategoria.onclick = (event) => {
-  event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionCategorias);
-};
-
 //INFORMACION CATEGORIAS//
 const categorias = [
   "Todos",
@@ -207,15 +215,15 @@ const agregarItemCategoria = (array) => {
     <p class="tag is-primary is-light">${elemento}</p>
   </div>
   <div class="column is-flex is-justify-content-flex-end ">
-    <button id="boton-editar-categoria-${index}"class="button is-ghost is-size-7">Editar</button>
+    <button  id="boton-editar-categoria-${index}"class="button is-ghost is-size-7 boton-editar-item-categoria">Editar</button>
     <button id="boton-eliminar-categoria-${index}"class="button is-ghost is-size-7 boton-eliminar-categoria">Eliminar</button>
   </div> 
   </div>`
     );
   }, "");
   contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias;
- };
-
+  mostrarCategoriaAEditar();
+};
 // AGREGAR CATEGORIA EN EL SELECT
 const agregarCategoriaHTML = (categorias, select) => {
   const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
@@ -230,10 +238,13 @@ const agregarCategoriaHTML = (categorias, select) => {
   guardarCategoriasLocalStorage(categorias, "categorias");
 };
 
+//Formulario agregar categoria
 
-// Boton agregar categoria
-botonAgregarCategoria.onclick = (event) => {
+formAgregarCategoria.onsubmit = (event) => {
   event.preventDefault();
+};
+
+botonAgregarCategoria.onclick = () => {
   const categoriaCapitalizada = capitalizar(inputAgregarCategoria.value);
   const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
 
@@ -341,14 +352,14 @@ const mostrarOperacionesEnHTML = (array) => {
         operacion.categoria
       }</p>
     </div>
-    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile">${
+    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile has-text-right">${
       operacion.fecha
     }</p>
-    <p id="monto-item-operacion" class="column is-2 is-3-mobile has-text-right has-text-weight-bold ${colorDeMonto(
+    <p id="monto-item-operacion" class="column is-2-desktop is-3-mobile has-text-right has-text-weight-bold ${colorDeMonto(
       operacion
     )}"> ${signoMonto(operaciones)}${operacion.monto}
     </p>
-    <div class="column is-2 is-3-mobile pt-0">
+    <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
       <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
       <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button> 
     </div>
@@ -356,6 +367,49 @@ const mostrarOperacionesEnHTML = (array) => {
     ); //agregar aca el identificador unico para los botones!
   }, "");
   contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
+};
+
+//////////////////////* Función auxiliar Balance*//////////////////////////
+
+const numeroGananciaBalance = document.querySelector("#numero-ganancias");
+const numeroGastosBalance = document.querySelector("#numero-gastos");
+const numeroTotalBalance = document.querySelector("#numero-total");
+
+const filtrarOperacionesTipo = (array, tipo) => {
+  const operaciones = array.filter((curr) => {
+    return curr.tipo === tipo;
+  });
+  return operaciones;
+};
+
+const mostrarEnBalance = (operaciones) => {
+  const sumaGastos = filtrarOperacionesTipo(operaciones, "gasto").reduce(
+    (acc, curr) => {
+      return (acc = acc + Number(curr.monto));
+    },
+    0
+  );
+
+  const sumaGanancias = filtrarOperacionesTipo(operaciones, "ganancia").reduce(
+    (acc, elemento) => {
+      return (acc = acc + Number(elemento.monto));
+    },
+    0
+  );
+  numeroGastosBalance.textContent = `-$${sumaGastos}`;
+  numeroGananciaBalance.textContent = `+$${sumaGanancias}`;
+
+  let resultado = sumaGanancias - sumaGastos;
+
+  if (resultado > 0) {
+    numeroTotalBalance.classList.add("has-text-success");
+    numeroTotalBalance.textContent = `+$${resultado}`;
+  } else {
+    let resultadoString = String(resultado);
+    let stringCortado = resultadoString.slice(1);
+    numeroTotalBalance.classList.add("has-text-danger");
+    numeroTotalBalance.textContent = `-$${Number(stringCortado)}`;
+  }
 };
 
 // agregar operacion///
@@ -375,49 +429,6 @@ botonAgregarNuevaOperacion.onclick = (event) => {
   seccionSinOperaciones.classList.add("is-hidden");
   seccionConOperaciones.classList.remove("is-hidden");
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
-};
-
-//////////////////////*Balance*//////////////////////////
-
-const numeroGananciaBalance = document.querySelector("#numero-ganancias");
-const numeroGastosBalance = document.querySelector("#numero-gastos");
-const numeroTotalBalance = document.querySelector("#numero-total");
-
-const filtrarOperacionesTipo = (array, tipo) => {
-  const operaciones = array.filter((curr) => {
-    return curr.tipo === tipo;
-  });
-  return operaciones;
-};
-
-const mostrarEnBalance = (operaciones) => {
-  const sumaGastos = filtrarOperacionesTipo(operaciones, "gasto").reduce(
-    (acc, elemento) => {
-      return (acc = acc + Number(elemento.monto));
-    },
-    0
-  );
-  numeroGastosBalance.innerHTML = `-$${sumaGastos}`;
-
-  const sumaGanancias = filtrarOperacionesTipo(operaciones, "ganancia").reduce(
-    (acc, elemento) => {
-      return (acc = acc + Number(elemento.monto));
-    },
-    0
-  );
-  numeroGananciaBalance.innerHTML = `+$${sumaGanancias}`;
-
-  let resultado = sumaGanancias - sumaGastos;
-
-  if (resultado > 0) {
-    numeroTotalBalance.classList.add("has-text-success");
-    numeroTotalBalance.innetHTML = `+$${resultado}`;
-  } else {
-    let resultadoString = String(resultado);
-    let stringCortado = resultadoString.slice(1);
-    numeroTotalBalance.classList.add("has-text-danger");
-    numeroTotalBalance.innerHTML = `-$${Number(stringCortado)}`;
-  }
 };
 
 /////Filtros Seccion Categorias//////
@@ -507,6 +518,116 @@ if (traerOperacionesDesdeLS("operaciones") === null) {
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
 }
 
+/// Funciones Ordenar Por
+selectOrden.onchange = () => {
+  const arrayOrdenadoFinal = ordenarPor();
+  mostrarOperacionesEnHTML(arrayOrdenadoFinal);
+};
 
-  
+const ordenarPor = () => {
+  const orden = selectOrden.value;
+  let operaciones = aplicarFiltros();
+  if (orden === "A/Z") {
+    operaciones = operaciones.sort((a, b) => {
+      return a.descripcion.localeCompare(b.descripcion);
+    });
+  } else if (orden === "Z/A") {
+    operaciones = operaciones.sort((a, b) => {
+      return b.descripcion.localeCompare(a.descripcion);
+    });
+  } else if (orden === "Mayor monto") {
+    operaciones = operaciones.sort((a, b) => {
+      return b.monto - a.monto;
+    });
+  } else if (orden === "Menor monto") {
+    operaciones = operaciones.sort((a, b) => {
+      return a.monto - b.monto;
+    });
+  } else if (orden === "Mas reciente") {
+    operaciones = operaciones.sort((a, b) => {
+      return new Date(b.fecha) - new Date(a.fecha);
+    });
+  } else if (orden === "Menos reciente") {
+    operaciones = operaciones.sort((a, b) => {
+      return new Date(a.fecha) - new Date(b.fecha);
+    });
+  }
+  return operaciones;
+};
+
+//////////// Editar categorías //////////////
+
+formEditarCategoria.onsubmit = (event) => {
+  event.preventDefault();
+};
+
+const mostrarCategoriaAEditar = () => {
+  const botonesEditarItemCategoria = document.querySelectorAll(
+    ".boton-editar-item-categoria"
+  );
+
+  for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
+    botonesEditarItemCategoria[index].onclick = () => {
+      const id = botonesEditarItemCategoria[index].id.slice(23);
+      const idCategoria = Number(id);
+      mostrarSeccion(arraySecciones, seccionEditarCategoria);
+      let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
+      inputEditarNombreCategoria.value = categoriaAEditar;
+
+      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter(
+        (categoria) => {
+          return categoriaAEditar !== categoria;
+        }
+      );
+      guardarCategoriasLocalStorage(categoriasRestantes, "categorias");
+
+      botonCancelarEditarCategoria.onclick = () => {
+        const categoriasLS = traerCategoriasDesdeLS("categorias");
+        categoriasLS.push(categoriaAEditar);
+        guardarCategoriasLocalStorage(categoriasLS, "categorias");
+        agregarCategoriaHTML(
+          traerCategoriasDesdeLS("categorias"),
+          selectCategoria
+        );
+        agregarCategoriaHTML(
+          traerCategoriasDesdeLS("categorias"),
+          selectCategoriaNuevaOperacion
+        );
+        agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+        mostrarSeccion(arraySecciones, seccionCategorias);
+      };
+    };
+  }
+};
+
+mostrarCategoriaAEditar();
+
+botonEditarCategoriaFormulario.onclick = () => {
+  const arrayCategoriasLS = traerCategoriasDesdeLS("categorias");
+  arrayCategoriasLS.push(inputEditarNombreCategoria.value);
+  guardarCategoriasLocalStorage(arrayCategoriasLS, "categorias");
+
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+  mostrarSeccion(arraySecciones, seccionCategorias);
+};
+
+/// Comparación que muestra según lo que esté guardado en LS
+
+if (traerCategoriasDesdeLS("categorias") === null) {
+  agregarCategoriaHTML(categorias, selectCategoria);
+  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
+  agregarItemCategoria(categorias);
+} else {
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+}
 
