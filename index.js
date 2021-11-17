@@ -216,8 +216,6 @@ const agregarItemCategoria = (array) => {
   contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias;
  };
 
-
-
 // AGREGAR CATEGORIA EN EL SELECT
 const agregarCategoriaHTML = (categorias, select) => {
   const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
