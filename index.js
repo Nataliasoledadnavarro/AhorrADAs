@@ -46,6 +46,19 @@ const botonEditarCategoria = document.querySelector(
 const botonCancelarEditarCategoria = document.querySelector(
   "#boton-cancelar-editar-categoria"
 );
+const inputEditarNombreCategoria = document.getElementById(
+  "input-editar-nombre-categoria"
+);
+
+const botonEditarCategoriaFormulario = document.getElementById(
+  "boton-editar-categoria-formulario"
+);
+
+let botonesEditarItemCategoria = document.querySelectorAll(
+  ".boton-editar-item-categoria"
+);
+
+const formEditarCategoria = document.getElementById("form-editar-categoria");
 
 //OPERACIONES
 const seccionSinOperaciones = document.getElementById(
@@ -504,20 +517,6 @@ const ordenarPor = () => {
 };
 
 //////////// Editar categorías //////////////
-
-const inputEditarNombreCategoria = document.getElementById(
-  "input-editar-nombre-categoria"
-);
-
-const botonEditarCategoriaFormulario = document.getElementById(
-  "boton-editar-categoria-formulario"
-);
-
-let botonesEditarItemCategoria = document.querySelectorAll(
-  ".boton-editar-item-categoria"
-);
-
-const formEditarCategoria = document.getElementById("form-editar-categoria");
 
 formEditarCategoria.onsubmit = (event) => {
   event.preventDefault();
