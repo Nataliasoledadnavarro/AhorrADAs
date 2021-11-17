@@ -157,13 +157,6 @@ botonAgregarNuevaOperacion.onclick = () => {
   mostrarSeccion(arraySecciones, seccionPrincipal);
 };
 
-////* Boton editar categorias *////
-
-botonCancelarEditarCategoria.onclick = (event) => {
-  event.preventDefault();
-  mostrarSeccion(arraySecciones, seccionCategorias);
-};
-
 //INFORMACION CATEGORIAS//
 const categorias = [
   "Todos",
@@ -548,7 +541,6 @@ const ordenarPor = () => {
 const inputEditarNombreCategoria = document.getElementById(
   "input-editar-nombre-categoria"
 );
-//const botonCancelarEditarCategoria = document.getElementById("boton-cancelar-editar-categoria")
 
 const botonEditarCategoriaFormulario = document.getElementById(
   "boton-editar-categoria-formulario"
@@ -576,10 +568,10 @@ const mostrarCategoriaAEditar = () => {
       guardarCategoriasLocalStorage(nuevoArrayCategorias, "categorias");
     };
   }
-};// ejecuta una sola vez el cambio. Luego refresca la pagina. 
-// Encontrar la forma de retornar el id para vincularlo con el boton editar del formulario. 
+}; // ejecuta una sola vez el cambio. Luego refresca la pagina.
+// Encontrar la forma de retornar el id para vincularlo con el boton editar del formulario.
 
-console.log(mostrarCategoriaAEditar());
+mostrarCategoriaAEditar();
 
 botonEditarCategoriaFormulario.onclick = (event) => {
   event.preventDefault();
@@ -596,6 +588,11 @@ botonEditarCategoriaFormulario.onclick = (event) => {
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
-//boton cancelar del formulario. 
-//Si el boton editar sigue de esta forma buscar la manera en que podamos acceder al id y volver a guardar la categoria anterior 
+////* Boton editar categorias *////
 
+/*botonCancelarEditarCategoria.onclick = (event) => {
+  event.preventDefault();
+  guardarCategoriasLocalStorage(traerCategoriasDesdeLS("categorias"), "categorias")
+  traerCategoriasDesdeLS("categorias")
+  mostrarSeccion(arraySecciones, seccionCategorias);
+};*/
