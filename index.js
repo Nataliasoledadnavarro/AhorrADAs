@@ -27,6 +27,7 @@ const botonFiltros = document.querySelector("#boton-filtros");
 const selectTipo = document.getElementById("select-tipo");
 const selectCategoria = document.getElementById("select-categoria");
 const selectOrden = document.getElementById("select-orden");
+const formAgregarCategoria = document.getElementById("form-agregar-categoria");
 const inputAgregarCategoria = document.getElementById(
   "input-agregar-categoria"
 );
@@ -207,6 +208,7 @@ const agregarItemCategoria = (array) => {
     );
   }, "");
   contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias;
+  mostrarCategoriaAEditar();
 };
 
 // AGREGAR CATEGORIA EN EL SELECT
@@ -223,24 +225,13 @@ const agregarCategoriaHTML = (categorias, select) => {
   guardarCategoriasLocalStorage(categorias, "categorias");
 };
 
-/// Comparación que muestra según lo que esté guardado en LS
+//Formulario agregar categoria
 
-if (traerCategoriasDesdeLS("categorias") === null) {
-  agregarCategoriaHTML(categorias, selectCategoria);
-  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
-  agregarItemCategoria(categorias);
-} else {
-  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
-  agregarCategoriaHTML(
-    traerCategoriasDesdeLS("categorias"),
-    selectCategoriaNuevaOperacion
-  );
-  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
-}
-
-// Boton agregar categoria
-botonAgregarCategoria.onclick = (event) => {
+formAgregarCategoria.onsubmit = (event) => {
   event.preventDefault();
+};
+
+botonAgregarCategoria.onclick = () => {
   const categoriaCapitalizada = capitalizar(inputAgregarCategoria.value);
   const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
 
@@ -512,31 +503,7 @@ const ordenarPor = () => {
   return operaciones;
 };
 
-//////////// Boton editar categoría //////////////
-
-/// agregar un id al boton que edita categorias
-/// agregar clase a la categoria
-/// traer el boton editar a js
-/// traer el formulario que edita a js
-/// traer el boton editar del nuevo formulario
-/// traer el boton cancelar del nuevo formulario
-/// click en el boton editar =
-///traer categoria desde ls.
-///traer todos los botones por las clases
-/// recorrer el array de botones y en el que hagan click:
-/// recortar el id para obtener el index
-/// tomar la categoria que corresponda al index del boton
-/// debe aparecer el formulario para editar y rellenar el value del nuevo input con el la categoria retornada anteriormente.
-
-/// click en el boton editar del nuevo formulario:
-/// recorrer el array de categorias del ls con un filter. que retorne todas las categorias menos la que edito el usuario.
-/// hacer un push al array de categorias del valor del nuevo input
-/// guardar categorias en ls
-///traer categorias del ls
-/// debe modificar los select que muestran categorias (en el formulario de agregar operacion y el de filtrado)
-/// debe salir el formulario y volver a la seccion de categorias
-
-//const inputEditarFormularioCategoria
+//////////// Editar categorías //////////////
 
 const inputEditarNombreCategoria = document.getElementById(
   "input-editar-nombre-categoria"
@@ -546,35 +513,58 @@ const botonEditarCategoriaFormulario = document.getElementById(
   "boton-editar-categoria-formulario"
 );
 
+let botonesEditarItemCategoria = document.querySelectorAll(
+  ".boton-editar-item-categoria"
+);
+
+const formEditarCategoria = document.getElementById("form-editar-categoria");
+
+formEditarCategoria.onsubmit = (event) => {
+  event.preventDefault();
+};
+
 const mostrarCategoriaAEditar = () => {
   const botonesEditarItemCategoria = document.querySelectorAll(
     ".boton-editar-item-categoria"
   );
 
   for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
-    botonesEditarItemCategoria[index].onclick = (event) => {
-      event.preventDefault();
-
+    botonesEditarItemCategoria[index].onclick = () => {
       const id = botonesEditarItemCategoria[index].id.slice(23);
       const idCategoria = Number(id);
       mostrarSeccion(arraySecciones, seccionEditarCategoria);
       let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
       inputEditarNombreCategoria.value = categoriaAEditar;
-      const nuevoArrayCategorias = traerCategoriasDesdeLS("categorias").filter(
-        (curr) => {
-          return curr !== categoriaAEditar;
+
+      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter(
+        (categoria) => {
+          return categoriaAEditar !== categoria;
         }
       );
-      guardarCategoriasLocalStorage(nuevoArrayCategorias, "categorias");
+      guardarCategoriasLocalStorage(categoriasRestantes, "categorias");
+
+      botonCancelarEditarCategoria.onclick = () => {
+        const categoriasLS = traerCategoriasDesdeLS("categorias");
+        categoriasLS.push(categoriaAEditar);
+        guardarCategoriasLocalStorage(categoriasLS, "categorias");
+        agregarCategoriaHTML(
+          traerCategoriasDesdeLS("categorias"),
+          selectCategoria
+        );
+        agregarCategoriaHTML(
+          traerCategoriasDesdeLS("categorias"),
+          selectCategoriaNuevaOperacion
+        );
+        agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+        mostrarSeccion(arraySecciones, seccionCategorias);
+      };
     };
   }
-}; // ejecuta una sola vez el cambio. Luego refresca la pagina.
-// Encontrar la forma de retornar el id para vincularlo con el boton editar del formulario.
+};
 
 mostrarCategoriaAEditar();
 
-botonEditarCategoriaFormulario.onclick = (event) => {
-  event.preventDefault();
+botonEditarCategoriaFormulario.onclick = () => {
   const arrayCategoriasLS = traerCategoriasDesdeLS("categorias");
   arrayCategoriasLS.push(inputEditarNombreCategoria.value);
   guardarCategoriasLocalStorage(arrayCategoriasLS, "categorias");
@@ -588,11 +578,17 @@ botonEditarCategoriaFormulario.onclick = (event) => {
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
-////* Boton editar categorias *////
+/// Comparación que muestra según lo que esté guardado en LS
 
-/*botonCancelarEditarCategoria.onclick = (event) => {
-  event.preventDefault();
-  guardarCategoriasLocalStorage(traerCategoriasDesdeLS("categorias"), "categorias")
-  traerCategoriasDesdeLS("categorias")
-  mostrarSeccion(arraySecciones, seccionCategorias);
-};*/
+if (traerCategoriasDesdeLS("categorias") === null) {
+  agregarCategoriaHTML(categorias, selectCategoria);
+  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
+  agregarItemCategoria(categorias);
+} else {
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+}
