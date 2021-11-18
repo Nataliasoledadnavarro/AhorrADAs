@@ -204,6 +204,50 @@ const capitalizar = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
+//////////// Editar categorías //////////////
+
+formEditarCategoria.onsubmit = (event) => {
+  event.preventDefault();
+};
+
+const mostrarCategoriaAEditar = () => {
+  const botonesEditarItemCategoria = document.querySelectorAll(
+    ".boton-editar-item-categoria"
+  );
+
+  for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
+    botonesEditarItemCategoria[index].onclick = () => {
+      const id = botonesEditarItemCategoria[index].id.slice(23);
+      const idCategoria = Number(id);
+      mostrarSeccion(arraySecciones, seccionEditarCategoria);
+      let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
+      inputEditarNombreCategoria.value = categoriaAEditar;
+
+      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter(
+        (categoria) => {
+          return categoriaAEditar !== categoria;
+        }
+      );
+      guardarCategoriasLocalStorage(categoriasRestantes, "categorias");
+
+      botonCancelarEditarCategoria.onclick = () => {
+        const categoriasLS = traerCategoriasDesdeLS("categorias");
+        categoriasLS.push(categoriaAEditar);
+        guardarCategoriasLocalStorage(categoriasLS, "categorias");
+        agregarCategoriaHTML(
+          traerCategoriasDesdeLS("categorias"),
+          selectCategoria
+        );
+        agregarCategoriaHTML(
+          traerCategoriasDesdeLS("categorias"),
+          selectCategoriaNuevaOperacion
+        );
+        agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+        mostrarSeccion(arraySecciones, seccionCategorias);
+      };
+    };
+  }
+};
 
 //AGREGAR ITEM CATEGORIA Y MOSTRARLO EN HTML
 const agregarItemCategoria = (array) => {
@@ -223,7 +267,9 @@ const agregarItemCategoria = (array) => {
   }, "");
   contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias;
   mostrarCategoriaAEditar();
+  ejecutarBotonesEliminarCatagoria();
 };
+
 // AGREGAR CATEGORIA EN EL SELECT
 const agregarCategoriaHTML = (categorias, select) => {
   const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
@@ -249,7 +295,9 @@ botonAgregarCategoria.onclick = () => {
   const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
 
   if (arrayDesdeLS.includes(categoriaCapitalizada)) {
-    alert("Categoria ya existente!");
+    alert("¡Categoria ya existente!");
+  } else if (categoriaCapitalizada === "") {
+    alert("¡Categoria sin nombre!");
   } else {
     categorias.push(categoriaCapitalizada);
     guardarCategoriasLocalStorage(categorias, "categorias");
@@ -262,45 +310,6 @@ botonAgregarCategoria.onclick = () => {
     inputAgregarCategoria.value = "";
   }
 };
-
-  /// Comparación que muestra según lo que esté guardado en LS
-
-if (traerCategoriasDesdeLS("categorias") === null) {
-  agregarCategoriaHTML(categorias, selectCategoria);
-  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
-  agregarItemCategoria(categorias);
-} else {
-  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
-  agregarCategoriaHTML(
-    traerCategoriasDesdeLS("categorias"),
-    selectCategoriaNuevaOperacion
-  );
-  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
-}
-
-/// Boton eliminar categoria
-const ejecutarBotonesEliminarCatagoria = () => {
-  const botonEliminarCategoria = document.querySelectorAll(".boton-eliminar-categoria")
-  console.log(botonEliminarCategoria)
-  for (let i = 0; i < botonEliminarCategoria.length; i++) {
-    botonEliminarCategoria[i].onclick = (event) => {
-      event.preventDefault()
-      idCortado = botonEliminarCategoria[i].id.slice(25)
-      console.log(idCortado)
-      idDelBoton = Number(idCortado)
-      const categoriasNoEliminadas = traerCategoriasDesdeLS("categorias").filter((elemento, index) => {
-        return index !== idDelBoton        
-      })
-      console.log(categoriasNoEliminadas)
-      guardarCategoriasLocalStorage(categoriasNoEliminadas, "categorias");
-      traerCategoriasDesdeLS("categorias")
-      agregarItemCategoria(traerCategoriasDesdeLS("categorias")) 
-      agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria) // select de categorias
-      agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoriaNuevaOperacion) // item de nueva operacion
-    }
-  }
-  }
-  ejecutarBotonesEliminarCatagoria()
 
 ///////////////////* Funcion crear item de nueva operación *///////////////////////
 const guardarOperacionesLocalStorage = (array, clave) => {
@@ -502,7 +511,7 @@ inputFecha.onchange = () => {
   mostrarOperacionesEnHTML(ordenarFechas(filtradoDeFechas));
 };
 
-/////// Comparación que muestra según lo que esté guardado en LS
+/////// Comparación que muestra OPERACIONES según lo que esté guardado en LS
 
 if (traerOperacionesDesdeLS("operaciones") === null) {
   seccionSinOperaciones.classList.remove("is-hidden");
@@ -555,53 +564,39 @@ const ordenarPor = () => {
   return operaciones;
 };
 
-//////////// Editar categorías //////////////
-
-formEditarCategoria.onsubmit = (event) => {
-  event.preventDefault();
-};
-
-const mostrarCategoriaAEditar = () => {
-  const botonesEditarItemCategoria = document.querySelectorAll(
-    ".boton-editar-item-categoria"
+/// Boton eliminar categoria
+const ejecutarBotonesEliminarCatagoria = () => {
+  const botonEliminarCategoria = document.querySelectorAll(
+    ".boton-eliminar-categoria"
   );
-
-  for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
-    botonesEditarItemCategoria[index].onclick = () => {
-      const id = botonesEditarItemCategoria[index].id.slice(23);
-      const idCategoria = Number(id);
-      mostrarSeccion(arraySecciones, seccionEditarCategoria);
-      let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
-      inputEditarNombreCategoria.value = categoriaAEditar;
-
-      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter(
-        (categoria) => {
-          return categoriaAEditar !== categoria;
-        }
-      );
-      guardarCategoriasLocalStorage(categoriasRestantes, "categorias");
-
-      botonCancelarEditarCategoria.onclick = () => {
-        const categoriasLS = traerCategoriasDesdeLS("categorias");
-        categoriasLS.push(categoriaAEditar);
-        guardarCategoriasLocalStorage(categoriasLS, "categorias");
-        agregarCategoriaHTML(
-          traerCategoriasDesdeLS("categorias"),
-          selectCategoria
-        );
-        agregarCategoriaHTML(
-          traerCategoriasDesdeLS("categorias"),
-          selectCategoriaNuevaOperacion
-        );
-        agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
-        mostrarSeccion(arraySecciones, seccionCategorias);
-      };
+  console.log(botonEliminarCategoria);
+  for (let i = 0; i < botonEliminarCategoria.length; i++) {
+    botonEliminarCategoria[i].onclick = () => {
+      idCortado = botonEliminarCategoria[i].id.slice(25);
+      console.log(idCortado);
+      idDelBoton = Number(idCortado);
+      const categoriasNoEliminadas = traerCategoriasDesdeLS(
+        "categorias"
+      ).filter((elemento, index) => {
+        return index !== idDelBoton;
+      });
+      console.log(categoriasNoEliminadas);
+      guardarCategoriasLocalStorage(categoriasNoEliminadas, "categorias");
+      traerCategoriasDesdeLS("categorias");
+      agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoria
+      ); // select de categorias
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoriaNuevaOperacion
+      ); // item de nueva operacion
     };
   }
 };
 
-mostrarCategoriaAEditar();
-
+//boton editar categoria del formulario
 botonEditarCategoriaFormulario.onclick = () => {
   const arrayCategoriasLS = traerCategoriasDesdeLS("categorias");
   arrayCategoriasLS.push(inputEditarNombreCategoria.value);
@@ -616,7 +611,7 @@ botonEditarCategoriaFormulario.onclick = () => {
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
-/// Comparación que muestra según lo que esté guardado en LS
+/// Comparación que muestra CATEGORIAS según lo que esté guardado en LS
 
 if (traerCategoriasDesdeLS("categorias") === null) {
   agregarCategoriaHTML(categorias, selectCategoria);
@@ -630,4 +625,3 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   );
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
-
