@@ -261,7 +261,62 @@
         </div>
       </div>
     </form>
-
+    <!--Formulario Oculto editar operaciones-->
+      <form id="formulario-editar-operacion" class="section is-hidden">
+        <div class="container columns is-centered ">
+          <div class="box column is-8 is-offset-2">
+            <h2 class="title is-2 has-text-weight-bold">Editar operación</h2>
+            <!--Input descripción-->
+            <div class="field">
+              <label for="descripción-editar-operación" class="label">Descripción</label>
+              <div class="control">
+                <input type="text" id="descripción-editar-operación" class="input">
+              </div>
+            </div>
+            <!--Input monto-->
+            <div class="field">
+              <label for="monto-editar-operacion" class="label">Monto</label>
+              <div class="control">
+                <input type="number" id="monto-editar-operación" class="input" value="0">
+              </div>
+            </div>
+            <!--Input tipo-->
+            <div class="field">
+              <label for="tipo-editar-operacion" class="label">Tipo</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="tipo-editar-operacion">
+                    <option value="gasto">Gasto</option>
+                    <option value="ganancia">Ganancia</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--Input categoria-->
+            <div class="field">
+              <label for="categoria-editar-operacion" class="label">Categoría</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="categoria-editar-operacion">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--Input fecha-->
+            <div class="field">
+              <label for="fecha-editar-operacion" class="label">Fecha</label>
+              <div class="control">
+                <input type="date" id="fecha-editar-operación" class="input">
+              </div>
+            </div>
+            <!--Botones agregar o editar nuevas operaciones-->
+            <div class="buttons is-right">
+              <button id="boton-cancelar-editar-operaciones" class="button is-light">Cancelar</button>
+              <button id="boton-formulario-editar-operaciones" class="button is-success">Editar</button>
+            </div>
+          </div>
+        </div>
+      </form>
     <!--Sección categorías-->
     <section id="seccion-categorias" class="section is-hidden">
       <div class="container">
