@@ -248,6 +248,7 @@ const mostrarCategoriaAEditar = () => {
     };
   }
 };
+
 //AGREGAR ITEM CATEGORIA Y MOSTRARLO EN HTML
 const agregarItemCategoria = (array) => {
   const itemAgregadoEnCategorias = array.reduce((acc, elemento, index) => {
@@ -265,8 +266,8 @@ const agregarItemCategoria = (array) => {
     );
   }, "");
   contenedorCategoriaAgregada.innerHTML = itemAgregadoEnCategorias;
-  mostrarCategoriaAEditar()
-  ejecutarBotonesEliminarCatagoria()
+  mostrarCategoriaAEditar();
+  ejecutarBotonesEliminarCatagoria();
 };
 
 // AGREGAR CATEGORIA EN EL SELECT
@@ -294,7 +295,9 @@ botonAgregarCategoria.onclick = () => {
   const arrayDesdeLS = traerCategoriasDesdeLS("categorias");
 
   if (arrayDesdeLS.includes(categoriaCapitalizada)) {
-    alert("Categoria ya existente!");
+    alert("¡Categoria ya existente!");
+  } else if (categoriaCapitalizada === "") {
+    alert("¡Categoria sin nombre!");
   } else {
     categorias.push(categoriaCapitalizada);
     guardarCategoriasLocalStorage(categorias, "categorias");
@@ -307,9 +310,6 @@ botonAgregarCategoria.onclick = () => {
     inputAgregarCategoria.value = "";
   }
 };
-
- 
-
 
 ///////////////////* Funcion crear item de nueva operación *///////////////////////
 const guardarOperacionesLocalStorage = (array, clave) => {
@@ -511,7 +511,7 @@ inputFecha.onchange = () => {
   mostrarOperacionesEnHTML(ordenarFechas(filtradoDeFechas));
 };
 
-/////// Comparación que muestra según lo que esté guardado en LS
+/////// Comparación que muestra OPERACIONES según lo que esté guardado en LS
 
 if (traerOperacionesDesdeLS("operaciones") === null) {
   seccionSinOperaciones.classList.remove("is-hidden");
@@ -564,44 +564,37 @@ const ordenarPor = () => {
   return operaciones;
 };
 
-/// Comparación que muestra según lo que esté guardado en LS
-
-if (traerCategoriasDesdeLS("categorias") === null) {
-  agregarCategoriaHTML(categorias, selectCategoria);
-  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
-  agregarItemCategoria(categorias);
-} else {
-  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
-  agregarCategoriaHTML(
-    traerCategoriasDesdeLS("categorias"),
-    selectCategoriaNuevaOperacion
-  );
-  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
-  
-}
-
 /// Boton eliminar categoria
 const ejecutarBotonesEliminarCatagoria = () => {
-  const botonEliminarCategoria = document.querySelectorAll(".boton-eliminar-categoria")
-  console.log(botonEliminarCategoria)
+  const botonEliminarCategoria = document.querySelectorAll(
+    ".boton-eliminar-categoria"
+  );
+  console.log(botonEliminarCategoria);
   for (let i = 0; i < botonEliminarCategoria.length; i++) {
     botonEliminarCategoria[i].onclick = () => {
-      
-      idCortado = botonEliminarCategoria[i].id.slice(25)
-      console.log(idCortado)
-      idDelBoton = Number(idCortado)
-      const categoriasNoEliminadas = traerCategoriasDesdeLS("categorias").filter((elemento, index) => {
-        return index !== idDelBoton        
-      })
-      console.log(categoriasNoEliminadas)
+      idCortado = botonEliminarCategoria[i].id.slice(25);
+      console.log(idCortado);
+      idDelBoton = Number(idCortado);
+      const categoriasNoEliminadas = traerCategoriasDesdeLS(
+        "categorias"
+      ).filter((elemento, index) => {
+        return index !== idDelBoton;
+      });
+      console.log(categoriasNoEliminadas);
       guardarCategoriasLocalStorage(categoriasNoEliminadas, "categorias");
-      traerCategoriasDesdeLS("categorias")
-      agregarItemCategoria(traerCategoriasDesdeLS("categorias")) 
-      agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria) // select de categorias
-      agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoriaNuevaOperacion) // item de nueva operacion
-    }
+      traerCategoriasDesdeLS("categorias");
+      agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoria
+      ); // select de categorias
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoriaNuevaOperacion
+      ); // item de nueva operacion
+    };
   }
-  }
+};
 
 //boton editar categoria del formulario
 botonEditarCategoriaFormulario.onclick = () => {
@@ -618,4 +611,17 @@ botonEditarCategoriaFormulario.onclick = () => {
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
 
+/// Comparación que muestra CATEGORIAS según lo que esté guardado en LS
 
+if (traerCategoriasDesdeLS("categorias") === null) {
+  agregarCategoriaHTML(categorias, selectCategoria);
+  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
+  agregarItemCategoria(categorias);
+} else {
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+}
