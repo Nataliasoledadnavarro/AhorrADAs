@@ -17,6 +17,7 @@ const linkReportesMobile = document.querySelector(".link-reportes-mobile");
 const seccionNuevaOperacion = document.getElementById(
   "formulario-nueva-operacion"
 );
+
 const seccionEditarCategoria = document.querySelector(
   "#seccion-editar-categorias"
 );
@@ -100,6 +101,15 @@ const selectCategoriaNuevaOperacion = document.getElementById(
 const inputFechaNuevaOperacion = document.getElementById(
   "fecha-nueva-operación"
 );
+//EDITAR OPERACIONES
+const formularioEditarOperacion = document.getElementById("formulario-editar-operacion");
+const inputDescripciónEditarOperación = document.getElementById("descripción-editar-operación")
+const inputMontoEditarOperación = document.getElementById("monto-editar-operación")
+const selectTipoEditarOperacion = document.getElementById("tipo-editar-operacion")
+const selectCategoriaEditarOperacion = document.getElementById("categoria-editar-operacion")
+const inputFechaEditarOperación = document.getElementById("fecha-editar-operación")
+const botonCancelarEditarOperaciones = document.getElementById("boton-cancelar-editar-operaciones")
+const botonFormularioEditarOperaciones = document.getElementById("boton-formulario-editar-operaciones")
 
 /////////////////////////////////// FUNCION AUXILIAR MAQUETADO ////////////////////////////////////////
 const arraySecciones = [
@@ -242,6 +252,10 @@ const mostrarCategoriaAEditar = () => {
           traerCategoriasDesdeLS("categorias"),
           selectCategoriaNuevaOperacion
         );
+        agregarCategoriaHTML(
+          traerCategoriasDesdeLS("categorias"),
+          selectCategoriaEditarOperacion
+        ); 
         agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
         mostrarSeccion(arraySecciones, seccionCategorias);
       };
@@ -305,6 +319,10 @@ botonAgregarCategoria.onclick = () => {
     agregarCategoriaHTML(
       traerCategoriasDesdeLS("categorias"),
       selectCategoriaNuevaOperacion
+    );
+    agregarCategoriaHTML(
+      traerCategoriasDesdeLS("categorias"),
+      selectCategoriaEditarOperacion
     );
     agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
     inputAgregarCategoria.value = "";
@@ -591,7 +609,12 @@ const ejecutarBotonesEliminarCatagoria = () => {
       agregarCategoriaHTML(
         traerCategoriasDesdeLS("categorias"),
         selectCategoriaNuevaOperacion
-      ); // item de nueva operacion
+      ); 
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoriaEditarOperacion
+      );
+      // item de nueva operacion
     };
   }
 };
@@ -607,6 +630,10 @@ botonEditarCategoriaFormulario.onclick = () => {
     traerCategoriasDesdeLS("categorias"),
     selectCategoriaNuevaOperacion
   );
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaEditarOperacion
+  );
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
   mostrarSeccion(arraySecciones, seccionCategorias);
 };
@@ -616,6 +643,7 @@ botonEditarCategoriaFormulario.onclick = () => {
 if (traerCategoriasDesdeLS("categorias") === null) {
   agregarCategoriaHTML(categorias, selectCategoria);
   agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
+  agregarCategoriaHTML(categorias,selectCategoriaEditarOperacion);
   agregarItemCategoria(categorias);
 } else {
   agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
@@ -623,5 +651,26 @@ if (traerCategoriasDesdeLS("categorias") === null) {
     traerCategoriasDesdeLS("categorias"),
     selectCategoriaNuevaOperacion
   );
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaEditarOperacion);
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
+
+//Formulario editar operaciones
+// const formularioEditarOperacion = document.getElementById("formulario-editar-operacion")
+// const inputDescripciónEditarOperación = document.getElementById("descripción-editar-operación")
+// const inputMontoEditarOperación = document.getElementById("monto-editar-operación")
+// const selectTipoEditarOperacion = document.getElementById("tipo-editar-operacion")
+// const selectCategoriaEditarOperacion = document.getElementById("categoria-editar-operacion")
+// const inputFechaEditarOperación = document.getElementById("fecha-editar-operación")
+// const botonCancelarEditarOperaciones = document.getElementById("boton-cancelar-editar-operaciones")
+// const botonEditarOperaciones = document.getElementById("boton-editar-operaciones")
+// linea 390 colocar una clase al boton para comenzar la funcion que va a mostrar el formulario y editar operaciones
+
+formularioEditarOperacion.onsubmit =(event)=>{
+  event.preventDefault();
+}
+
+
+
