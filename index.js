@@ -103,11 +103,11 @@ const inputFechaNuevaOperacion = document.getElementById(
 );
 //EDITAR OPERACIONES
 const formularioEditarOperacion = document.getElementById("formulario-editar-operacion");
-const inputDescripciónEditarOperación = document.getElementById("descripción-editar-operación")
-const inputMontoEditarOperación = document.getElementById("monto-editar-operación")
+const inputDescripcionEditarOperacion = document.getElementById("descripción-editar-operación")
+const inputMontoEditarOperacion = document.getElementById("monto-editar-operación")
 const selectTipoEditarOperacion = document.getElementById("tipo-editar-operacion")
 const selectCategoriaEditarOperacion = document.getElementById("categoria-editar-operacion")
-const inputFechaEditarOperación = document.getElementById("fecha-editar-operación")
+const inputFechaEditarOperacion = document.getElementById("fecha-editar-operación")
 const botonCancelarEditarOperaciones = document.getElementById("boton-cancelar-editar-operaciones")
 const botonFormularioEditarOperaciones = document.getElementById("boton-formulario-editar-operaciones")
 
@@ -118,6 +118,7 @@ const arraySecciones = [
   seccionReportes,
   seccionNuevaOperacion,
   seccionEditarCategorias,
+  formularioEditarOperacion
 ];
 
 const mostrarSeccion = (array, seccion) => {
@@ -255,7 +256,7 @@ const mostrarCategoriaAEditar = () => {
         agregarCategoriaHTML(
           traerCategoriasDesdeLS("categorias"),
           selectCategoriaEditarOperacion
-        ); 
+        );
         agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
         mostrarSeccion(arraySecciones, seccionCategorias);
       };
@@ -329,6 +330,7 @@ botonAgregarCategoria.onclick = () => {
   }
 };
 
+
 ///////////////////* Funcion crear item de nueva operación *///////////////////////
 const guardarOperacionesLocalStorage = (array, clave) => {
   const arrayJSON = JSON.stringify(array);
@@ -348,6 +350,46 @@ const traerOperacionesDesdeLS = (clave) => {
 //// Información ////
 let operaciones = traerOperacionesDesdeLS("operaciones");
 
+/// Editar operacion///
+formularioEditarOperacion.onsubmit = (event) => {
+  event.preventDefault();
+}
+//Formulario editar operaciones
+///NO FUNCIONA EL BOTON ID!!!!////
+
+const mostrarOperacionAEditar = () => {
+  const botonEditarItemOperacion = document.querySelectorAll(".boton-editar-item-operacion");
+
+  for (let index = 0; index < botonEditarItemOperacion.length; index++) {
+    botonEditarItemOperacion[index].onclick = () => {
+      let id = botonEditarItemOperacion[index].id.slice(32)
+      let idOperacion = Number(id)
+      mostrarSeccion(arraySecciones, formularioEditarOperacion)
+      const operacionAEditar = traerOperacionesDesdeLS("operaciones")[idOperacion]
+      inputDescripcionEditarOperacion.value = operacionAEditar.descripcion
+      inputMontoEditarOperacion.value = operacionAEditar.monto
+      selectTipoEditarOperacion.value = operacionAEditar.tipo
+      selectCategoriaEditarOperacion.value = operacionAEditar.categoria
+      inputFechaEditarOperacion.value = operacionAEditar.fecha
+      console.log(idOperacion)
+      botonFormularioEditarOperaciones.onclick = (event) => {
+        event.preventDefault();
+        let operacionAEditar = {
+          descripcion: inputDescripcionEditarOperacion.value,
+          categoria: selectCategoriaEditarOperacion.value,
+          fecha: inputFechaEditarOperacion.value,
+          monto: inputMontoEditarOperacion.value,
+          tipo: selectTipoEditarOperacion.value,
+        };
+        operaciones.push(operacionAEditar)
+        guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
+        
+      }
+    }
+
+  }
+}
+
 //MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
 
 const colorDeMonto = (objeto) => {
@@ -366,34 +408,33 @@ const signoMonto = (objeto) => {
   }
 };
 
+
 const mostrarOperacionesEnHTML = (array) => {
-  const itemsOperaciones = array.reduce((acc, operacion) => {
+  const itemsOperaciones = array.reduce((acc, operacion, index) => {
     return (
       acc +
       `<div id="item-nueva-operacion" class="columns is-mobile">
-    <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${
-      operacion.descripcion
-    }</p>
+    <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${operacion.descripcion
+      }</p>
     <div class="column is-3 is-6-mobile">
-      <p id="categoria-item-operacion" class="tag is-primary is-light">${
-        operacion.categoria
+      <p id="categoria-item-operacion" class="tag is-primary is-light">${operacion.categoria
       }</p>
     </div>
-    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile has-text-right">${
-      operacion.fecha
-    }</p>
+    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile has-text-right">${operacion.fecha
+      }</p>
     <p id="monto-item-operacion" class="column is-2-desktop is-3-mobile has-text-right has-text-weight-bold ${colorDeMonto(
-      operacion
-    )}"> ${signoMonto(operaciones)}${operacion.monto}
+        operacion
+      )}"> ${signoMonto(operaciones)}${operacion.monto}
     </p>
     <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
-      <button id="boton-editar-item-operaciones" class="button is-ghost is-small pt-0 pb-0">Editar</button>
-      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0">Eliminar</button> 
+      <button id="boton-editar-item-operaciones-${index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
+      <button id="boton-eliminar-item-operaciones-${index}" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
     </div>
     </div>`
     ); //agregar aca el identificador unico para los botones!
   }, "");
   contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
+  mostrarOperacionAEditar()
 };
 
 //////////////////////* Función auxiliar Balance*//////////////////////////
@@ -587,7 +628,7 @@ const ejecutarBotonesEliminarCatagoria = () => {
   const botonEliminarCategoria = document.querySelectorAll(
     ".boton-eliminar-categoria"
   );
-  console.log(botonEliminarCategoria);
+  // console.log(botonEliminarCategoria);
   for (let i = 0; i < botonEliminarCategoria.length; i++) {
     botonEliminarCategoria[i].onclick = () => {
       idCortado = botonEliminarCategoria[i].id.slice(25);
@@ -609,7 +650,7 @@ const ejecutarBotonesEliminarCatagoria = () => {
       agregarCategoriaHTML(
         traerCategoriasDesdeLS("categorias"),
         selectCategoriaNuevaOperacion
-      ); 
+      );
       agregarCategoriaHTML(
         traerCategoriasDesdeLS("categorias"),
         selectCategoriaEditarOperacion
@@ -643,7 +684,7 @@ botonEditarCategoriaFormulario.onclick = () => {
 if (traerCategoriasDesdeLS("categorias") === null) {
   agregarCategoriaHTML(categorias, selectCategoria);
   agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
-  agregarCategoriaHTML(categorias,selectCategoriaEditarOperacion);
+  agregarCategoriaHTML(categorias, selectCategoriaEditarOperacion);
   agregarItemCategoria(categorias);
 } else {
   agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
@@ -657,20 +698,6 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
 
-//Formulario editar operaciones
-// const formularioEditarOperacion = document.getElementById("formulario-editar-operacion")
-// const inputDescripciónEditarOperación = document.getElementById("descripción-editar-operación")
-// const inputMontoEditarOperación = document.getElementById("monto-editar-operación")
-// const selectTipoEditarOperacion = document.getElementById("tipo-editar-operacion")
-// const selectCategoriaEditarOperacion = document.getElementById("categoria-editar-operacion")
-// const inputFechaEditarOperación = document.getElementById("fecha-editar-operación")
-// const botonCancelarEditarOperaciones = document.getElementById("boton-cancelar-editar-operaciones")
-// const botonEditarOperaciones = document.getElementById("boton-editar-operaciones")
-// linea 390 colocar una clase al boton para comenzar la funcion que va a mostrar el formulario y editar operaciones
-
-formularioEditarOperacion.onsubmit =(event)=>{
-  event.preventDefault();
-}
 
 
 
