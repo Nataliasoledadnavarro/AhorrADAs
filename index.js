@@ -354,24 +354,25 @@ let operaciones = traerOperacionesDesdeLS("operaciones");
 formularioEditarOperacion.onsubmit = (event) => {
   event.preventDefault();
 }
-//Formulario editar operaciones
-///NO FUNCIONA EL BOTON ID!!!!////
+//Formulario editar operacione//
 
 const mostrarOperacionAEditar = () => {
   const botonEditarItemOperacion = document.querySelectorAll(".boton-editar-item-operacion");
 
-  for (let index = 0; index < botonEditarItemOperacion.length; index++) {
+  for (let index = 0; index < botonEditarItemOperacion.length;index++) {
     botonEditarItemOperacion[index].onclick = () => {
-      let id = botonEditarItemOperacion[index].id.slice(32)
+      let id = botonEditarItemOperacion[index].id.slice(30)
       let idOperacion = Number(id)
-      mostrarSeccion(arraySecciones, formularioEditarOperacion)
+      mostrarSeccion(arraySecciones,formularioEditarOperacion)
       const operacionAEditar = traerOperacionesDesdeLS("operaciones")[idOperacion]
       inputDescripcionEditarOperacion.value = operacionAEditar.descripcion
       inputMontoEditarOperacion.value = operacionAEditar.monto
       selectTipoEditarOperacion.value = operacionAEditar.tipo
       selectCategoriaEditarOperacion.value = operacionAEditar.categoria
       inputFechaEditarOperacion.value = operacionAEditar.fecha
-      console.log(idOperacion)
+
+      guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
+
       botonFormularioEditarOperaciones.onclick = (event) => {
         event.preventDefault();
         let operacionAEditar = {
@@ -383,11 +384,17 @@ const mostrarOperacionAEditar = () => {
         };
         operaciones.push(operacionAEditar)
         guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
-        
+       
       }
-    }
 
+      // botonCancelarEditarOperaciones.onclick = (event)=> {
+      //   event.preventDefault()
+      //   mostrarOperacionesEnHTML(operaciones)
+      // }
+    }
+    
   }
+  
 }
 
 //MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
@@ -431,7 +438,7 @@ const mostrarOperacionesEnHTML = (array) => {
       <button id="boton-eliminar-item-operaciones-${index}" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
     </div>
     </div>`
-    ); //agregar aca el identificador unico para los botones!
+    ); 
   }, "");
   contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
   mostrarOperacionAEditar()
@@ -542,7 +549,7 @@ selectCategoria.onchange = () => {
 const inputFecha = document.querySelector("#input-fecha");
 
 const ordenarFechas = (array) => {
-  const fechasOrdenadas = array.sort((a, b) => {
+  const fechasOrdenadas = array.sort((a,b) => {
     return new Date(b.fecha) - new Date(a.fecha);
   });
 
@@ -580,9 +587,7 @@ if (traerOperacionesDesdeLS("operaciones") === null) {
 } else {
   seccionSinOperaciones.classList.add("is-hidden");
   seccionConOperaciones.classList.remove("is-hidden");
-  mostrarOperacionesEnHTML(
-    ordenarFechas(traerOperacionesDesdeLS("operaciones"))
-  );
+  mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")));
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
 }
 
