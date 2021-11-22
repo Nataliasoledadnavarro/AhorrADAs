@@ -354,7 +354,7 @@ let operaciones = traerOperacionesDesdeLS("operaciones");
 formularioEditarOperacion.onsubmit = (event) => {
   event.preventDefault();
 }
-//Formulario editar operacione//
+//Formulario editar operaciones//
 
 const mostrarOperacionAEditar = () => {
   const botonEditarItemOperacion = document.querySelectorAll(".boton-editar-item-operacion");
@@ -371,7 +371,7 @@ const mostrarOperacionAEditar = () => {
       selectCategoriaEditarOperacion.value = operacionAEditar.categoria
       inputFechaEditarOperacion.value = operacionAEditar.fecha
 
-      guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
+     guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
 
       botonFormularioEditarOperaciones.onclick = (event) => {
         event.preventDefault();
@@ -384,7 +384,8 @@ const mostrarOperacionAEditar = () => {
         };
         operaciones.push(operacionAEditar)
         guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
-       
+        traerOperacionesDesdeLS("operaciones")
+        mostrarSeccion(arraySecciones, seccionPrincipal);
       }
 
       // botonCancelarEditarOperaciones.onclick = (event)=> {
@@ -550,11 +551,11 @@ const inputFecha = document.querySelector("#input-fecha");
 
 const ordenarFechas = (array) => {
   const fechasOrdenadas = array.sort((a,b) => {
-    return new Date(b.fecha) - new Date(a.fecha);
+    return new Date(b.fecha) - new Date(a.fecha)
   });
 
   const fechaFinal = fechasOrdenadas.map((operacion) => {
-    new Date(operacion.fecha).toLocaleDateString();
+    new Date(operacion.fecha).toLocaleDateString()
     return operacion;
   });
   return fechaFinal;
