@@ -347,6 +347,33 @@ const traerOperacionesDesdeLS = (clave) => {
   }
 };
 
+// funcion ordenar fechas
+const inputFecha = document.querySelector("#input-fecha");
+
+const ordenarFechas = (array) => {
+  const fechasOrdenadas = array.sort((a,b) => {
+    return new Date(b.fecha) - new Date(a.fecha)
+  });
+  console.log(fechasOrdenadas)
+  const fechaFinal = fechasOrdenadas.map((operacion) => {
+    new Date(operacion.fecha).toLocaleDateString()
+    return operacion;
+  });
+  return fechaFinal;
+
+};
+//funcion filtro fechas
+const fechasNuevas = (operaciones) => {
+  const fechasSeccionadas = [];
+  for (let i = 0; i < operaciones.length; i++) {
+    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)) {
+      fechasSeccionadas.push(operaciones[i]);
+    }
+  }
+  return fechasSeccionadas;
+};
+
+
 //// Información ////
 let operaciones = traerOperacionesDesdeLS("operaciones");
 
@@ -371,27 +398,28 @@ const mostrarOperacionAEditar = () => {
       selectCategoriaEditarOperacion.value = operacionAEditar.categoria
       inputFechaEditarOperacion.value = operacionAEditar.fecha
 
-     guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
+     guardarOperacionesLocalStorage(operacionAEditar,"operaciones")
 
       botonFormularioEditarOperaciones.onclick = (event) => {
         event.preventDefault();
-        let operacionAEditar = {
+        let operacionEditada = {
           descripcion: inputDescripcionEditarOperacion.value,
           categoria: selectCategoriaEditarOperacion.value,
           fecha: inputFechaEditarOperacion.value,
           monto: inputMontoEditarOperacion.value,
           tipo: selectTipoEditarOperacion.value,
         };
-        operaciones.push(operacionAEditar)
-        guardarOperacionesLocalStorage(operacionAEditar, "operaciones")
-        traerOperacionesDesdeLS("operaciones")
-        mostrarSeccion(arraySecciones, seccionPrincipal);
+        operaciones.push(operacionEditada)
+        guardarOperacionesLocalStorage(operacionEditada,"operaciones")
+        mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")))
+        
       }
 
-      // botonCancelarEditarOperaciones.onclick = (event)=> {
-      //   event.preventDefault()
-      //   mostrarOperacionesEnHTML(operaciones)
-      // }
+      botonCancelarEditarOperaciones.onclick = (event)=> {
+        event.preventDefault()
+        mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"))
+        mostrarSeccion(arraySecciones, seccionPrincipal);
+      }
     }
     
   }
@@ -546,31 +574,6 @@ selectCategoria.onchange = () => {
   mostrarOperacionesEnHTML(arrayFiltradoFinal);
 };
 
-// funcion ordenar fechas
-const inputFecha = document.querySelector("#input-fecha");
-
-const ordenarFechas = (array) => {
-  const fechasOrdenadas = array.sort((a,b) => {
-    return new Date(b.fecha) - new Date(a.fecha)
-  });
-
-  const fechaFinal = fechasOrdenadas.map((operacion) => {
-    new Date(operacion.fecha).toLocaleDateString()
-    return operacion;
-  });
-  return fechaFinal;
-};
-
-//funcion filtro fechas
-const fechasNuevas = (operaciones) => {
-  const fechasSeccionadas = [];
-  for (let i = 0; i < operaciones.length; i++) {
-    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)) {
-      fechasSeccionadas.push(operaciones[i]);
-    }
-  }
-  return fechasSeccionadas;
-};
 
 //cuando se selecciona una fecha se ejecuta la funcion y muestar en html
 inputFecha.onchange = () => {
