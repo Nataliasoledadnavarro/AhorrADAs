@@ -351,6 +351,7 @@ const traerOperacionesDesdeLS = (clave) => {
 const inputFecha = document.querySelector("#input-fecha");
 
 const ordenarFechas = (array) => {
+  console.log(array)
   const fechasOrdenadas = array.sort((a,b) => {
     return new Date(b.fecha) - new Date(a.fecha)
   });
@@ -391,28 +392,25 @@ const mostrarOperacionAEditar = () => {
       let id = botonEditarItemOperacion[index].id.slice(30)
       let idOperacion = Number(id)
       mostrarSeccion(arraySecciones,formularioEditarOperacion)
-      const operacionAEditar = traerOperacionesDesdeLS("operaciones")[idOperacion]
+      operaciones = traerOperacionesDesdeLS("operaciones")
+      const operacionAEditar = operaciones[idOperacion]
       inputDescripcionEditarOperacion.value = operacionAEditar.descripcion
       inputMontoEditarOperacion.value = operacionAEditar.monto
       selectTipoEditarOperacion.value = operacionAEditar.tipo
       selectCategoriaEditarOperacion.value = operacionAEditar.categoria
       inputFechaEditarOperacion.value = operacionAEditar.fecha
 
-     guardarOperacionesLocalStorage(operacionAEditar,"operaciones")
-
       botonFormularioEditarOperaciones.onclick = (event) => {
         event.preventDefault();
-        let operacionEditada = {
-          descripcion: inputDescripcionEditarOperacion.value,
-          categoria: selectCategoriaEditarOperacion.value,
-          fecha: inputFechaEditarOperacion.value,
-          monto: inputMontoEditarOperacion.value,
-          tipo: selectTipoEditarOperacion.value,
-        };
-        operaciones.push(operacionEditada)
-        guardarOperacionesLocalStorage(operacionEditada,"operaciones")
+        operacionAEditar.descripcion = inputDescripcionEditarOperacion.value,
+        operacionAEditar.categoria = selectCategoriaEditarOperacion.value,
+        operacionAEditar.fecha = inputFechaEditarOperacion.value,
+        operacionAEditar.monto = inputMontoEditarOperacion.value,  
+        operacionAEditar.tipo = selectTipoEditarOperacion.value, 
+
+        guardarOperacionesLocalStorage(operaciones,"operaciones")
         mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")))
-        
+        mostrarSeccion(arraySecciones, seccionPrincipal);
       }
 
       botonCancelarEditarOperaciones.onclick = (event)=> {
