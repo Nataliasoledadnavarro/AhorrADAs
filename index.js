@@ -737,7 +737,6 @@ if(traerOperacionesDesdeLS("operaciones")=== null){
   reportesSinDatos.classList.remove("is-hidden")
   reportesConDatos.classList.add("is-hidden")
 } else {
-  reportesConDatos.classList.remove("is-hidden")
   reportesSinDatos.classList.add("is-hidden")
 }
 
