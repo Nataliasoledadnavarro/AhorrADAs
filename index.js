@@ -443,6 +443,28 @@ const signoMonto = (objeto) => {
 };
 
 
+
+/// Boton Elimina Operaciones
+const eliminarOperacion = (index) => {
+  operaciones = operaciones.filter((elemento, i)=>{
+    return index !== i
+  })
+  guardarOperacionesLocalStorage(operaciones, "operaciones")
+  mostrarOperacionesEnHTML(operaciones)
+}
+
+const asignarFuncionEliminar = () => {
+  const botonEliminarOperacion = document.querySelectorAll(
+    '.boton-eliminar-item-operacion'
+  );
+  for (let i = 0; i < botonEliminarOperacion.length; i++) {
+    botonEliminarOperacion[i].onclick = () => {
+      eliminarOperacion(i)
+    }
+  }
+}
+
+
 const mostrarOperacionesEnHTML = (array) => {
   const itemsOperaciones = array.reduce((acc, operacion, index) => {
     return (
@@ -462,13 +484,14 @@ const mostrarOperacionesEnHTML = (array) => {
     </p>
     <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
       <button id="boton-editar-item-operaciones-${index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
-      <button id="boton-eliminar-item-operaciones-${index}" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
+      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
     </div>
     </div>`
-    ); 
+    ); //agregar aca el identificador unico para los botones!, agrego eso mas la clase para eliminar item
   }, "");
   contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
-  mostrarOperacionAEditar()
+  asignarFuncionEliminar()
+   mostrarOperacionAEditar()
 };
 
 //////////////////////* Función auxiliar Balance*//////////////////////////
@@ -704,6 +727,10 @@ if (traerCategoriasDesdeLS("categorias") === null) {
     selectCategoriaEditarOperacion);
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
+
+
+
+
 
 
 
