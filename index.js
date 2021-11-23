@@ -728,8 +728,30 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
 
+/// REPORTES - TOTALES POR MES
+
+const contenedorItemTotalesPorMes = document.getElementById("contenedor-items-totales-por-mes")
+//armar una funcion que muestre los totales por categoria
+// filtrar las operaciones por gastos
+// ordenarlos con un sort
+//abrir un reduce: si elemento.fecha.slice(6,8) === 01 {return acc = acc + elemento.monto}
+console.log(traerOperacionesDesdeLS("operaciones")[1])
 
 
+const mostrarTotalesPorMes = () =>{
+
+
+
+
+
+`<div class="columns is-mobile">
+                <p class="column is-3 ">${3}</p>
+                <p class="column is-3 has-text-right has-text-success">+${1}</p>
+                <p class="column is-3 has-text-right has-text-danger">-${2}</p>
+                <p class="column is-3 has-text-right">$${5}</p>
+              </div>`
+
+}
 
 
 
