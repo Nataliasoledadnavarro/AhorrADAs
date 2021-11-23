@@ -728,6 +728,19 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
 
+////Seccion Reportes ////
+// Comparacion que muestra REPORTES segun lo que este guardado en LS
+
+const reportesSinDatos = document.getElementById("reportes-sin-datos");
+const reportesConDatos = document.getElementById("reportes-con-datos")
+if(traerOperacionesDesdeLS("operaciones")=== null){
+  reportesSinDatos.classList.remove("is-hidden")
+  reportesConDatos.classList.add("is-hidden")
+} else {
+  reportesConDatos.classList.remove("is-hidden")
+  reportesSinDatos.classList.add("is-hidden")
+}
+
 
 
 
