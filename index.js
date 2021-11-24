@@ -737,12 +737,12 @@ if(traerOperacionesDesdeLS("operaciones")=== null){
 } else {
   reportesSinDatos.classList.add("is-hidden")
 }
+////Categoria con Mayor ganancia o gasto ////
 //ejecuto la funcion filtrado por tipo y la guardo en listaDeTipo
 //defino variables vacias que luego se actualizaran
 //recorrer la listaDeTipo con montoTemporal en 0, luego encontrar la categoria actual
 // volver anrecorrer con otro for si se repite el tipo y sumarle el monto
 //preguntar si el monto temporal es mayor al guardado que se actualice
-
   const mostrarMayorGananciaOGasto = (tipo)=>{
     const listaDeTipo =  filtrarOperacionesTipo ((traerOperacionesDesdeLS("operaciones")),tipo)
     let montoMaximo = 0
@@ -765,7 +765,6 @@ if(traerOperacionesDesdeLS("operaciones")=== null){
     console.log(categoriaMayor)
 
   }
-  
   mostrarMayorGananciaOGasto("ganancia")
   mostrarMayorGananciaOGasto("gasto")
     
