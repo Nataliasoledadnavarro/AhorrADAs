@@ -210,7 +210,6 @@ const traerCategoriasDesdeLS = (clave) => {
     return objetoLS.categorias;
   }
 };
-
 const capitalizar = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
@@ -351,11 +350,9 @@ const traerOperacionesDesdeLS = (clave) => {
 const inputFecha = document.querySelector("#input-fecha");
 
 const ordenarFechas = (array) => {
-  console.log(array)
   const fechasOrdenadas = array.sort((a,b) => {
     return new Date(b.fecha) - new Date(a.fecha)
   });
-  console.log(fechasOrdenadas)
   const fechaFinal = fechasOrdenadas.map((operacion) => {
     new Date(operacion.fecha).toLocaleDateString()
     return operacion;
@@ -377,6 +374,7 @@ const fechasNuevas = (operaciones) => {
 
 //// Información ////
 let operaciones = traerOperacionesDesdeLS("operaciones");
+
 
 /// Editar operacion///
 formularioEditarOperacion.onsubmit = (event) => {
@@ -658,7 +656,7 @@ const ejecutarBotonesEliminarCatagoria = () => {
   const botonEliminarCategoria = document.querySelectorAll(
     ".boton-eliminar-categoria"
   );
-  // console.log(botonEliminarCategoria);
+  
   for (let i = 0; i < botonEliminarCategoria.length; i++) {
     botonEliminarCategoria[i].onclick = () => {
       idCortado = botonEliminarCategoria[i].id.slice(25);
@@ -739,8 +737,66 @@ if(traerOperacionesDesdeLS("operaciones")=== null){
 } else {
   reportesSinDatos.classList.add("is-hidden")
 }
+//ejecuto la funcion filtrado por tipo y la guardo en listaDeTipo
+//defino variables vacias que luego se actualizaran
+//recorrer la listaDeTipo con montoTemporal en 0, luego encontrar la categoria actual
+// volver anrecorrer con otro for si se repite el tipo y sumarle el monto
+//preguntar si el monto temporal es mayor al guardado que se actualice
+
+  const mostrarMayorGananciaOGasto = (tipo)=>{
+    const listaDeTipo =  filtrarOperacionesTipo ((traerOperacionesDesdeLS("operaciones")),tipo)
+    let montoMaximo = 0
+    let categoriaMayor = ""
+    let categoriaActual = ""
+    for (let i = 0; i < listaDeTipo.length; i++) {
+      let montoTemporal = 0
+      categoriaActual = listaDeTipo[i].categoria
+      for (let j = 0; j < listaDeTipo.length; j++) {
+        if(categoriaActual === listaDeTipo[j].categoria){
+          montoTemporal = montoTemporal + Number(listaDeTipo[j].monto)
+        } 
+      }
+      if(montoTemporal > montoMaximo){
+        montoMaximo = montoTemporal
+        categoriaMayor = categoriaActual
+      }
+    }
+    console.log(montoMaximo)
+    console.log(categoriaMayor)
+
+  }
+  
+  mostrarMayorGananciaOGasto("ganancia")
+  mostrarMayorGananciaOGasto("gasto")
+    
 
 
+
+// 
+/* const personas = [
+  { nombre: 'Edu', edad: 35 },
+  { nombre: 'Manuel', edad: 37 },
+  { nombre: 'Marta', edad: 42 },
+  { nombre: 'Edu', edad: 25 },
+];
+
+const busqueda = personas.reduce((acc, persona) => {
+  acc[persona.nombre] = ++acc[persona.nombre] || 0;
+  return acc;
+}, {});
+
+const duplicados = personas.filter( (persona) => {
+	return busqueda[persona.nombre];
+});
+
+console.log(duplicados);
+
+
+[
+  { edad: 35, nombre: "Edu" },
+  { edad: 25, nombre: "Edu" }
+]
+*/
 
 
 
