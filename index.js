@@ -424,6 +424,7 @@ const mostrarOperacionAEditar = () => {
         guardarOperacionesLocalStorage(operaciones,"operaciones")
         mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")))
         mostrarSeccion(arraySecciones, seccionPrincipal);
+        mostrarEnBalance(traerOperacionesDesdeLS('operaciones'));
       }
 
       botonCancelarEditarOperaciones.onclick = (event)=> {
@@ -464,6 +465,7 @@ const eliminarOperacion = (index) => {
   })
   guardarOperacionesLocalStorage(operaciones, "operaciones")
   mostrarOperacionesEnHTML(operaciones)
+  mostrarEnBalance(traerOperacionesDesdeLS('operaciones'));
 }
 
 const asignarFuncionEliminar = () => {
