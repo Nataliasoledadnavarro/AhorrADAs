@@ -184,7 +184,6 @@ botonAgregarNuevaOperacion.onclick = () => {
 
 //INFORMACION CATEGORIAS//
 const categorias = [
-  "Todos",
   "Trabajo",
   "Comida",
   "Educación",
@@ -287,17 +286,31 @@ const agregarItemCategoria = (array) => {
 
 // AGREGAR CATEGORIA EN EL SELECT
 const agregarCategoriaHTML = (categorias, select) => {
-  const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
-    return (
-      acc +
-      `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+  if (select === selectCategoria) {
+    const opcionTodos = `<option value="Todos">Todas</option>`;
+    const categoriasEnHTML = categorias.reduce(
+      (acc, categoria, index, array) => {
+        return (
+          acc +
+          `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+        );
+      },
+      opcionTodos
     );
-  }, "");
-
-  select.innerHTML = categoriasEnHTML;
-
-  guardarCategoriasLocalStorage(categorias, "categorias");
-};
+    select.innerHTML = categoriasEnHTML;
+  } else {
+    const categoriasEnHTML = categorias.reduce(
+      (acc, categoria, index, array) => {
+        return (
+          acc +
+          `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+        );
+      },
+      ''
+    );
+    select.innerHTML = categoriasEnHTML;
+  }
+}
 
 //Formulario agregar categoria
 
@@ -314,8 +327,8 @@ botonAgregarCategoria.onclick = () => {
   } else if (categoriaCapitalizada === "") {
     alert("¡Categoria sin nombre!");
   } else {
-    categorias.push(categoriaCapitalizada);
-    guardarCategoriasLocalStorage(categorias, "categorias");
+    arrayDesdeLS.push(categoriaCapitalizada);
+    guardarCategoriasLocalStorage(arrayDesdeLS, "categorias");
     agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
     agregarCategoriaHTML(
       traerCategoriasDesdeLS("categorias"),
