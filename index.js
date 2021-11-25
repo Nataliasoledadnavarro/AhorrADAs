@@ -759,3 +759,97 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   );
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        REPORTES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+///// TOTALES POR MES ////
+
+const operacionesPorMes = () => {
+  const meses = [[], [], [], [], [], [], [], [], [], [], [], []];
+
+  traerOperacionesDesdeLS("operaciones").filter((curr) => {
+    if (new Date(curr.fecha).getMonth() === 0) {
+      meses[0].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 1) {
+      meses[1].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 2) {
+      meses[2].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 3) {
+      meses[3].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 4) {
+      meses[4].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 5) {
+      meses[5].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 6) {
+      meses[6].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 7) {
+      meses[7].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 8) {
+      meses[8].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 9) {
+      meses[9].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 10) {
+      meses[10].push(curr);
+    }
+    if (new Date(curr.fecha).getMonth() === 11) {
+      meses[11].push(curr);
+    }
+  });
+
+  return meses;
+};
+
+const contenedorTotalesMensuales = document.getElementById(
+  "contenedor-totales-mensuales"
+);
+
+const mostrarTotalesPorMes = (meses) => {
+  const mesesConOperaciones = meses.filter((curr) => {
+    return curr.length > 0;
+  });
+
+  let items = "";
+
+  mesesConOperaciones.map((curr) => {
+    const gananciasMensuales = filtrarOperacionesTipo(curr, "ganancia").reduce(
+      (acc, curr) => {
+        return (acc = acc + Number(curr.monto));
+      },
+      0
+    );
+
+    const gastosMensuales = filtrarOperacionesTipo(curr, "gasto").reduce(
+      (acc, curr) => {
+        return (acc = acc + Number(curr.monto));
+      },
+      0
+    );
+
+    let fecha = curr[0].fecha;
+    items =
+      items +
+      `<div class="columns is-mobile">
+ <p class="column is-3 ">${fecha.slice(0, 7)}</p>
+ <p class="column is-3 has-text-right has-text-success">+$${gananciasMensuales}</p>
+ <p class="column is-3 has-text-right has-text-danger">-$${gastosMensuales}</p>
+ <p class="column is-3 has-text-right">$${
+   gananciasMensuales - gastosMensuales
+ }</p>
+</div>`;
+  });
+
+  contenedorTotalesMensuales.innerHTML = items;
+};
+mostrarTotalesPorMes(operacionesPorMes());
