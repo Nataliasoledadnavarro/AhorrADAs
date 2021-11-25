@@ -127,6 +127,12 @@ const botonFormularioEditarOperaciones = document.getElementById(
   "boton-formulario-editar-operaciones"
 );
 
+///////////// REPORTES //////////////
+const contenedorTotalesMensuales = document.getElementById(
+  "contenedor-totales-mensuales"
+);
+
+
 /////////////////////////////////// FUNCION AUXILIAR MAQUETADO ////////////////////////////////////////
 const arraySecciones = [
   seccionPrincipal,
@@ -767,53 +773,16 @@ if (traerCategoriasDesdeLS("categorias") === null) {
 ///// TOTALES POR MES ////
 
 const operacionesPorMes = () => {
-  const meses = [[], [], [], [], [], [], [], [], [], [], [], []];
+  const meses = [[], [], [], [], [], [], [], [], [], [], [], []]
+  const operaciones = traerOperacionesDesdeLS("operaciones")
 
-  traerOperacionesDesdeLS("operaciones").filter((curr) => {
-    if (new Date(curr.fecha).getMonth() === 0) {
-      meses[0].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 1) {
-      meses[1].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 2) {
-      meses[2].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 3) {
-      meses[3].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 4) {
-      meses[4].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 5) {
-      meses[5].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 6) {
-      meses[6].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 7) {
-      meses[7].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 8) {
-      meses[8].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 9) {
-      meses[9].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 10) {
-      meses[10].push(curr);
-    }
-    if (new Date(curr.fecha).getMonth() === 11) {
-      meses[11].push(curr);
-    }
-  });
-
+  for (let i = 0; i < operaciones.length; i++) {
+    const numeroMes= new Date(operaciones[i].fecha).getMonth()
+    meses[numeroMes].push(operaciones[i])  
+  }
   return meses;
 };
 
-const contenedorTotalesMensuales = document.getElementById(
-  "contenedor-totales-mensuales"
-);
 
 const mostrarTotalesPorMes = (meses) => {
   const mesesConOperaciones = meses.filter((curr) => {
@@ -822,22 +791,22 @@ const mostrarTotalesPorMes = (meses) => {
 
   let items = "";
 
-  mesesConOperaciones.map((curr) => {
-    const gananciasMensuales = filtrarOperacionesTipo(curr, "ganancia").reduce(
-      (acc, curr) => {
-        return (acc = acc + Number(curr.monto));
+  mesesConOperaciones.map((mes) => {
+    const gananciasMensuales = filtrarOperacionesTipo(mes, "ganancia").reduce(
+      (acc, operacion) => {
+        return (acc = acc + Number(operacion.monto));
       },
       0
     );
 
-    const gastosMensuales = filtrarOperacionesTipo(curr, "gasto").reduce(
-      (acc, curr) => {
-        return (acc = acc + Number(curr.monto));
+    const gastosMensuales = filtrarOperacionesTipo(mes, "gasto").reduce(
+      (acc, operacion) => {
+        return (acc = acc + Number(operacion.monto));
       },
       0
     );
 
-    let fecha = curr[0].fecha;
+    let fecha = mes[0].fecha;
     items =
       items +
       `<div class="columns is-mobile">
@@ -852,4 +821,5 @@ const mostrarTotalesPorMes = (meses) => {
 
   contenedorTotalesMensuales.innerHTML = items;
 };
+
 mostrarTotalesPorMes(operacionesPorMes());
