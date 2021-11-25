@@ -350,7 +350,7 @@ const traerOperacionesDesdeLS = (clave) => {
 const inputFecha = document.querySelector("#input-fecha");
 
 const ordenarFechas = (array) => {
-  const fechasOrdenadas = array.sort((a,b) => {
+  const fechasOrdenadas = array.sort((a, b) => {
     return new Date(b.fecha) - new Date(a.fecha)
   });
   const fechaFinal = fechasOrdenadas.map((operacion) => {
@@ -385,11 +385,11 @@ formularioEditarOperacion.onsubmit = (event) => {
 const mostrarOperacionAEditar = () => {
   const botonEditarItemOperacion = document.querySelectorAll(".boton-editar-item-operacion");
 
-  for (let index = 0; index < botonEditarItemOperacion.length;index++) {
+  for (let index = 0; index < botonEditarItemOperacion.length; index++) {
     botonEditarItemOperacion[index].onclick = () => {
       let id = botonEditarItemOperacion[index].id.slice(30)
       let idOperacion = Number(id)
-      mostrarSeccion(arraySecciones,formularioEditarOperacion)
+      mostrarSeccion(arraySecciones, formularioEditarOperacion)
       operaciones = traerOperacionesDesdeLS("operaciones")
       const operacionAEditar = operaciones[idOperacion]
       inputDescripcionEditarOperacion.value = operacionAEditar.descripcion
@@ -401,25 +401,25 @@ const mostrarOperacionAEditar = () => {
       botonFormularioEditarOperaciones.onclick = (event) => {
         event.preventDefault();
         operacionAEditar.descripcion = inputDescripcionEditarOperacion.value,
-        operacionAEditar.categoria = selectCategoriaEditarOperacion.value,
-        operacionAEditar.fecha = inputFechaEditarOperacion.value,
-        operacionAEditar.monto = inputMontoEditarOperacion.value,  
-        operacionAEditar.tipo = selectTipoEditarOperacion.value, 
+          operacionAEditar.categoria = selectCategoriaEditarOperacion.value,
+          operacionAEditar.fecha = inputFechaEditarOperacion.value,
+          operacionAEditar.monto = inputMontoEditarOperacion.value,
+          operacionAEditar.tipo = selectTipoEditarOperacion.value,
 
-        guardarOperacionesLocalStorage(operaciones,"operaciones")
+          guardarOperacionesLocalStorage(operaciones, "operaciones")
         mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")))
         mostrarSeccion(arraySecciones, seccionPrincipal);
       }
 
-      botonCancelarEditarOperaciones.onclick = (event)=> {
+      botonCancelarEditarOperaciones.onclick = (event) => {
         event.preventDefault()
         mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"))
         mostrarSeccion(arraySecciones, seccionPrincipal);
       }
     }
-    
+
   }
-  
+
 }
 
 //MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
@@ -444,7 +444,7 @@ const signoMonto = (objeto) => {
 
 /// Boton Elimina Operaciones
 const eliminarOperacion = (index) => {
-  operaciones = operaciones.filter((elemento, i)=>{
+  operaciones = operaciones.filter((elemento, i) => {
     return index !== i
   })
   guardarOperacionesLocalStorage(operaciones, "operaciones")
@@ -489,7 +489,7 @@ const mostrarOperacionesEnHTML = (array) => {
   }, "");
   contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
   asignarFuncionEliminar()
-   mostrarOperacionAEditar()
+  mostrarOperacionAEditar()
 };
 
 //////////////////////* Función auxiliar Balance*//////////////////////////
@@ -656,7 +656,7 @@ const ejecutarBotonesEliminarCatagoria = () => {
   const botonEliminarCategoria = document.querySelectorAll(
     ".boton-eliminar-categoria"
   );
-  
+
   for (let i = 0; i < botonEliminarCategoria.length; i++) {
     botonEliminarCategoria[i].onclick = () => {
       idCortado = botonEliminarCategoria[i].id.slice(25);
@@ -731,43 +731,67 @@ if (traerCategoriasDesdeLS("categorias") === null) {
 
 const reportesSinDatos = document.getElementById("reportes-sin-datos");
 const reportesConDatos = document.getElementById("reportes-con-datos")
-if(traerOperacionesDesdeLS("operaciones")=== null){
+if (traerOperacionesDesdeLS("operaciones") === null) {
   reportesSinDatos.classList.remove("is-hidden")
   reportesConDatos.classList.add("is-hidden")
 } else {
   reportesSinDatos.classList.add("is-hidden")
 }
 ////Categoria con Mayor ganancia o gasto ////
-//ejecuto la funcion filtrado por tipo y la guardo en listaDeTipo
-//defino variables vacias que luego se actualizaran
-//recorrer la listaDeTipo con montoTemporal en 0, luego encontrar la categoria actual
-// volver anrecorrer con otro for si se repite el tipo y sumarle el monto
-//preguntar si el monto temporal es mayor al guardado que se actualice
-  const mostrarMayorGananciaOGasto = (tipo)=>{
-    const listaDeTipo =  filtrarOperacionesTipo ((traerOperacionesDesdeLS("operaciones")),tipo)
-    let montoMaximo = 0
-    let categoriaMayor = ""
-    let categoriaActual = ""
-    for (let i = 0; i < listaDeTipo.length; i++) {
-      let montoTemporal = 0
-      categoriaActual = listaDeTipo[i].categoria
-      for (let j = 0; j < listaDeTipo.length; j++) {
-        if(categoriaActual === listaDeTipo[j].categoria){
-          montoTemporal = montoTemporal + Number(listaDeTipo[j].monto)
-        } 
-      }
-      if(montoTemporal > montoMaximo){
-        montoMaximo = montoTemporal
-        categoriaMayor = categoriaActual
+
+const mostrarMayorGananciaOGasto = (tipo) => {
+  const listaDeTipo = filtrarOperacionesTipo((traerOperacionesDesdeLS("operaciones")), tipo)
+  let montoMaximo = 0
+  let categoriaMayor = ""
+  let categoriaActual = ""
+  for (let i = 0; i < listaDeTipo.length; i++) {
+    let montoTemporal = 0
+    categoriaActual = listaDeTipo[i].categoria
+    for (let j = 0; j < listaDeTipo.length; j++) {
+      if (categoriaActual === listaDeTipo[j].categoria) {
+        montoTemporal = montoTemporal + Number(listaDeTipo[j].monto)
       }
     }
-    console.log(montoMaximo)
-    console.log(categoriaMayor)
+    if (montoTemporal > montoMaximo) {
+      montoMaximo = montoTemporal
+      categoriaMayor = categoriaActual
+    } 
+  }
+  
+  //mostar en html 
+  return `${montoMaximo},${categoriaMayor}`
+}
+
+console.log(mostrarMayorGananciaOGasto("ganancia"))
+console.log(mostrarMayorGananciaOGasto("gasto"))
+
+///Mayor Balance///
+
+//si el "tipo" es ganancia el if pregunta si el mayorMontoGanancia es menor al temporal
+// y actualiza mayorMontoGanancia y mayorCategoriaGanancia
+// sino solo nos queda que tipo es gasto
+// pregunto si mayorMontoGasto es menor a temporal y actualizo mayorCategoriaGasto mayorMontoGasto
+
+//variables por categoria
+let mayorCategoriaGanancia = ""
+let mayorMontoGanancia = 0
+
+let mayorCategoriaGasto = ""
+let mayorMontoGasto = 0
+
+let balanceReporte = mayorMontoGanancia - mayorMontoGasto
+
+const mostrarGanaciaHtml = () => {
+  if (mostrarMayorGananciaOGasto("ganancia")) {
+    if (mayorMontoGanancia < montoTemporal) {
+      mayorMontoGanancia = montoTemporal
+      categoriaActual = mayorCategoriaGanancia
+    }
+    
 
   }
-  mostrarMayorGananciaOGasto("ganancia")
-  mostrarMayorGananciaOGasto("gasto")
-    
+}
+
 
 
 
