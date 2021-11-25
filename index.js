@@ -739,10 +739,15 @@ if (traerOperacionesDesdeLS("operaciones") === null) {
 }
 ////Categoria con Mayor ganancia o gasto ////
 
+//variables por categoria
+let mayorCategoriaGanancia = ""
+let mayorMontoGanancia = 0
+
+let mayorCategoriaGasto = ""
+let mayorMontoGasto = 0
+
 const mostrarMayorGananciaOGasto = (tipo) => {
   const listaDeTipo = filtrarOperacionesTipo((traerOperacionesDesdeLS("operaciones")), tipo)
-  let montoMaximo = 0
-  let categoriaMayor = ""
   let categoriaActual = ""
   for (let i = 0; i < listaDeTipo.length; i++) {
     let montoTemporal = 0
@@ -752,46 +757,36 @@ const mostrarMayorGananciaOGasto = (tipo) => {
         montoTemporal = montoTemporal + Number(listaDeTipo[j].monto)
       }
     }
-    if (montoTemporal > montoMaximo) {
-      montoMaximo = montoTemporal
-      categoriaMayor = categoriaActual
-    } 
-  }
-  
-  //mostar en html 
-  return `${montoMaximo},${categoriaMayor}`
-}
+    //si el "tipo" es ganancia el if pregunta si el mayorMontoGanancia es menor al temporal
+    // y actualiza mayorMontoGanancia y mayorCategoriaGanancia
+    // sino solo nos queda que tipo es gasto
+    // pregunto si mayorMontoGasto es menor a temporal y actualizo mayorCategoriaGasto mayorMontoGasto
 
-console.log(mostrarMayorGananciaOGasto("ganancia"))
-console.log(mostrarMayorGananciaOGasto("gasto"))
+    if(tipo === "ganancia"){
+      if(mayorMontoGanancia < montoTemporal){
+        mayorMontoGanancia = montoTemporal
+        mayorCategoriaGanancia = categoriaActual
+      }
+    }else {
+      if(mayorMontoGasto < montoTemporal){
+        mayorMontoGasto = montoTemporal
+        mayorCategoriaGasto = categoriaActual
+      }
+      
+    }
+  }
+
+}
+mostrarMayorGananciaOGasto("ganancia")
+mostrarMayorGananciaOGasto("gasto")
+console.log(mayorMontoGanancia)
+console.log(mayorCategoriaGanancia)
+console.log(mayorMontoGasto)
+console.log(mayorCategoriaGasto)
 
 ///Mayor Balance///
-
-//si el "tipo" es ganancia el if pregunta si el mayorMontoGanancia es menor al temporal
-// y actualiza mayorMontoGanancia y mayorCategoriaGanancia
-// sino solo nos queda que tipo es gasto
-// pregunto si mayorMontoGasto es menor a temporal y actualizo mayorCategoriaGasto mayorMontoGasto
-
-//variables por categoria
-let mayorCategoriaGanancia = ""
-let mayorMontoGanancia = 0
-
-let mayorCategoriaGasto = ""
-let mayorMontoGasto = 0
-
 let balanceReporte = mayorMontoGanancia - mayorMontoGasto
-
-const mostrarGanaciaHtml = () => {
-  if (mostrarMayorGananciaOGasto("ganancia")) {
-    if (mayorMontoGanancia < montoTemporal) {
-      mayorMontoGanancia = montoTemporal
-      categoriaActual = mayorCategoriaGanancia
-    }
-    
-
-  }
-}
-
+console.log("resultado balance", balanceReporte)
 
 
 
