@@ -727,27 +727,23 @@ if (traerCategoriasDesdeLS("categorias") === null) {
 }
 
 ////Seccion Reportes ////
-// Comparacion que muestra REPORTES segun lo que este guardado en LS
 
-const reportesSinDatos = document.getElementById("reportes-sin-datos");
-const reportesConDatos = document.getElementById("reportes-con-datos")
-if (traerOperacionesDesdeLS("operaciones") === null) {
-  reportesSinDatos.classList.remove("is-hidden")
-  reportesConDatos.classList.add("is-hidden")
-} else {
-  reportesSinDatos.classList.add("is-hidden")
-}
-////Categoria con Mayor ganancia o gasto ////
+const tagCategoriaMayorGanancia = document.getElementById("tag-categoria-mayor-ganancia")
+const montoMayorGanancia = document.getElementById("monto-mayor-ganancia")
+const tagCategoriaMayorGasto = document.getElementById("tag-categoria-mayor-gasto")
+const montoMayorGasto = document.getElementById("monto-mayor-gasto")
+const tagCategoriaMayorBalance = document.getElementById("tag-categoria-mayor-balance")
+const montoMayorBalance = document.getElementById("monto-mayor-balance")
 
-//variables por categoria
-let mayorCategoriaGanancia = ""
-let mayorMontoGanancia = 0
-
-let mayorCategoriaGasto = ""
-let mayorMontoGasto = 0
-
+////Funcion Categoria con Mayor ganancia o gasto ////
 const mostrarMayorGananciaOGasto = (tipo) => {
   const listaDeTipo = filtrarOperacionesTipo((traerOperacionesDesdeLS("operaciones")), tipo)
+  let mayorCategoriaGanancia = ""
+  let mayorMontoGanancia = 0
+
+  let mayorCategoriaGasto = ""
+  let mayorMontoGasto = 0
+
   let categoriaActual = ""
   for (let i = 0; i < listaDeTipo.length; i++) {
     let montoTemporal = 0
@@ -757,36 +753,68 @@ const mostrarMayorGananciaOGasto = (tipo) => {
         montoTemporal = montoTemporal + Number(listaDeTipo[j].monto)
       }
     }
-    //si el "tipo" es ganancia el if pregunta si el mayorMontoGanancia es menor al temporal
-    // y actualiza mayorMontoGanancia y mayorCategoriaGanancia
-    // sino solo nos queda que tipo es gasto
-    // pregunto si mayorMontoGasto es menor a temporal y actualizo mayorCategoriaGasto mayorMontoGasto
-
-    if(tipo === "ganancia"){
-      if(mayorMontoGanancia < montoTemporal){
+    if (tipo === "ganancia") {
+      if (mayorMontoGanancia < montoTemporal) {
         mayorMontoGanancia = montoTemporal
         mayorCategoriaGanancia = categoriaActual
+        tagCategoriaMayorGanancia.textContent = mayorCategoriaGanancia
+        montoMayorGanancia.textContent = `+$ ${mayorMontoGanancia}`
       }
-    }else {
-      if(mayorMontoGasto < montoTemporal){
+    } else {
+      if (mayorMontoGasto < montoTemporal) {
         mayorMontoGasto = montoTemporal
         mayorCategoriaGasto = categoriaActual
+        tagCategoriaMayorGasto.textContent = mayorCategoriaGasto
+        montoMayorGasto.textContent = `-$ ${mayorMontoGasto}`
+      }
+    }
+  }
+}
+///Mayor Balance///
+let categoriaDeBalance = ""
+let montoDeBalance =0
+const mostrarMayorBalance = ()=>{
+  const listaDeOperaciones = traerOperacionesDesdeLS("operaciones")
+  
+  let categoriaTemporal = ""
+  for (let i = 0; i < listaDeOperaciones.length; i++) {
+    let montoTemporal = 0
+    categoriaTemporal = (listaDeOperaciones[i].categoria)
+
+    for (let j = 0; j < listaDeOperaciones.length; j++) {
+      
+      if(categoriaTemporal === listaDeOperaciones[j].categoria){
+        if(listaDeOperaciones[j].tipo === "ganancia"){
+          montoTemporal = montoTemporal + Number(listaDeOperaciones[j].monto)
+        }else{
+          montoTemporal = montoTemporal - Number(listaDeOperaciones[j].monto) 
+        }
+        console.log("categoria actual",categoriaTemporal)
+        console.log("monto temporal",montoTemporal)
       }
       
     }
-  }
 
-}
+    if(montoTemporal > montoDeBalance){
+      montoDeBalance = montoTemporal
+      categoriaDeBalance = categoriaTemporal
+    } 
+  }
+  
+};
 mostrarMayorGananciaOGasto("ganancia")
 mostrarMayorGananciaOGasto("gasto")
-console.log(mayorMontoGanancia)
-console.log(mayorCategoriaGanancia)
-console.log(mayorMontoGasto)
-console.log(mayorCategoriaGasto)
+mostrarMayorBalance()
+tagCategoriaMayorBalance.textContent = categoriaDeBalance
+montoMayorBalance.textContent = `$ ${montoDeBalance}`
 
-///Mayor Balance///
-let balanceReporte = mayorMontoGanancia - mayorMontoGasto
-console.log("resultado balance", balanceReporte)
+
+
+
+
+
+
+
 
 
 
