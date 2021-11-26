@@ -127,6 +127,12 @@ const botonFormularioEditarOperaciones = document.getElementById(
   "boton-formulario-editar-operaciones"
 );
 
+///////////// REPORTES //////////////
+const contenedorTotalesMensuales = document.getElementById(
+  "contenedor-totales-mensuales"
+);
+
+
 /////////////////////////////////// FUNCION AUXILIAR MAQUETADO ////////////////////////////////////////
 const arraySecciones = [
   seccionPrincipal,
@@ -759,3 +765,61 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   );
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        REPORTES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+///// TOTALES POR MES ////
+
+const operacionesPorMes = () => {
+  const meses = [[], [], [], [], [], [], [], [], [], [], [], []]
+  const operaciones = traerOperacionesDesdeLS("operaciones")
+
+  for (let i = 0; i < operaciones.length; i++) {
+    const numeroMes= new Date(operaciones[i].fecha).getMonth()
+    meses[numeroMes].push(operaciones[i])  
+  }
+  return meses;
+};
+
+
+const mostrarTotalesPorMes = (meses) => {
+  const mesesConOperaciones = meses.filter((curr) => {
+    return curr.length > 0;
+  });
+
+  let items = "";
+
+  mesesConOperaciones.map((mes) => {
+    const gananciasMensuales = filtrarOperacionesTipo(mes, "ganancia").reduce(
+      (acc, operacion) => {
+        return (acc = acc + Number(operacion.monto));
+      },
+      0
+    );
+
+    const gastosMensuales = filtrarOperacionesTipo(mes, "gasto").reduce(
+      (acc, operacion) => {
+        return (acc = acc + Number(operacion.monto));
+      },
+      0
+    );
+
+    let fecha = mes[0].fecha;
+    items =
+      items +
+      `<div class="columns is-mobile">
+ <p class="column is-3 ">${fecha.slice(0, 7)}</p>
+ <p class="column is-3 has-text-right has-text-success">+$${gananciasMensuales}</p>
+ <p class="column is-3 has-text-right has-text-danger">-$${gastosMensuales}</p>
+ <p class="column is-3 has-text-right">$${
+   gananciasMensuales - gastosMensuales
+ }</p>
+</div>`;
+  });
+
+  contenedorTotalesMensuales.innerHTML = items;
+};
+
+mostrarTotalesPorMes(operacionesPorMes());
