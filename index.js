@@ -5,7 +5,7 @@ const linkCategorias = document.querySelector(".link-categorias");
 const linkReportes = document.querySelector(".link-reportes");
 const seccionPrincipal = document.querySelector("#principal");
 const seccionCategorias = document.querySelector("#seccion-categorias");
-const seccionReportes = document.querySelector(".reportes");
+const seccionReportes = document.querySelector("#reportes");
 const menuDesplegableMobile = document.querySelector(
   "#menu-desplegable-mobile"
 );
@@ -822,4 +822,12 @@ const mostrarTotalesPorMes = (meses) => {
   contenedorTotalesMensuales.innerHTML = items;
 };
 
-mostrarTotalesPorMes(operacionesPorMes());
+
+const mostrarReportes = () =>{
+  mostrarTotalesPorMes(operacionesPorMes());
+}
+
+
+// for que recorra categorias. 
+// filter que retorne solos las operaciones que conincidan con categorias[i]
+// que lo impacte en html
