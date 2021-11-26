@@ -515,7 +515,7 @@ const mostrarOperacionesEnHTML = (array) => {
     }</p>
     <p id="monto-item-operacion" class="column is-2-desktop is-3-mobile has-text-right has-text-weight-bold ${colorDeMonto(
       operacion
-    )}"> ${signoMonto(operaciones)}${operacion.monto}
+    )}"> ${signoMonto(operacion)}${operacion.monto}
     </p>
     <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
       <button id="boton-editar-item-operaciones-${index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
