@@ -55,10 +55,6 @@ const botonEditarCategoriaFormulario = document.getElementById(
   "boton-editar-categoria-formulario"
 );
 
-let botonesEditarItemCategoria = document.querySelectorAll(
-  ".boton-editar-item-categoria"
-);
-
 const formEditarCategoria = document.getElementById("form-editar-categoria");
 
 //OPERACIONES
@@ -193,7 +189,7 @@ botonNuevaOperacion.onclick = () => {
   mostrarSeccion(arraySecciones, seccionNuevaOperacion);
 };
 
-////* Boton cancelar seccion Nuevas operaciones *////
+//* Boton cancelar seccion Nueva operacion *////
 botonCancelarNuevasOperaciones.onclick = () => {
   mostrarSeccion(arraySecciones, seccionPrincipal);
 };
@@ -215,9 +211,9 @@ const categorias = [
   "Alquiler",
 ];
 
-// Funciones auxiliares
-const guardarCategoriasLocalStorage = (array, clave) => {
-  const nuevoObjeto = { categorias: array };
+// Funciones auxiliares   
+const guardarCategoriasLocalStorage = (array, clave) => { 
+  const nuevoObjeto = { categorias: array }; 
   const objetoJSON = JSON.stringify(nuevoObjeto);
   localStorage.setItem(clave, objetoJSON);
 };
@@ -242,20 +238,18 @@ formEditarCategoria.onsubmit = (event) => {
   event.preventDefault();
 };
 
-const mostrarCategoriaAEditar = () => {
-  const botonesEditarItemCategoria = document.querySelectorAll(
-    ".boton-editar-item-categoria"
-  );
-
+const mostrarCategoriaAEditar = () => { 
+  const botonesEditarItemCategoria = document.querySelectorAll( 
+    ".boton-editar-item-categoria")                              
   for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
     botonesEditarItemCategoria[index].onclick = () => {
       const id = botonesEditarItemCategoria[index].id.slice(23);
       const idCategoria = Number(id);
       mostrarSeccion(arraySecciones, seccionEditarCategoria);
       let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
-      inputEditarNombreCategoria.value = categoriaAEditar;
+      inputEditarNombreCategoria.value = categoriaAEditar;                   
 
-      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter(
+      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter( 
         (categoria) => {
           return categoriaAEditar !== categoria;
         }
@@ -522,7 +516,7 @@ const mostrarOperacionesEnHTML = (array) => {
       <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
     </div>
     </div>`
-    ); //agregar aca el identificador unico para los botones!, agrego eso mas la clase para eliminar item
+    ); 
   }, "");
   contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
   asignarFuncionEliminar();
@@ -766,11 +760,42 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
 
+//seccion Reportes por Categorias//
+const contenedorItemTotalesCategoria = document.getElementById("contenedor-item-totales-categoria")
+const mostrarReportesTotalesPorCategoria = () => {
+  let items = ""
+  let categorias = traerCategoriasDesdeLS('categorias');
+  for (let i = 0; i < categorias.length; i++) {
+    const operacionesFiltradas = traerOperacionesDesdeLS("operaciones").filter((operacion)=>{
+      return operacion.categoria === categorias[i]
+    })
+    const operacionesGasto = filtrarOperacionesTipo(operacionesFiltradas,"gasto")
+    const sumaGastos = operacionesGasto.reduce((acc,curr)=>{
+      return  acc + Number(curr.monto)
+    },0)
+    const operacionesGanancia = filtrarOperacionesTipo(operacionesFiltradas,"ganancia")
+    const sumaGanancias = operacionesGanancia.reduce((acc,curr)=>{
+      return  acc + Number(curr.monto)
+    },0)
+    items = items + `<div class="columns is-mobile">
+                <p class="column is-3">${categorias[i]}</p>
+                <p class="column is-3 has-text-right has-text-success">+$${sumaGanancias}</p>
+                <p class="column is-3 has-text-right has-text-danger">-$${sumaGastos}</p>
+                <p class="column is-3 has-text-right">$${sumaGanancias - sumaGastos}</p>
+              </div>`
+
+  }
+  contenedorItemTotalesCategoria.innerHTML = items
+}
+mostrarReportesTotalesPorCategoria()
+
+
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////
                                         REPORTES
 /////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 ///// TOTALES POR MES ////
+
 
 const operacionesPorMes = () => {
   const meses = [[], [], [], [], [], [], [], [], [], [], [], []]
