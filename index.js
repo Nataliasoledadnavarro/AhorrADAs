@@ -55,10 +55,6 @@ const botonEditarCategoriaFormulario = document.getElementById(
   "boton-editar-categoria-formulario"
 );
 
-let botonesEditarItemCategoria = document.querySelectorAll(
-  ".boton-editar-item-categoria"
-);
-
 const formEditarCategoria = document.getElementById("form-editar-categoria");
 
 //OPERACIONES
@@ -102,14 +98,36 @@ const inputFechaNuevaOperacion = document.getElementById(
   "fecha-nueva-operación"
 );
 //EDITAR OPERACIONES
-const formularioEditarOperacion = document.getElementById("formulario-editar-operacion");
-const inputDescripcionEditarOperacion = document.getElementById("descripción-editar-operación")
-const inputMontoEditarOperacion = document.getElementById("monto-editar-operación")
-const selectTipoEditarOperacion = document.getElementById("tipo-editar-operacion")
-const selectCategoriaEditarOperacion = document.getElementById("categoria-editar-operacion")
-const inputFechaEditarOperacion = document.getElementById("fecha-editar-operación")
-const botonCancelarEditarOperaciones = document.getElementById("boton-cancelar-editar-operaciones")
-const botonFormularioEditarOperaciones = document.getElementById("boton-formulario-editar-operaciones")
+const formularioEditarOperacion = document.getElementById(
+  "formulario-editar-operacion"
+);
+const inputDescripcionEditarOperacion = document.getElementById(
+  "descripción-editar-operación"
+);
+const inputMontoEditarOperacion = document.getElementById(
+  "monto-editar-operación"
+);
+const selectTipoEditarOperacion = document.getElementById(
+  "tipo-editar-operacion"
+);
+const selectCategoriaEditarOperacion = document.getElementById(
+  "categoria-editar-operacion"
+);
+const inputFechaEditarOperacion = document.getElementById(
+  "fecha-editar-operación"
+);
+const botonCancelarEditarOperaciones = document.getElementById(
+  "boton-cancelar-editar-operaciones"
+);
+const botonFormularioEditarOperaciones = document.getElementById(
+  "boton-formulario-editar-operaciones"
+);
+
+///////////// REPORTES //////////////
+const contenedorTotalesMensuales = document.getElementById(
+  "contenedor-totales-mensuales"
+);
+
 
 /////////////////////////////////// FUNCION AUXILIAR MAQUETADO ////////////////////////////////////////
 const arraySecciones = [
@@ -118,7 +136,7 @@ const arraySecciones = [
   seccionReportes,
   seccionNuevaOperacion,
   seccionEditarCategorias,
-  formularioEditarOperacion
+  formularioEditarOperacion,
 ];
 
 const mostrarSeccion = (array, seccion) => {
@@ -171,7 +189,7 @@ botonNuevaOperacion.onclick = () => {
   mostrarSeccion(arraySecciones, seccionNuevaOperacion);
 };
 
-////* Boton cancelar seccion Nuevas operaciones *////
+//* Boton cancelar seccion Nueva operacion *////
 botonCancelarNuevasOperaciones.onclick = () => {
   mostrarSeccion(arraySecciones, seccionPrincipal);
 };
@@ -184,7 +202,6 @@ botonAgregarNuevaOperacion.onclick = () => {
 
 //INFORMACION CATEGORIAS//
 const categorias = [
-  "Todos",
   "Trabajo",
   "Comida",
   "Educación",
@@ -194,9 +211,9 @@ const categorias = [
   "Alquiler",
 ];
 
-// Funciones auxiliares
-const guardarCategoriasLocalStorage = (array, clave) => {
-  const nuevoObjeto = { categorias: array };
+// Funciones auxiliares   
+const guardarCategoriasLocalStorage = (array, clave) => { 
+  const nuevoObjeto = { categorias: array }; 
   const objetoJSON = JSON.stringify(nuevoObjeto);
   localStorage.setItem(clave, objetoJSON);
 };
@@ -220,20 +237,18 @@ formEditarCategoria.onsubmit = (event) => {
   event.preventDefault();
 };
 
-const mostrarCategoriaAEditar = () => {
-  const botonesEditarItemCategoria = document.querySelectorAll(
-    ".boton-editar-item-categoria"
-  );
-
+const mostrarCategoriaAEditar = () => { 
+  const botonesEditarItemCategoria = document.querySelectorAll( 
+    ".boton-editar-item-categoria")                              
   for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
     botonesEditarItemCategoria[index].onclick = () => {
       const id = botonesEditarItemCategoria[index].id.slice(23);
       const idCategoria = Number(id);
       mostrarSeccion(arraySecciones, seccionEditarCategoria);
       let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
-      inputEditarNombreCategoria.value = categoriaAEditar;
+      inputEditarNombreCategoria.value = categoriaAEditar;                   
 
-      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter(
+      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter( 
         (categoria) => {
           return categoriaAEditar !== categoria;
         }
@@ -286,16 +301,30 @@ const agregarItemCategoria = (array) => {
 
 // AGREGAR CATEGORIA EN EL SELECT
 const agregarCategoriaHTML = (categorias, select) => {
-  const categoriasEnHTML = categorias.reduce((acc, categoria, index, array) => {
-    return (
-      acc +
-      `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+  if (select === selectCategoria) {
+    const opcionTodos = `<option value="Todos">Todas</option>`;
+    const categoriasEnHTML = categorias.reduce(
+      (acc, categoria, index, array) => {
+        return (
+          acc +
+          `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+        );
+      },
+      opcionTodos
     );
-  }, "");
-
-  select.innerHTML = categoriasEnHTML;
-
-  guardarCategoriasLocalStorage(categorias, "categorias");
+    select.innerHTML = categoriasEnHTML;
+  } else {
+    const categoriasEnHTML = categorias.reduce(
+      (acc, categoria, index, array) => {
+        return (
+          acc +
+          `<option value="${categoria}" id="categoria-${index}">${categoria}</option>`
+        );
+      },
+      ""
+    );
+    select.innerHTML = categoriasEnHTML;
+  }
 };
 
 //Formulario agregar categoria
@@ -313,8 +342,8 @@ botonAgregarCategoria.onclick = () => {
   } else if (categoriaCapitalizada === "") {
     alert("¡Categoria sin nombre!");
   } else {
-    categorias.push(categoriaCapitalizada);
-    guardarCategoriasLocalStorage(categorias, "categorias");
+    arrayDesdeLS.push(categoriaCapitalizada);
+    guardarCategoriasLocalStorage(arrayDesdeLS, "categorias");
     agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
     agregarCategoriaHTML(
       traerCategoriasDesdeLS("categorias"),
@@ -328,7 +357,6 @@ botonAgregarCategoria.onclick = () => {
     inputAgregarCategoria.value = "";
   }
 };
-
 
 ///////////////////* Funcion crear item de nueva operación *///////////////////////
 const guardarOperacionesLocalStorage = (array, clave) => {
@@ -350,15 +378,16 @@ const traerOperacionesDesdeLS = (clave) => {
 const inputFecha = document.querySelector("#input-fecha");
 
 const ordenarFechas = (array) => {
+
   const fechasOrdenadas = array.sort((a, b) => {
     return new Date(b.fecha) - new Date(a.fecha)
   });
+
   const fechaFinal = fechasOrdenadas.map((operacion) => {
-    new Date(operacion.fecha).toLocaleDateString()
+    new Date(operacion.fecha).toLocaleDateString();
     return operacion;
   });
   return fechaFinal;
-
 };
 //funcion filtro fechas
 const fechasNuevas = (operaciones) => {
@@ -371,7 +400,6 @@ const fechasNuevas = (operaciones) => {
   return fechasSeccionadas;
 };
 
-
 //// Información ////
 let operaciones = traerOperacionesDesdeLS("operaciones");
 
@@ -379,14 +407,17 @@ let operaciones = traerOperacionesDesdeLS("operaciones");
 /// Editar operacion///
 formularioEditarOperacion.onsubmit = (event) => {
   event.preventDefault();
-}
+};
 //Formulario editar operaciones//
 
 const mostrarOperacionAEditar = () => {
-  const botonEditarItemOperacion = document.querySelectorAll(".boton-editar-item-operacion");
+  const botonEditarItemOperacion = document.querySelectorAll(
+    ".boton-editar-item-operacion"
+  );
 
   for (let index = 0; index < botonEditarItemOperacion.length; index++) {
     botonEditarItemOperacion[index].onclick = () => {
+
       let id = botonEditarItemOperacion[index].id.slice(30)
       let idOperacion = Number(id)
       mostrarSeccion(arraySecciones, formularioEditarOperacion)
@@ -408,19 +439,21 @@ const mostrarOperacionAEditar = () => {
 
           guardarOperacionesLocalStorage(operaciones, "operaciones")
         mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")))
+
+      
         mostrarSeccion(arraySecciones, seccionPrincipal);
-      }
+        mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
+      };
 
       botonCancelarEditarOperaciones.onclick = (event) => {
-        event.preventDefault()
-        mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"))
+
+        event.preventDefault();
+        mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"));
         mostrarSeccion(arraySecciones, seccionPrincipal);
-      }
-    }
-
+      };
+    };
   }
-
-}
+};
 
 //MOSTRAR OPERACIONES EN HTML - FUNCION AUXILIAR, CAMBIA EL COLOR DE LAS OPERACIONES EN HTML//
 
@@ -440,56 +473,59 @@ const signoMonto = (objeto) => {
   }
 };
 
-
-
 /// Boton Elimina Operaciones
 const eliminarOperacion = (index) => {
   operaciones = operaciones.filter((elemento, i) => {
-    return index !== i
-  })
-  guardarOperacionesLocalStorage(operaciones, "operaciones")
-  mostrarOperacionesEnHTML(operaciones)
-}
+
+    return index !== i;
+  });
+  guardarOperacionesLocalStorage(operaciones, "operaciones");
+  mostrarOperacionesEnHTML(operaciones);
+  mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
+};
 
 const asignarFuncionEliminar = () => {
   const botonEliminarOperacion = document.querySelectorAll(
-    '.boton-eliminar-item-operacion'
+    ".boton-eliminar-item-operacion"
   );
   for (let i = 0; i < botonEliminarOperacion.length; i++) {
     botonEliminarOperacion[i].onclick = () => {
-      eliminarOperacion(i)
-    }
+      eliminarOperacion(i);
+    };
   }
-}
-
+};
 
 const mostrarOperacionesEnHTML = (array) => {
   const itemsOperaciones = array.reduce((acc, operacion, index) => {
     return (
       acc +
       `<div id="item-nueva-operacion" class="columns is-mobile">
-    <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${operacion.descripcion
-      }</p>
+    <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${
+      operacion.descripcion
+    }</p>
     <div class="column is-3 is-6-mobile">
-      <p id="categoria-item-operacion" class="tag is-primary is-light">${operacion.categoria
+      <p id="categoria-item-operacion" class="tag is-primary is-light">${
+        operacion.categoria
       }</p>
     </div>
-    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile has-text-right">${operacion.fecha
-      }</p>
+    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile has-text-right">${
+      operacion.fecha
+    }</p>
     <p id="monto-item-operacion" class="column is-2-desktop is-3-mobile has-text-right has-text-weight-bold ${colorDeMonto(
-        operacion
-      )}"> ${signoMonto(operaciones)}${operacion.monto}
+      operacion
+    )}"> ${signoMonto(operacion)}${operacion.monto}
     </p>
     <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
       <button id="boton-editar-item-operaciones-${index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
       <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
     </div>
     </div>`
-    ); //agregar aca el identificador unico para los botones!, agrego eso mas la clase para eliminar item
+    ); 
   }, "");
   contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
-  asignarFuncionEliminar()
-  mostrarOperacionAEditar()
+  asignarFuncionEliminar();
+  mostrarOperacionAEditar();
+
 };
 
 //////////////////////* Función auxiliar Balance*//////////////////////////
@@ -593,7 +629,6 @@ selectCategoria.onchange = () => {
   mostrarOperacionesEnHTML(arrayFiltradoFinal);
 };
 
-
 //cuando se selecciona una fecha se ejecuta la funcion y muestar en html
 inputFecha.onchange = () => {
   const filtradoDeFechas = fechasNuevas(traerOperacionesDesdeLS("operaciones"));
@@ -610,7 +645,9 @@ if (traerOperacionesDesdeLS("operaciones") === null) {
 } else {
   seccionSinOperaciones.classList.add("is-hidden");
   seccionConOperaciones.classList.remove("is-hidden");
-  mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")));
+  mostrarOperacionesEnHTML(
+    ordenarFechas(traerOperacionesDesdeLS("operaciones"))
+  );
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
 }
 
@@ -710,6 +747,7 @@ botonEditarCategoriaFormulario.onclick = () => {
 /// Comparación que muestra CATEGORIAS según lo que esté guardado en LS
 
 if (traerCategoriasDesdeLS("categorias") === null) {
+  guardarCategoriasLocalStorage(categorias, "categorias");
   agregarCategoriaHTML(categorias, selectCategoria);
   agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
   agregarCategoriaHTML(categorias, selectCategoriaEditarOperacion);
@@ -722,9 +760,11 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   );
   agregarCategoriaHTML(
     traerCategoriasDesdeLS("categorias"),
-    selectCategoriaEditarOperacion);
+    selectCategoriaEditarOperacion
+  );
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
+
 
 ////Seccion Reportes ////
 
@@ -809,15 +849,92 @@ tagCategoriaMayorBalance.textContent = categoriaDeBalance
 montoMayorBalance.textContent = `$ ${montoDeBalance}`
 
 
+//seccion Reportes por Categorias//
+const contenedorItemTotalesCategoria = document.getElementById("contenedor-item-totales-categoria")
+const mostrarReportesTotalesPorCategoria = () => {
+  let items = ""
+  let categorias = traerCategoriasDesdeLS('categorias');
+  for (let i = 0; i < categorias.length; i++) {
+    const operacionesFiltradas = traerOperacionesDesdeLS("operaciones").filter((operacion)=>{
+      return operacion.categoria === categorias[i]
+    })
+    const operacionesGasto = filtrarOperacionesTipo(operacionesFiltradas,"gasto")
+    const sumaGastos = operacionesGasto.reduce((acc,curr)=>{
+      return  acc + Number(curr.monto)
+    },0)
+    const operacionesGanancia = filtrarOperacionesTipo(operacionesFiltradas,"ganancia")
+    const sumaGanancias = operacionesGanancia.reduce((acc,curr)=>{
+      return  acc + Number(curr.monto)
+    },0)
+    items = items + `<div class="columns is-mobile">
+                <p class="column is-3">${categorias[i]}</p>
+                <p class="column is-3 has-text-right has-text-success">+$${sumaGanancias}</p>
+                <p class="column is-3 has-text-right has-text-danger">-$${sumaGastos}</p>
+                <p class="column is-3 has-text-right">$${sumaGanancias - sumaGastos}</p>
+              </div>`
+
+  }
+  contenedorItemTotalesCategoria.innerHTML = items
+}
+mostrarReportesTotalesPorCategoria()
 
 
 
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        REPORTES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+///// TOTALES POR MES ////
 
 
+const operacionesPorMes = () => {
+  const meses = [[], [], [], [], [], [], [], [], [], [], [], []]
+  const operaciones = traerOperacionesDesdeLS("operaciones")
+
+  for (let i = 0; i < operaciones.length; i++) {
+    const numeroMes= new Date(operaciones[i].fecha).getMonth()
+    meses[numeroMes].push(operaciones[i])  
+  }
+  return meses;
+};
 
 
+const mostrarTotalesPorMes = (meses) => {
+  const mesesConOperaciones = meses.filter((curr) => {
+    return curr.length > 0;
+  });
 
+  let items = "";
 
+  mesesConOperaciones.map((mes) => {
+    const gananciasMensuales = filtrarOperacionesTipo(mes, "ganancia").reduce(
+      (acc, operacion) => {
+        return (acc = acc + Number(operacion.monto));
+      },
+      0
+    );
 
+    const gastosMensuales = filtrarOperacionesTipo(mes, "gasto").reduce(
+      (acc, operacion) => {
+        return (acc = acc + Number(operacion.monto));
+      },
+      0
+    );
 
+    let fecha = mes[0].fecha;
+    items =
+      items +
+      `<div class="columns is-mobile">
+ <p class="column is-3 ">${fecha.slice(0, 7)}</p>
+ <p class="column is-3 has-text-right has-text-success">+$${gananciasMensuales}</p>
+ <p class="column is-3 has-text-right has-text-danger">-$${gastosMensuales}</p>
+ <p class="column is-3 has-text-right">$${
+   gananciasMensuales - gastosMensuales
+ }</p>
+</div>`;
+  });
 
+  contenedorTotalesMensuales.innerHTML = items;
+};
+
+mostrarTotalesPorMes(operacionesPorMes());
