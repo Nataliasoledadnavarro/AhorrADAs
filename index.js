@@ -825,9 +825,10 @@ const mostrarMayorGananciaOGasto = (tipo) => {
 };
 
 ///Mayor Balance///
-let categoriaDeBalance = "";
-let montoDeBalance = 0;
+
 const mostrarMayorBalance = () => {
+  let categoriaDeBalance = "";
+  let montoDeBalance = 0;
   const listaDeOperaciones = traerOperacionesDesdeLS("operaciones");
 
   let categoriaTemporal = "";
@@ -850,12 +851,11 @@ const mostrarMayorBalance = () => {
       categoriaDeBalance = categoriaTemporal;
     }
   }
+  tagCategoriaMayorBalance.textContent = categoriaDeBalance;
+  montoMayorBalance.textContent = `$ ${montoDeBalance}`;
 };
-mostrarMayorGananciaOGasto("ganancia");
-mostrarMayorGananciaOGasto("gasto");
-mostrarMayorBalance();
-tagCategoriaMayorBalance.textContent = categoriaDeBalance;
-montoMayorBalance.textContent = `$ ${montoDeBalance}`;
+
+
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////
                                         REPORTES
@@ -960,6 +960,9 @@ const mostrarReportes = () => {
     // Ejecuciones
     mostrarTotalesPorMes(operacionesPorMes());
     mostrarReportesTotalesPorCategoria();
+    mostrarMayorGananciaOGasto("ganancia");
+    mostrarMayorGananciaOGasto("gasto");
+    mostrarMayorBalance();
   }
 };
 
