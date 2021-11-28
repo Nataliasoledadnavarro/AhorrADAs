@@ -885,6 +885,9 @@ const mostrarReportesTotalesPorCategoria = () => {
     const sumaGanancias = operacionesGanancia.reduce((acc, curr) => {
       return acc + Number(curr.monto);
     }, 0);
+   
+    if(sumaGanancias > 0 || sumaGastos > 0){
+   
     items =
       items +
       `<div class="columns is-mobile">
@@ -894,7 +897,7 @@ const mostrarReportesTotalesPorCategoria = () => {
                 <p class="column is-3 has-text-right">$${
                   sumaGanancias - sumaGastos
                 }</p>
-              </div>`;
+              </div>`;}
   }
   contenedorItemTotalesCategoria.innerHTML = items;
 };
