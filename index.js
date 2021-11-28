@@ -518,8 +518,11 @@ const signoMonto = (objeto) => {
 };
 
 //AGREGAR OPERACION
-botonAgregarNuevaOperacion.onclick = (event) => {
+
+seccionNuevaOperacion.onsubmit = (event) => {
   event.preventDefault();
+};
+botonAgregarNuevaOperacion.onclick = () => {
   let operacion = {
     descripcion: inputDescripcionNuevaOperacion.value,
     categoria: selectCategoriaNuevaOperacion.value,
@@ -527,14 +530,23 @@ botonAgregarNuevaOperacion.onclick = (event) => {
     monto: inputMontoNuevaOperacion.value,
     tipo: selectTipoNuevaOperacion.value,
   };
-  operaciones.push(operacion);
-  guardarOperacionesLocalStorage(operaciones, "operaciones");
-  mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"));
-  mostrarSeccion(arraySecciones, seccionPrincipal);
-  seccionSinOperaciones.classList.add("is-hidden");
-  seccionConOperaciones.classList.remove("is-hidden");
-  mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
-  mostrarReportes();
+
+  if (
+    operacion.descripcion === "" ||
+    operacion.monto === "0" ||
+    operacion.fecha === ""
+  ) {
+    alert("¡Completar todos los campos!");
+  } else {
+    operaciones.push(operacion);
+    guardarOperacionesLocalStorage(operaciones, "operaciones");
+    mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"));
+    mostrarSeccion(arraySecciones, seccionPrincipal);
+    seccionSinOperaciones.classList.add("is-hidden");
+    seccionConOperaciones.classList.remove("is-hidden");
+    mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
+    mostrarReportes();
+  }
 };
 
 //Formulario editar operaciones
@@ -885,19 +897,19 @@ const mostrarReportesTotalesPorCategoria = () => {
     const sumaGanancias = operacionesGanancia.reduce((acc, curr) => {
       return acc + Number(curr.monto);
     }, 0);
-   
-    if(sumaGanancias > 0 || sumaGastos > 0){
-   
-    items =
-      items +
-      `<div class="columns is-mobile">
+
+    if (sumaGanancias > 0 || sumaGastos > 0) {
+      items =
+        items +
+        `<div class="columns is-mobile">
                 <p class="column is-3">${categorias[i]}</p>
                 <p class="column is-3 has-text-right has-text-success">+$${sumaGanancias}</p>
                 <p class="column is-3 has-text-right has-text-danger">-$${sumaGastos}</p>
                 <p class="column is-3 has-text-right">$${
                   sumaGanancias - sumaGastos
                 }</p>
-              </div>`;}
+              </div>`;
+    }
   }
   contenedorItemTotalesCategoria.innerHTML = items;
 };
