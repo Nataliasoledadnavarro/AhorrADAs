@@ -203,7 +203,9 @@ botonNuevaOperacion.onclick = () => {
   mostrarSeccion(arraySecciones, seccionNuevaOperacion);
 };
 
+
 // Boton cancelar seccion Nueva operacion *////
+
 botonCancelarNuevasOperaciones.onclick = () => {
   mostrarSeccion(arraySecciones, seccionPrincipal);
 };
@@ -229,9 +231,9 @@ const categorias = [
   "Alquiler",
 ];
 
-// Funciones auxiliares
-const guardarCategoriasLocalStorage = (array, clave) => {
-  const nuevoObjeto = { categorias: array };
+// Funciones auxiliares   
+const guardarCategoriasLocalStorage = (array, clave) => { 
+  const nuevoObjeto = { categorias: array }; 
   const objetoJSON = JSON.stringify(nuevoObjeto);
   localStorage.setItem(clave, objetoJSON);
 };
@@ -245,7 +247,6 @@ const traerCategoriasDesdeLS = (clave) => {
     return objetoLS.categorias;
   }
 };
-
 const capitalizar = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
@@ -256,19 +257,21 @@ formEditarCategoria.onsubmit = (event) => {
   event.preventDefault();
 };
 
+
 const mostrarCategoriaAEditar = () => {
   const botonesEditarItemCategoria = document.querySelectorAll(
     ".boton-editar-item-categoria"
   );
+
   for (let index = 0; index < botonesEditarItemCategoria.length; index++) {
     botonesEditarItemCategoria[index].onclick = () => {
       const id = botonesEditarItemCategoria[index].id.slice(23);
       const idCategoria = Number(id);
       mostrarSeccion(arraySecciones, seccionEditarCategoria);
       let categoriaAEditar = traerCategoriasDesdeLS("categorias")[idCategoria];
-      inputEditarNombreCategoria.value = categoriaAEditar;
+      inputEditarNombreCategoria.value = categoriaAEditar;                   
 
-      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter(
+      const categoriasRestantes = traerCategoriasDesdeLS("categorias").filter( 
         (categoria) => {
           return categoriaAEditar !== categoria;
         }
@@ -461,8 +464,9 @@ const traerOperacionesDesdeLS = (clave) => {
 
 const ordenarFechas = (array) => {
   const fechasOrdenadas = array.sort((a, b) => {
-    return new Date(b.fecha) - new Date(a.fecha);
+    return new Date(b.fecha) - new Date(a.fecha)
   });
+
   const fechaFinal = fechasOrdenadas.map((operacion) => {
     new Date(operacion.fecha).toLocaleDateString();
     return operacion;
@@ -486,6 +490,7 @@ const fechasNuevas = (operaciones) => {
 
 //Información 
 let operaciones = traerOperacionesDesdeLS("operaciones");
+
 
 
 //MOSTRAR OPERACIONES EN HTML
@@ -571,34 +576,37 @@ const mostrarOperacionAEditar = () => {
 
   for (let index = 0; index < botonEditarItemOperacion.length; index++) {
     botonEditarItemOperacion[index].onclick = () => {
-      let id = botonEditarItemOperacion[index].id.slice(30);
-      let idOperacion = Number(id);
-      mostrarSeccion(arraySecciones, formularioEditarOperacion);
-      operaciones = traerOperacionesDesdeLS("operaciones");
-      const operacionAEditar = operaciones[idOperacion];
-      inputDescripcionEditarOperacion.value = operacionAEditar.descripcion;
-      inputMontoEditarOperacion.value = operacionAEditar.monto;
-      selectTipoEditarOperacion.value = operacionAEditar.tipo;
-      selectCategoriaEditarOperacion.value = operacionAEditar.categoria;
-      inputFechaEditarOperacion.value = operacionAEditar.fecha;
+
+      let id = botonEditarItemOperacion[index].id.slice(30)
+      let idOperacion = Number(id)
+      mostrarSeccion(arraySecciones, formularioEditarOperacion)
+      operaciones = traerOperacionesDesdeLS("operaciones")
+      const operacionAEditar = operaciones[idOperacion]
+      inputDescripcionEditarOperacion.value = operacionAEditar.descripcion
+      inputMontoEditarOperacion.value = operacionAEditar.monto
+      selectTipoEditarOperacion.value = operacionAEditar.tipo
+      selectCategoriaEditarOperacion.value = operacionAEditar.categoria
+      inputFechaEditarOperacion.value = operacionAEditar.fecha
 
       botonFormularioEditarOperaciones.onclick = (event) => {
         event.preventDefault();
-        (operacionAEditar.descripcion = inputDescripcionEditarOperacion.value),
-          (operacionAEditar.categoria = selectCategoriaEditarOperacion.value),
-          (operacionAEditar.fecha = inputFechaEditarOperacion.value),
-          (operacionAEditar.monto = inputMontoEditarOperacion.value),
-          (operacionAEditar.tipo = selectTipoEditarOperacion.value),
-          guardarOperacionesLocalStorage(operaciones, "operaciones");
-        mostrarOperacionesEnHTML(
-          ordenarFechas(traerOperacionesDesdeLS("operaciones"))
-        );
+        operacionAEditar.descripcion = inputDescripcionEditarOperacion.value,
+          operacionAEditar.categoria = selectCategoriaEditarOperacion.value,
+          operacionAEditar.fecha = inputFechaEditarOperacion.value,
+          operacionAEditar.monto = inputMontoEditarOperacion.value,
+          operacionAEditar.tipo = selectTipoEditarOperacion.value,
+
+          guardarOperacionesLocalStorage(operaciones, "operaciones")
+        mostrarOperacionesEnHTML(ordenarFechas(traerOperacionesDesdeLS("operaciones")))
+
+      
         mostrarSeccion(arraySecciones, seccionPrincipal);
         mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
         mostrarReportes()
       };
 
       botonCancelarEditarOperaciones.onclick = (event) => {
+
         event.preventDefault();
         mostrarOperacionesEnHTML(traerOperacionesDesdeLS("operaciones"));
         mostrarSeccion(arraySecciones, seccionPrincipal);
@@ -610,6 +618,7 @@ const mostrarOperacionAEditar = () => {
 // Boton Elimina Operaciones
 const eliminarOperacion = (index) => {
   operaciones = operaciones.filter((elemento, i) => {
+
     return index !== i;
   });
   guardarOperacionesLocalStorage(operaciones, "operaciones");
@@ -629,9 +638,50 @@ const asignarFuncionEliminar = () => {
   }
 };
 
+
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                  BALANCE
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+const mostrarOperacionesEnHTML = (array) => {
+  const itemsOperaciones = array.reduce((acc, operacion, index) => {
+    return (
+      acc +
+      `<div id="item-nueva-operacion" class="columns is-mobile">
+    <p id="descripcion-item-operacion" class="column is-3 mr-0-mobile has-text-weight-semibold">${
+      operacion.descripcion
+    }</p>
+    <div class="column is-3 is-6-mobile">
+      <p id="categoria-item-operacion" class="tag is-primary is-light">${
+        operacion.categoria
+      }</p>
+    </div>
+    <p id="fecha-item-operacion" class="is-size-7 column is-2 is-hidden-mobile has-text-right">${
+      operacion.fecha
+    }</p>
+    <p id="monto-item-operacion" class="column is-2-desktop is-3-mobile has-text-right has-text-weight-bold ${colorDeMonto(
+      operacion
+    )}"> ${signoMonto(operacion)}${operacion.monto}
+    </p>
+    <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
+      <button id="boton-editar-item-operaciones-${index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
+      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
+    </div>
+    </div>`
+    ); 
+  }, "");
+  contenedorNuevasOperaciones.innerHTML = itemsOperaciones;
+  asignarFuncionEliminar();
+  mostrarOperacionAEditar();
+
+};
+
+//////////////////////* Función auxiliar Balance*//////////////////////////
+
+const numeroGananciaBalance = document.querySelector("#numero-ganancias");
+const numeroGastosBalance = document.querySelector("#numero-gastos");
+const numeroTotalBalance = document.querySelector("#numero-total");
+
 
 const filtrarOperacionesTipo = (array, tipo) => {
   const operaciones = array.filter((curr) => {
@@ -753,6 +803,196 @@ const ordenarPor = () => {
   }
   return operaciones;
 };
+
+/// Boton eliminar categoria
+const ejecutarBotonesEliminarCatagoria = () => {
+  const botonEliminarCategoria = document.querySelectorAll(
+    ".boton-eliminar-categoria"
+  );
+
+  for (let i = 0; i < botonEliminarCategoria.length; i++) {
+    botonEliminarCategoria[i].onclick = () => {
+      idCortado = botonEliminarCategoria[i].id.slice(25);
+      console.log(idCortado);
+      idDelBoton = Number(idCortado);
+      const categoriasNoEliminadas = traerCategoriasDesdeLS(
+        "categorias"
+      ).filter((elemento, index) => {
+        return index !== idDelBoton;
+      });
+      console.log(categoriasNoEliminadas);
+      guardarCategoriasLocalStorage(categoriasNoEliminadas, "categorias");
+      traerCategoriasDesdeLS("categorias");
+      agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoria
+      ); // select de categorias
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoriaNuevaOperacion
+      );
+      agregarCategoriaHTML(
+        traerCategoriasDesdeLS("categorias"),
+        selectCategoriaEditarOperacion
+      );
+      // item de nueva operacion
+    };
+  }
+};
+
+//boton editar categoria del formulario
+botonEditarCategoriaFormulario.onclick = () => {
+  const arrayCategoriasLS = traerCategoriasDesdeLS("categorias");
+  arrayCategoriasLS.push(inputEditarNombreCategoria.value);
+  guardarCategoriasLocalStorage(arrayCategoriasLS, "categorias");
+
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaEditarOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+  mostrarSeccion(arraySecciones, seccionCategorias);
+};
+
+/// Comparación que muestra CATEGORIAS según lo que esté guardado en LS
+
+if (traerCategoriasDesdeLS("categorias") === null) {
+  guardarCategoriasLocalStorage(categorias, "categorias");
+  agregarCategoriaHTML(categorias, selectCategoria);
+  agregarCategoriaHTML(categorias, selectCategoriaNuevaOperacion);
+  agregarCategoriaHTML(categorias, selectCategoriaEditarOperacion);
+  agregarItemCategoria(categorias);
+} else {
+  agregarCategoriaHTML(traerCategoriasDesdeLS("categorias"), selectCategoria);
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaNuevaOperacion
+  );
+  agregarCategoriaHTML(
+    traerCategoriasDesdeLS("categorias"),
+    selectCategoriaEditarOperacion
+  );
+  agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
+}
+
+
+////Seccion Reportes ////
+
+const tagCategoriaMayorGanancia = document.getElementById("tag-categoria-mayor-ganancia")
+const montoMayorGanancia = document.getElementById("monto-mayor-ganancia")
+const tagCategoriaMayorGasto = document.getElementById("tag-categoria-mayor-gasto")
+const montoMayorGasto = document.getElementById("monto-mayor-gasto")
+const tagCategoriaMayorBalance = document.getElementById("tag-categoria-mayor-balance")
+const montoMayorBalance = document.getElementById("monto-mayor-balance")
+
+////Funcion Categoria con Mayor ganancia o gasto ////
+const mostrarMayorGananciaOGasto = (tipo) => {
+  const listaDeTipo = filtrarOperacionesTipo((traerOperacionesDesdeLS("operaciones")), tipo)
+  let mayorCategoriaGanancia = ""
+  let mayorMontoGanancia = 0
+
+  let mayorCategoriaGasto = ""
+  let mayorMontoGasto = 0
+
+  let categoriaActual = ""
+  for (let i = 0; i < listaDeTipo.length; i++) {
+    let montoTemporal = 0
+    categoriaActual = listaDeTipo[i].categoria
+    for (let j = 0; j < listaDeTipo.length; j++) {
+      if (categoriaActual === listaDeTipo[j].categoria) {
+        montoTemporal = montoTemporal + Number(listaDeTipo[j].monto)
+      }
+    }
+    if (tipo === "ganancia") {
+      if (mayorMontoGanancia < montoTemporal) {
+        mayorMontoGanancia = montoTemporal
+        mayorCategoriaGanancia = categoriaActual
+        tagCategoriaMayorGanancia.textContent = mayorCategoriaGanancia
+        montoMayorGanancia.textContent = `+$ ${mayorMontoGanancia}`
+      }
+    } else {
+      if (mayorMontoGasto < montoTemporal) {
+        mayorMontoGasto = montoTemporal
+        mayorCategoriaGasto = categoriaActual
+        tagCategoriaMayorGasto.textContent = mayorCategoriaGasto
+        montoMayorGasto.textContent = `-$ ${mayorMontoGasto}`
+      }
+    }
+  }
+}
+///Mayor Balance///
+let categoriaDeBalance = ""
+let montoDeBalance =0
+const mostrarMayorBalance = ()=>{
+  const listaDeOperaciones = traerOperacionesDesdeLS("operaciones")
+  
+  let categoriaTemporal = ""
+  for (let i = 0; i < listaDeOperaciones.length; i++) {
+    let montoTemporal = 0
+    categoriaTemporal = (listaDeOperaciones[i].categoria)
+
+    for (let j = 0; j < listaDeOperaciones.length; j++) {
+      
+      if(categoriaTemporal === listaDeOperaciones[j].categoria){
+        if(listaDeOperaciones[j].tipo === "ganancia"){
+          montoTemporal = montoTemporal + Number(listaDeOperaciones[j].monto)
+        }else{
+          montoTemporal = montoTemporal - Number(listaDeOperaciones[j].monto) 
+        }
+        console.log("categoria actual",categoriaTemporal)
+        console.log("monto temporal",montoTemporal)
+      }
+      
+    }
+
+    if(montoTemporal > montoDeBalance){
+      montoDeBalance = montoTemporal
+      categoriaDeBalance = categoriaTemporal
+    } 
+  }
+  
+};
+mostrarMayorGananciaOGasto("ganancia")
+mostrarMayorGananciaOGasto("gasto")
+mostrarMayorBalance()
+tagCategoriaMayorBalance.textContent = categoriaDeBalance
+montoMayorBalance.textContent = `$ ${montoDeBalance}`
+
+
+//seccion Reportes por Categorias//
+const contenedorItemTotalesCategoria = document.getElementById("contenedor-item-totales-categoria")
+const mostrarReportesTotalesPorCategoria = () => {
+  let items = ""
+  let categorias = traerCategoriasDesdeLS('categorias');
+  for (let i = 0; i < categorias.length; i++) {
+    const operacionesFiltradas = traerOperacionesDesdeLS("operaciones").filter((operacion)=>{
+      return operacion.categoria === categorias[i]
+    })
+    const operacionesGasto = filtrarOperacionesTipo(operacionesFiltradas,"gasto")
+    const sumaGastos = operacionesGasto.reduce((acc,curr)=>{
+      return  acc + Number(curr.monto)
+    },0)
+    const operacionesGanancia = filtrarOperacionesTipo(operacionesFiltradas,"ganancia")
+    const sumaGanancias = operacionesGanancia.reduce((acc,curr)=>{
+      return  acc + Number(curr.monto)
+    },0)
+    items = items + `<div class="columns is-mobile">
+                <p class="column is-3">${categorias[i]}</p>
+                <p class="column is-3 has-text-right has-text-success">+$${sumaGanancias}</p>
+                <p class="column is-3 has-text-right has-text-danger">-$${sumaGastos}</p>
+                <p class="column is-3 has-text-right">$${sumaGanancias - sumaGastos}</p>
+              </div>`
+
+  }
+  contenedorItemTotalesCategoria.innerHTML = items
+}
+mostrarReportesTotalesPorCategoria()
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////
                                         REPORTES
