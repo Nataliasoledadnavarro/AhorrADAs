@@ -156,10 +156,12 @@ const tagCategoriaMayorBalance = document.getElementById(
   "tag-categoria-mayor-balance"
 );
 const montoMayorBalance = document.getElementById("monto-mayor-balance");
-const fechaMayorGanancia = document.getElementById("fecha-mayor-ganancia")
-const montoMesMayorGanancia = document.getElementById("monto-mes-mayor-ganancia")
-const fechaMayorGasto = document.getElementById("fecha-mayor-gasto")
-const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto")
+const fechaMayorGanancia = document.getElementById("fecha-mayor-ganancia");
+const montoMesMayorGanancia = document.getElementById(
+  "monto-mes-mayor-ganancia"
+);
+const fechaMayorGasto = document.getElementById("fecha-mayor-gasto");
+const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto");
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////
                                             MAQUETADO
@@ -470,14 +472,11 @@ const traerOperacionesDesdeLS = (clave) => {
   if (operacionesDesdeLS === null) {
     return null;
   } else {
-    return operacionesDesdeLS.map((operacion,index)=>{
-      return {...operacion,index}
-    })
+    return operacionesDesdeLS.map((operacion, index) => {
+      return { ...operacion, index };
+    });
   }
 };
-
-
-
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                              OPERACIONES
@@ -588,13 +587,11 @@ const mostrarOperacionAEditar = () => {
 
 // Boton Elimina Operaciones
 const eliminarOperacion = (index) => {
-
-operaciones = traerOperacionesDesdeLS("operaciones").filter((elemento, i) => {
+  operaciones = traerOperacionesDesdeLS("operaciones").filter((elemento, i) => {
     return index !== i;
-
   });
-  console.log(operaciones)
-console.log("eliminar", index)
+  console.log(operaciones);
+  console.log("eliminar", index);
   guardarOperacionesLocalStorage(operaciones, "operaciones");
   mostrarOperacionesEnHTML(operaciones);
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
@@ -608,7 +605,7 @@ const asignarFuncionEliminar = () => {
   for (let i = 0; i < botonEliminarOperacion.length; i++) {
     let id = botonEliminarOperacion[i].id.slice(32);
     let idOperacion = Number(id);
-    console.log("asignar", idOperacion)
+    console.log("asignar", idOperacion);
     botonEliminarOperacion[i].onclick = () => {
       eliminarOperacion(idOperacion);
     };
@@ -666,8 +663,12 @@ const mostrarOperacionesEnHTML = (array) => {
     )}"> ${signoMonto(operacion)}${operacion.monto}
     </p>
     <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
-      <button id="boton-editar-item-operaciones-${operacion.index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
-      <button id="boton-eliminar-item-operaciones-${operacion.index}" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
+      <button id="boton-editar-item-operaciones-${
+        operacion.index
+      }" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
+      <button id="boton-eliminar-item-operaciones-${
+        operacion.index
+      }" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
     </div>
     </div>`
     );
@@ -885,10 +886,7 @@ const mostrarMayorBalance = () => {
   }
   tagCategoriaMayorBalance.textContent = categoriaDeBalance;
   montoMayorBalance.textContent = `$ ${montoDeBalance}`;
-
 };
-
-
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////
                                         REPORTES
@@ -987,47 +985,47 @@ const mostrarTotalesPorMes = (meses) => {
 
 ////////////////Resumen - x fecha ////////////////
 
-
-
-
 const mesConMayorGanancia = (meses) => {
-  let gananciaMayor = 0
-  let fecha = ""
+  let gananciaMayor = 0;
+  let fecha = "";
   for (let i = 0; i < meses.length; i++) {
-    const mesOperacionesGanancia = filtrarOperacionesTipo(meses[i], "ganancia")
-      const sumaGanancias = mesOperacionesGanancia.reduce((acc, curr) => {
-      return acc + Number(curr.monto)
-     }, 0)
-     if(sumaGanancias > gananciaMayor){
-       gananciaMayor = sumaGanancias
-       fecha = meses[i][0].fecha
-       }
+    const mesOperacionesGanancia = filtrarOperacionesTipo(meses[i], "ganancia");
+    const sumaGanancias = mesOperacionesGanancia.reduce((acc, curr) => {
+      return acc + Number(curr.monto);
+    }, 0);
+    if (sumaGanancias > gananciaMayor) {
+      gananciaMayor = sumaGanancias;
+      fecha = meses[i][0].fecha;
+    }
   }
-  fechaMayorGanancia.textContent = fecha.slice(0,7)
-  montoMesMayorGanancia.textContent = `+$${gananciaMayor}`
-}
-
+  fechaMayorGanancia.textContent = fecha.slice(0, 7);
+  montoMesMayorGanancia.textContent = `+$${gananciaMayor}`;
+};
 
 const mesConMayorGasto = (meses) => {
-  let gastoMayor = 0
-  let fecha = ""
+  let gastoMayor = 0;
+  let fecha = "";
   meses.map((meses) => {
-      const mesOperacionesGasto = filtrarOperacionesTipo(meses, "gasto")
-      const sumaGasto = mesOperacionesGasto.reduce((acc, curr) => {
-      return acc + Number(curr.monto)
-     }, 0)
-     if(sumaGasto > gastoMayor){
-       gastoMayor = sumaGasto
-       fecha = meses[0].fecha
-       }
-  })
-  fechaMayorGasto.textContent = fecha.slice(0,7)
-  montoMesMayorGasto.textContent = `-$${gastoMayor}`
-}
+    const mesOperacionesGasto = filtrarOperacionesTipo(meses, "gasto");
+    const sumaGasto = mesOperacionesGasto.reduce((acc, curr) => {
+      return acc + Number(curr.monto);
+    }, 0);
+    if (sumaGasto > gastoMayor) {
+      gastoMayor = sumaGasto;
+      fecha = meses[0].fecha;
+    }
+  });
+  fechaMayorGasto.textContent = fecha.slice(0, 7);
+  montoMesMayorGasto.textContent = `-$${gastoMayor}`;
+};
 
 //// MOSTRAR REPORTES
+
 const mostrarReportes = () => {
-  if (traerOperacionesDesdeLS("operaciones") === null) {
+  if (
+    traerOperacionesDesdeLS("operaciones") === null ||
+    traerOperacionesDesdeLS("operaciones").length === 0
+  ) {
     seccionReportesConDatos.classList.add("is-hidden");
     seccionReportesSinDatos.classList.remove("is-hidden");
   } else {
@@ -1038,8 +1036,8 @@ const mostrarReportes = () => {
     mostrarReportesTotalesPorCategoria();
     mostrarMayorGananciaOGasto("ganancia");
     mostrarMayorGananciaOGasto("gasto");
-    mesConMayorGasto(operacionesPorMes())
-    mesConMayorGanancia(operacionesPorMes())
+    mesConMayorGasto(operacionesPorMes());
+    mesConMayorGanancia(operacionesPorMes());
     mostrarMayorBalance();
   }
 };
@@ -1048,7 +1046,7 @@ const mostrarReportes = () => {
                  COMPARACIÓN QUE MUESTRA OPERACIONES SEGUN LO QUE ESTE GUARDADO EN LS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-if (traerOperacionesDesdeLS("operaciones") === null) {
+if (traerOperacionesDesdeLS("operaciones") === null || traerOperacionesDesdeLS("operaciones").length === 0) {
   seccionSinOperaciones.classList.remove("is-hidden");
   seccionConOperaciones.classList.add("is-hidden");
   operaciones = [];
@@ -1086,8 +1084,3 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
   mostrarReportes();
 }
-
-
-
-
-
