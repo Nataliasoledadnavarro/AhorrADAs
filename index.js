@@ -657,20 +657,51 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   agregarItemCategoria(traerCategoriasDesdeLS("categorias"));
 }
 
-//Formulario editar operaciones
-// const formularioEditarOperacion = document.getElementById("formulario-editar-operacion")
-// const inputDescripciónEditarOperación = document.getElementById("descripción-editar-operación")
-// const inputMontoEditarOperación = document.getElementById("monto-editar-operación")
-// const selectTipoEditarOperacion = document.getElementById("tipo-editar-operacion")
-// const selectCategoriaEditarOperacion = document.getElementById("categoria-editar-operacion")
-// const inputFechaEditarOperación = document.getElementById("fecha-editar-operación")
-// const botonCancelarEditarOperaciones = document.getElementById("boton-cancelar-editar-operaciones")
-// const botonEditarOperaciones = document.getElementById("boton-editar-operaciones")
-// linea 390 colocar una clase al boton para comenzar la funcion que va a mostrar el formulario y editar operaciones
-
 formularioEditarOperacion.onsubmit =(event)=>{
   event.preventDefault();
 }
 
+////////////////////Reportes/////////////////////
+////////////////Resumen - x fecha ////////////////
+
+const fechaMayorGanancia = document.getElementById("fecha-mayor-ganancia")
+const montoMayorGanancia = document.getElementById("monto-mayor-ganancia")
+const fechaMayorGasto = document.getElementById("fecha-mayor-gasto")
+const montoMayorGasto = document.getElementById("monto-mayor-gasto")
 
 
+const mesConMayorGanancia = (meses) => {
+  let gananciaMayor = 0
+  let fecha = ""
+  for (let i = 0; i < meses.length; i++) {
+    const mesOperacionesGanancia = filtrarOperacionesTipo(meses[i], "ganancia")
+      const sumaGanancias = mesOperacionesGanancia.reduce((acc, curr) => {
+      return acc + Number(curr.monto)
+     }, 0)
+     if(sumaGanancias > gananciaMayor){
+       gananciaMayor = sumaGanancias
+       fecha = meses[i][0].fecha
+       }
+  }
+  fechaMayorGanancia.textContent = fecha.slice(0,7)
+  montoMayorGanancia.textContent = `+$${gananciaMayor}`
+}
+mesConMayorGanancia(operacionesPorMes())
+
+const mesConMayorGasto = (meses) => {
+  let gastoMayor = 0
+  let fecha = ""
+  meses.map((meses) => {
+      const mesOperacionesGasto = filtrarOperacionesTipo(meses, "gasto")
+      const sumaGasto = mesOperacionesGasto.reduce((acc, curr) => {
+      return acc + Number(curr.monto)
+     }, 0)
+     if(sumaGasto > gastoMayor){
+       gastoMayor = sumaGasto
+       fecha = meses[0].fecha
+       }
+  })
+  fechaMayorGasto.textContent = fecha.slice(0,7)
+  montoMayorGasto.textContent = `-$${gastoMayor}`
+}
+mesConMayorGasto(operacionesPorMes())
