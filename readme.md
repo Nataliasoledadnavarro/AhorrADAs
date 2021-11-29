@@ -1,5 +1,5 @@
 
-# Proyecto: Ahorradas 💰
+# Proyecto: Ahorradas  💰
 
 El proyecto "Ahorradas" es un software que permite registrar y realizar una agenda de operaciones clasificados por categorías y calcular el balance de estas operaciones.  
 
