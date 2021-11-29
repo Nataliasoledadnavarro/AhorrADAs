@@ -14,6 +14,7 @@ El proyecto "Ahorradas" es un software que permite registrar y realizar una agen
 - Objetos y Array de objetos
 - Local Storage
 - Formato Json 
+- Diseño responsive
 
 ###### Estructuras de repetición:
 - For
