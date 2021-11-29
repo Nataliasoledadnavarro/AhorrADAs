@@ -3,7 +3,7 @@
 
 El proyecto "Ahorradas" es un software que permite registrar y realizar una agenda de operaciones clasificados por categorías y calcular el balance de estas operaciones.  
 
-###[Link al Proyecto Ahorradas](https://gabytadev.github.io/AhorrAdas-grupo/)🏃‍♀️
+### [Link al Proyecto Ahorradas](https://gabytadev.github.io/AhorrAdas-grupo/)🏃‍♀️
 
 ## Tecnologias aplicadas 👩‍💻
 - HTML 
