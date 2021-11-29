@@ -16,11 +16,11 @@ El proyecto "Ahorradas" es un software que permite registrar y realizar una agen
 - Local Storage
 - Formato Json 
 
-###### Estructuras de repetición:
+##### Estructuras de repetición:
 - For
 - Map
 
-###### Metodos de Arrays
+##### Metodos de Arrays
 - slice
 - sort
 - includes
@@ -29,7 +29,7 @@ El proyecto "Ahorradas" es un software que permite registrar y realizar una agen
 - filter
 - reduce
 
-###### Metodos del tiempo  (Fechas)
+##### Metodos del tiempo  (Fechas)
 - NewDate
 - GetMonth
 
