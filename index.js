@@ -153,6 +153,10 @@ const tagCategoriaMayorBalance = document.getElementById(
   "tag-categoria-mayor-balance"
 );
 const montoMayorBalance = document.getElementById("monto-mayor-balance");
+const fechaMayorGanancia = document.getElementById("fecha-mayor-ganancia")
+const montoMesMayorGanancia = document.getElementById("monto-mes-mayor-ganancia")
+const fechaMayorGasto = document.getElementById("fecha-mayor-gasto")
+const montoMesMayorGasto = document.getElementById("monto-mes-mayor-gasto")
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////
                                             MAQUETADO
@@ -864,6 +868,7 @@ const mostrarMayorBalance = () => {
   }
   tagCategoriaMayorBalance.textContent = categoriaDeBalance;
   montoMayorBalance.textContent = `$ ${montoDeBalance}`;
+
 };
 
 
@@ -963,6 +968,46 @@ const mostrarTotalesPorMes = (meses) => {
   contenedorTotalesMensuales.innerHTML = items;
 };
 
+////////////////Resumen - x fecha ////////////////
+
+
+
+
+const mesConMayorGanancia = (meses) => {
+  let gananciaMayor = 0
+  let fecha = ""
+  for (let i = 0; i < meses.length; i++) {
+    const mesOperacionesGanancia = filtrarOperacionesTipo(meses[i], "ganancia")
+      const sumaGanancias = mesOperacionesGanancia.reduce((acc, curr) => {
+      return acc + Number(curr.monto)
+     }, 0)
+     if(sumaGanancias > gananciaMayor){
+       gananciaMayor = sumaGanancias
+       fecha = meses[i][0].fecha
+       }
+  }
+  fechaMayorGanancia.textContent = fecha.slice(0,7)
+  montoMesMayorGanancia.textContent = `+$${gananciaMayor}`
+}
+
+
+const mesConMayorGasto = (meses) => {
+  let gastoMayor = 0
+  let fecha = ""
+  meses.map((meses) => {
+      const mesOperacionesGasto = filtrarOperacionesTipo(meses, "gasto")
+      const sumaGasto = mesOperacionesGasto.reduce((acc, curr) => {
+      return acc + Number(curr.monto)
+     }, 0)
+     if(sumaGasto > gastoMayor){
+       gastoMayor = sumaGasto
+       fecha = meses[0].fecha
+       }
+  })
+  fechaMayorGasto.textContent = fecha.slice(0,7)
+  montoMesMayorGasto.textContent = `-$${gastoMayor}`
+}
+
 //// MOSTRAR REPORTES
 const mostrarReportes = () => {
   if (traerOperacionesDesdeLS("operaciones") === null) {
@@ -976,6 +1021,8 @@ const mostrarReportes = () => {
     mostrarReportesTotalesPorCategoria();
     mostrarMayorGananciaOGasto("ganancia");
     mostrarMayorGananciaOGasto("gasto");
+    mesConMayorGasto(operacionesPorMes())
+    mesConMayorGanancia(operacionesPorMes())
     mostrarMayorBalance();
   }
 };
@@ -1028,48 +1075,6 @@ formularioEditarOperacion.onsubmit =(event)=>{
   event.preventDefault();
 }
 
-////////////////////Reportes/////////////////////
-////////////////Resumen - x fecha ////////////////
-
-const fechaMayorGanancia = document.getElementById("fecha-mayor-ganancia")
-const montoMayorGanancia = document.getElementById("monto-mayor-ganancia")
-const fechaMayorGasto = document.getElementById("fecha-mayor-gasto")
-const montoMayorGasto = document.getElementById("monto-mayor-gasto")
 
 
-const mesConMayorGanancia = (meses) => {
-  let gananciaMayor = 0
-  let fecha = ""
-  for (let i = 0; i < meses.length; i++) {
-    const mesOperacionesGanancia = filtrarOperacionesTipo(meses[i], "ganancia")
-      const sumaGanancias = mesOperacionesGanancia.reduce((acc, curr) => {
-      return acc + Number(curr.monto)
-     }, 0)
-     if(sumaGanancias > gananciaMayor){
-       gananciaMayor = sumaGanancias
-       fecha = meses[i][0].fecha
-       }
-  }
-  fechaMayorGanancia.textContent = fecha.slice(0,7)
-  montoMayorGanancia.textContent = `+$${gananciaMayor}`
-}
-mesConMayorGanancia(operacionesPorMes())
-
-const mesConMayorGasto = (meses) => {
-  let gastoMayor = 0
-  let fecha = ""
-  meses.map((meses) => {
-      const mesOperacionesGasto = filtrarOperacionesTipo(meses, "gasto")
-      const sumaGasto = mesOperacionesGasto.reduce((acc, curr) => {
-      return acc + Number(curr.monto)
-     }, 0)
-     if(sumaGasto > gastoMayor){
-       gastoMayor = sumaGasto
-       fecha = meses[0].fecha
-       }
-  })
-  fechaMayorGasto.textContent = fecha.slice(0,7)
-  montoMayorGasto.textContent = `-$${gastoMayor}`
-}
-mesConMayorGasto(operacionesPorMes())
 
