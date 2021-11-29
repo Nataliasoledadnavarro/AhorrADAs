@@ -1,4 +1,7 @@
-/*//////////////////// Elementos ////////////////////////*/ ////
+/*/////////////////////////////////////////////////////////////////////////////////////////////////
+                                      ELEMENTOS
+//////////////////////////////////////////////////////////////////////////////////////////////////*/
+
 // MAQUETADO
 const linkBalance = document.querySelector(".link-balance");
 const linkCategorias = document.querySelector(".link-categorias");
@@ -467,35 +470,14 @@ const traerOperacionesDesdeLS = (clave) => {
   if (operacionesDesdeLS === null) {
     return null;
   } else {
-    return operacionesDesdeLS;
+    return operacionesDesdeLS.map((operacion,index)=>{
+      return {...operacion,index}
+    })
   }
 };
 
-/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                               ORDENAR FECHAS
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-const ordenarFechas = (array) => {
-  const fechasOrdenadas = array.sort((a, b) => {
-    return new Date(b.fecha) - new Date(a.fecha);
-  });
 
-  const fechaFinal = fechasOrdenadas.map((operacion) => {
-    new Date(operacion.fecha).toLocaleDateString();
-    return operacion;
-  });
-  return fechaFinal;
-};
-//funcion filtro fechas
-const fechasNuevas = (operaciones) => {
-  const fechasSeccionadas = [];
-  for (let i = 0; i < operaciones.length; i++) {
-    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)) {
-      fechasSeccionadas.push(operaciones[i]);
-    }
-  }
-  return fechasSeccionadas;
-};
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                              OPERACIONES
@@ -559,6 +541,7 @@ formularioEditarOperacion.onsubmit = (event) => {
 };
 
 //Editar operacion
+
 const mostrarOperacionAEditar = () => {
   const botonEditarItemOperacion = document.querySelectorAll(
     ".boton-editar-item-operacion"
@@ -605,9 +588,13 @@ const mostrarOperacionAEditar = () => {
 
 // Boton Elimina Operaciones
 const eliminarOperacion = (index) => {
-  operaciones = operaciones.filter((elemento, i) => {
+
+operaciones = traerOperacionesDesdeLS("operaciones").filter((elemento, i) => {
     return index !== i;
+
   });
+  console.log(operaciones)
+console.log("eliminar", index)
   guardarOperacionesLocalStorage(operaciones, "operaciones");
   mostrarOperacionesEnHTML(operaciones);
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
@@ -619,17 +606,47 @@ const asignarFuncionEliminar = () => {
     ".boton-eliminar-item-operacion"
   );
   for (let i = 0; i < botonEliminarOperacion.length; i++) {
+    let id = botonEliminarOperacion[i].id.slice(32);
+    let idOperacion = Number(id);
+    console.log("asignar", idOperacion)
     botonEliminarOperacion[i].onclick = () => {
-      eliminarOperacion(i);
+      eliminarOperacion(idOperacion);
     };
   }
 };
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                               ORDENAR FECHAS
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+const ordenarFechas = (array) => {
+  const fechasOrdenadas = array.sort((a, b) => {
+    return new Date(b.fecha) - new Date(a.fecha);
+  });
+
+  const fechaFinal = fechasOrdenadas.map((operacion) => {
+    new Date(operacion.fecha).toLocaleDateString();
+    return operacion;
+  });
+  return fechaFinal;
+};
+//funcion filtro fechas
+const fechasNuevas = (operaciones) => {
+  const fechasSeccionadas = [];
+  for (let i = 0; i < operaciones.length; i++) {
+    if (new Date(inputFecha.value) <= new Date(operaciones[i].fecha)) {
+      fechasSeccionadas.push(operaciones[i]);
+    }
+  }
+  return fechasSeccionadas;
+};
+
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                  BALANCE
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 const mostrarOperacionesEnHTML = (array) => {
-  const itemsOperaciones = array.reduce((acc, operacion, index) => {
+  const itemsOperaciones = array.reduce((acc, operacion) => {
     return (
       acc +
       `<div id="item-nueva-operacion" class="columns is-mobile">
@@ -649,8 +666,8 @@ const mostrarOperacionesEnHTML = (array) => {
     )}"> ${signoMonto(operacion)}${operacion.monto}
     </p>
     <div class="column is-2-desktop is-3-mobile pt-0 has-text-right">
-      <button id="boton-editar-item-operaciones-${index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
-      <button id="boton-eliminar-item-operaciones" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
+      <button id="boton-editar-item-operaciones-${operacion.index}" class="button is-ghost is-small pt-0 pb-0 boton-editar-item-operacion">Editar</button>
+      <button id="boton-eliminar-item-operaciones-${operacion.index}" class="button is-ghost is-small pt-0 boton-eliminar-item-operacion">Eliminar</button> 
     </div>
     </div>`
     );
@@ -1070,10 +1087,6 @@ if (traerCategoriasDesdeLS("categorias") === null) {
   mostrarReportes();
 }
 
-
-formularioEditarOperacion.onsubmit =(event)=>{
-  event.preventDefault();
-}
 
 
 
