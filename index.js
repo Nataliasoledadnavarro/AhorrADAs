@@ -624,7 +624,7 @@ const eliminarOperacion = (index) => {
   guardarOperacionesLocalStorage(operaciones, "operaciones");
   mostrarOperacionesEnHTML(operaciones);
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
-  mostrarReportes();
+
 };
 
 const asignarFuncionEliminar = () => {
@@ -639,6 +639,7 @@ const asignarFuncionEliminar = () => {
       eliminarOperacion(idOperacion);
     };
   }
+  mostrarReportes();
 };
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -989,7 +990,6 @@ const mostrarTotalesPorMes = (meses) => {
 };
 
 //MOSTRAR REPORTES
-
 const mostrarReportes = () => {
   if (
     traerOperacionesDesdeLS("operaciones") === null ||
