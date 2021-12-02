@@ -1,8 +1,15 @@
+
+
+![](https://img.shields.io/badge/%E2%80%A2-JavaScript-yellow) ![](https://img.shields.io/badge/%E2%80%A2-HTML-red) ![](https://img.shields.io/badge/%E2%80%A2-BULMA-blue) ![](https://img.shields.io/badge/%E2%80%A2%20-LocalStorage-orange)
 # Proyecto: Ahorradas 💰
 
-El proyecto "Ahorradas" es un software que permite registrar y realizar una agenda de operaciones clasificados por categorías y calcular el balance de estas operaciones.  
-
-### [Link al Proyecto Ahorradas](https://gabytadev.github.io/AhorrAdas-grupo/)🏃‍♀️
+El proyecto "Ahorradas" es una web que permite registrar y realizar una agenda de gastos.
+Podrás: 
+- Agregar, editar y eliminar operaciones. 
+- Agregar, editar y eliminar categorias. 
+- Multiples filtrados.
+- Balance en la sección principal.
+- En la sección reportes encontrás un detalle de tus ingresos y egresos discriminados por tiempo, categorias y más!
 
 ## Tecnologias aplicadas 👩‍💻
 - HTML 
@@ -33,18 +40,6 @@ El proyecto "Ahorradas" es un software que permite registrar y realizar una agen
 - NewDate
 - GetMonth
 
-### Hecho en grupo 💪 por:
-- [Naty Navarro](https://github.com/Nataliasoledadnavarro)
+El proyecto inicial fue realizado en grupo, en donde implementamos herramientas de la metodología ágil ![](https://img.shields.io/badge/%E2%80%A2-SCRUM-green)
 
-- [Gabi Loyola](https://github.com/GabytaDev)
-
-- [Eli Kern](https://github.com/ElianaKern)
-
-- [Kari Ulrich ](https://github.com/KariUlrich)
-
-- [Mecha Fresno](https://github.com/mecha-default)
-
- [ Ver en Trello el desarrollo del proyecto con metodología scrum](https://trello.com/b/fZSEGNYA/tp-ahorradas) 
-
-
-                 Hecho con 💗 y en equipo!
+### [Aquí](https://github.com/GabytaDev/AhorrAdas-grupo) podés acceder al repositorio del proyecto grupal!
