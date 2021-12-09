@@ -16,7 +16,7 @@
 <body>
   <header>
     <!--Logo y h1-->
-    <nav class="navbar is-spaced is-primary" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-spaced has-background-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a href="#principal" class="navbar-item">
           <h1 class="title is-2 has-text-white">
@@ -38,15 +38,18 @@
        <!-- Se muestra en mobile -->
       <div id="menu-desplegable-mobile" class="navbar-menu">
         <div class="navbar-end">
-          <a class="link-balance navbar-item mr-2" href="">
+      </div>
+      <div class="buttons">
+          <button class="button is-dark navbar-item" id="link-balance">
             <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>Balance
-          </a>
-          <a class="link-categorias navbar-item mr-2" href="">
+          </button>
+          <button class="button is-dark navbar-item" id="link-categorias" >
             <i class="fas fa-tag mr-2" aria-hidden="true"></i>Categorías
-          </a>
-          <a class="link-reportes navbar-item mr-2" href="">
+          </button>
+          <button class="button is-dark navbar-item" id="link-reportes">
             <i class="fas fa-chart-pie mr-2" aria-hidden="true"></i> Reportes
-          </a>
+          </button>
+          </div>
         </div>
       </div>
     </nav>
@@ -153,7 +156,7 @@
               </div>
 
               <div class="column has-text-right-widescreen">
-                <button id="boton-nueva-operacion" class="button is-primary"> + Nueva operación</button>
+                <button id="boton-nueva-operacion" class="button  is-dark"> + Nueva operación</button>
               </div>
             </div>
             <!-- Seccion SIN operaciones-->
@@ -327,23 +330,14 @@
             <label for="input-agregar-categoria" class="label mt-4">Nombre</label>
             <div class="control columns mt-4 mx-4 is-mobile">
               <input id="input-agregar-categoria" type="text" class="column input" />
-              <button id="boton-agregar-categoria" class="button is-success is-narrow ml-3">
-                <!--CHEQUEAR EL IS-NARROW-->
+              <button id="boton-agregar-categoria" class="button is-dark is-narrow ml-3">
                 Agregar
               </button>
             </div>
           </div>
           <!--Categorias agregadas-->
           <div class="mt-5 mx-4" id="contenedor-categorias-agregadas">
-            <!-- <div class="columns is-mobile" id=categoria-agregada>
-              <div class="column">
-                <p class="tag is-primary is-light">Comida</p>
-              </div>
-              <div class="column is-flex is-justify-content-flex-end ">
-                <button id="boton-editar-categoria" class="button is-ghost is-size-7">Editar</button>
-                <button id="boton-eliminar-categoria"class="button is-ghost is-size-7">Eliminar</button>
-              </div>
-            </div> -->
+           
           </div>
         </form>
       </div>
@@ -393,7 +387,7 @@
               <div class="columns is-mobile">
                 <p class="column is-6 has-text-weight-medium">Categoría con mayor ganancia</p>
                 <div class="column is-3 has-text-right">
-                  <p class="tag is-primary is-light" id="tag-categoria-mayor-ganancia"></p>
+                  <p class="tag is-light" id="tag-categoria-mayor-ganancia"></p>
                 </div>
                 <p class="column is-3 has-text-weight-bold  has-text-success has-text-right" id="monto-mayor-ganancia"></p>
               </div>
@@ -401,7 +395,7 @@
               <div class="columns is-mobile">
                 <p class="column is-6 has-text-weight-medium">Categoría con mayor gasto</p>
                 <div class="column is-3 has-text-right ">
-                  <p class="tag is-primary is-light" id="tag-categoria-mayor-gasto"></p>
+                  <p class="tag is-light" id="tag-categoria-mayor-gasto"></p>
                 </div>
                 <p class="column is-3 has-text-weight-bold has-text-danger has-text-right" id="monto-mayor-gasto"></p>
               </div>
@@ -409,7 +403,7 @@
               <div class="columns is-mobile">
                 <p class="column is-6 has-text-weight-medium">Categoría con mayor balance</p>
                 <div class="column is-3 has-text-right ">
-                  <p class="tag is-primary is-light" id="tag-categoria-mayor-balance"></p>
+                  <p class="tag is-light" id="tag-categoria-mayor-balance"></p>
                 </div>
                 <p class="column is-3 has-text-weight-bold has-text-right" id="monto-mayor-balance"></p>
               </div>
