@@ -3,9 +3,9 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////*/
 
 // MAQUETADO
-const linkBalance = document.querySelector(".link-balance");
-const linkCategorias = document.querySelector(".link-categorias");
-const linkReportes = document.querySelector(".link-reportes");
+const linkBalance = document.querySelector("#link-balance");
+const linkCategorias = document.querySelector("#link-categorias");
+const linkReportes = document.querySelector("#link-reportes");
 const seccionPrincipal = document.querySelector("#principal");
 const seccionCategorias = document.querySelector("#seccion-categorias");
 const seccionReportes = document.querySelector(".reportes");
@@ -277,7 +277,7 @@ const agregarItemCategoria = (array) => {
       acc +
       `<div class="columns is-mobile" id=categoria-agregada>
     <div class="column">
-    <p class="tag is-primary is-light">${elemento}</p>
+    <p class="tag is-light">${elemento}</p>
   </div>
   <div class="column is-flex is-justify-content-flex-end ">
     <button  id="boton-editar-categoria-${index}"class="button is-ghost is-size-7 boton-editar-item-categoria">Editar</button>
@@ -506,7 +506,7 @@ const mostrarOperacionesEnHTML = (array) => {
       operacion.descripcion
     }</p>
     <div class="column is-3 is-6-mobile">
-      <p id="categoria-item-operacion" class="tag is-primary is-light">${
+      <p id="categoria-item-operacion" class="tag is-light">${
         operacion.categoria
       }</p>
     </div>
@@ -624,7 +624,6 @@ const eliminarOperacion = (index) => {
   guardarOperacionesLocalStorage(operaciones, "operaciones");
   mostrarOperacionesEnHTML(operaciones);
   mostrarEnBalance(traerOperacionesDesdeLS("operaciones"));
-
 };
 
 const asignarFuncionEliminar = () => {
